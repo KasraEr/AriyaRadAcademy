@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  text-transform: capitalize;
+  font-feature-settings: "lnum" 1;
+}
+
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+/* document.documentElement.classList.toggle("dark") */
+
+@font-face {
+  font-family: ariyarad-light;
+  src: url(/src/assets/fonts/Estedad-Light.woff2);
+}
+
+@font-face {
+  font-family: ariyarad-medium;
+  src: url(/src/assets/fonts/Estedad-Medium.woff2);
+}
+
+@font-face {
+  font-family: ariyarad-semi;
+  src: url(/src/assets/fonts/Estedad-SemiBold.woff2);
+}
+
+@font-face {
+  font-family: ariyarad-bold;
+  src: url(/src/assets/fonts/Estedad-Bold.woff2);
+}
+
+@theme {
+  --color-primary-100: #99c2ff;
+  --color-primary-500: #0166ff;
+  --color-primary-900: #002966;
+  --color-secondary-100: #f8c48b;
+  --color-secondary-500: #f49c3e;
+  --color-secondary-900: #966026;
+  --color-bgc-default: #fff;
+  --color-bgc-paper: #fbfbfb;
+  --color-text-100: #eaeaea;
+  --color-text-500: #a0a0a0;
+  --color-text-900: #272222;
+  --color-basic-100: #fff;
+  --color-basic-900: #272222;
+  --color-success-100: #b1e0c7;
+  --color-success-500: #3bb273;
+  --color-success-900: #236b45;
+  --color-error-100: #ffb4b1;
+  --color-error-500: #fc3d36;
+  --color-error-900: #b50903;
+  --color-warning-100: #fbd7b1;
+  --color-warning-500: #f7b267;
+  --color-warning-900: #cd6d00;
+  --font-estedad-light: ariyarad-light;
+  --font-estedad-medium: ariyarad-medium;
+  --font-estedad-semi: ariyarad-semi;
+  --font-estedad-bold: ariyarad-bold;
+  --breakpoint-sm: 500px;
+  --breakpoint-ml: 650px;
+  --breakpoint-md: 700px;
+  --breakpoint-2md: 750px;
+  --breakpoint-lg: 850px;
+  --breakpoint-xl: 1000px;
+  --breakpoint-xmd: 1200px;
+  --breakpoint-2xl: 1400px;
+}
+
+@layer base {
+  h1 {
+    font-family: ariyarad-bold;
+    font-size: 28px;
+  }
+  h2 {
+    font-family: ariyarad-semi;
+    font-size: 24px;
+  }
+  h3 {
+    font-family: ariyarad-semi;
+    font-size: 24px;
+  }
+  button {
+    font-family: ariyarad-semi;
+    font-size: 18px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+  }
+}
+
+@utility subtitle1 {
+  font-family: ariyarad-medium;
+  font-size: 18px;
+}
+
+@utility subtitle2 {
+  font-family: ariyarad-medium;
+  font-size: 16px;
+}
+
+@utility subtitle3 {
+  font-family: ariyarad-light;
+  font-size: 14px;
+}
+
+@utility b1 {
+  font-family: ariyarad-semi;
+  font-size: 16px;
+}
+
+@utility b2 {
+  font-family: ariyarad-semi;
+  font-size: 14px;
+}
+
+@utility b3 {
+  font-family: ariyarad-medium;
+  font-size: 14px;
+}
+
+@utility b4 {
+  font-family: ariyarad-semi;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+.active {
+  background: linear-gradient(to right, #6a11cb, #0166ff);
+  padding: 8px;
+  color: #fff;
+  border-radius: 8px;
+}
