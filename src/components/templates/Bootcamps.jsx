@@ -24,7 +24,7 @@ export default function Bootcamps() {
       <div className="flex flex-col items-center gap-4 my-15 ml:max-lg:max-w-[600px] mx-auto">
         <div className="border-b border-text-500 flex items-center justify-between w-full pb-3">
           <h3 className="text-primary-500">بوتکمپ ها</h3>
-          <p className="b4 text-primary-500">
+          <p className="hidden b4 text-primary-500">
             <Link to="/">مشاهده همه</Link>
           </p>
         </div>

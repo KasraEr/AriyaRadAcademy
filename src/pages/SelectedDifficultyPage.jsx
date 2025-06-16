@@ -7,6 +7,8 @@ import courses from "/src/utils/courses.js";
 import Card from "/src/components/modules/Card";
 //icons
 import ic from "/src/assets/icons/ci.svg";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function SelectedDifficultyPage() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
@@ -30,6 +32,7 @@ export default function SelectedDifficultyPage() {
   );
 
   if (difficulty === "introductory") {
+    useTitle("دوره های مقدماتی");
     return (
       <>
         <div className="pt-5 ml:max-lg:max-w-[650px] mx-auto">
@@ -54,6 +57,7 @@ export default function SelectedDifficultyPage() {
       </>
     );
   } else {
+    useTitle("دوره های پیشرفته");
     return (
       <>
         <div className="pt-5 ml:max-lg:max-w-[650px] mx-auto">

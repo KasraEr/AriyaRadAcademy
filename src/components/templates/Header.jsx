@@ -24,21 +24,42 @@ export default function Header() {
           <Sandwitch />
           <ul className="hidden sm:flex items-center justify-center gap-4 md:gap-[calc(16px+3vw)] lg:gap-[calc(20px+4vw)] list-none">
             <li className="b3 ml:b2 lg:b1 text-primary-900">
-              <NavLink to="/categories">
+              <NavLink
+                className="transition hover:text-secondary-900"
+                to="/categories"
+              >
                 <span className="hidden ml:inline">دسته بندی</span> دوره ها
               </NavLink>
             </li>
             <li className="b3 ml:b2 lg:b1 text-primary-900">
-              <NavLink to="/articles">مقالات</NavLink>
+              <NavLink
+                className="transition hover:text-secondary-900"
+                to="/articles"
+              >
+                مقالات
+              </NavLink>
             </li>
             <li className="b3 ml:b2 lg:b1 text-primary-900">
-              <NavLink to="/about-us">درباره ما</NavLink>
+              <NavLink
+                className="transition hover:text-secondary-900"
+                to="/about-us"
+              >
+                درباره ما
+              </NavLink>
             </li>
             <li className="b3 ml:b2 lg:b1 text-primary-900">
-              <NavLink to="/contact-us">تماس با ما</NavLink>
+              <NavLink
+                className="transition hover:text-secondary-900"
+                to="/contact-us"
+              >
+                تماس با ما
+              </NavLink>
             </li>
           </ul>
-          <Link className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end" to="/">
+          <Link
+            className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end"
+            to="/"
+          >
             <img
               src={login}
               className="ml:w-7 lg:w-8"

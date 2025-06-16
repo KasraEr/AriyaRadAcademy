@@ -1,6 +1,7 @@
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function ArticlesPage() {
-  return (
-    <div>ArticlesPage</div>
-  )
+  useTitle("مقالات");
+  return <div>ArticlesPage</div>;
 }

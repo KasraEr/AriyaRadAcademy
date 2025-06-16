@@ -8,8 +8,11 @@ import whatsappp from "/src/assets/images/whatsappp.svg";
 import telegram from "/src/assets/images/telegram.svg";
 import email from "/src/assets/images/email.svg";
 import instagram from "/src/assets/images/instagram.svg";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function ContactUsPage() {
+  useTitle('تماس با ما')
   return (
     <div className="grid grid-cols-1 place-items-start gap-9 mt-3 ml:max-lg:max-w-[600px] ml:max-lg:mx-auto">
       <h2 className="text-primary-500">تماس با ما</h2>

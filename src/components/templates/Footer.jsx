@@ -17,7 +17,7 @@ export default function Footer() {
             <Link to="/categories">دسته بندی دوره ها</Link>
           </li>
           <li className="b2 lg:b1 text-basic-100 2xl:order-first">
-            <Link to="/">مقالات</Link>
+            <Link to="/articles">مقالات</Link>
           </li>
           <li className="b2 lg:b1 text-basic-100">
             <Link to="/about-us">درباره آریاراد</Link>

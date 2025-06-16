@@ -6,10 +6,13 @@ import { useParams } from "react-router-dom";
 import courses from "/src/utils/courses.js";
 //modules
 import Card from "/src/components/modules/Card";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function SelectedCategoryPage() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
   const { category } = useParams();
+  useTitle("دوره ها");
 
   useEffect(() => {
     const handleResize = () => {

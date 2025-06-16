@@ -1,13 +1,16 @@
 //temps
 import Slider from "/src/components/modules/Slider";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function AboutUsPage() {
+  useTitle("درباره ما");
   return (
     <div className="grid grid-cols-1 place-items-start gap-8 xl:gap-10 mt-3 ml:max-lg:max-w-[600px] mx-auto">
       <h3 className="text-primary-500">معرفی آکادمی آریاراد</h3>
       <p className="ml:text-pretty b2 xl:b1 text-text-900 text-justify leading-6">
-        آریاراد یه آکادمی ساده و صمیمیه، با یه هدف جدی: یادگیری واقعی، به دور
-        از شعار و شلوغی.
+        آریاراد یه آکادمی ساده و صمیمیه، با یه هدف جدی: یادگیری واقعی، به دور از
+        شعار و شلوغی.
       </p>
       <p className="ml:text-pretty b2 xl:b1 text-text-900 text-justify leading-6">
         ما از دل تجربه‌های خودمون اومدیم. اعضای تیم آریاراد سال‌ها خودشون سر

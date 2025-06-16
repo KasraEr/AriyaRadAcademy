@@ -2,6 +2,8 @@
 import { useParams } from "react-router-dom";
 //data
 import courses from "/src/utils/courses.js";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 //icons
 import teacherIcon from "/src/assets/icons/teacher-icon.svg";
 import durationIcon from "/src/assets/icons/duration-icon.svg";
@@ -11,6 +13,7 @@ import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/src/assets/images/play.svg";
 
 export default function CourseDetailPage() {
+  useTitle("مشخصات دوره");
   const { category, _title } = useParams();
   const courseDetail = courses?.filter(
     (course) => course.category === category && course.title === _title
@@ -101,11 +104,7 @@ export default function CourseDetailPage() {
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
         <div className="w-full ml:grid ml:grid-cols-[1.2fr_1fr] ml:gap-4 mb-4">
           <div className="w-full max-ml:mb-4 flex items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
-            <img
-              src={play}
-              className="cursor-pointer"
-              alt=""
-            />
+            <img src={play} className="cursor-pointer" alt="" />
           </div>
           <p className="b4 ml:b3 text-justify leading-9">
             تجربه کاربری (Ux)، یعنی طراحی یه مسیر درست برای کاربر، جوری که
