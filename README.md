@@ -32,7 +32,7 @@ To run the project locally, follow these steps:
 2. Navigate to the project directory:
 
 ```sh
-   cd ariyarad-academy
+   cd AriyaRadAcademy
 ```
 
 3. Install dependencies:
@@ -48,4 +48,5 @@ To run the project locally, follow these steps:
 ```
 
 ## Contributions
+
 Feel free to contribute by submitting pull requests or reporting issues. We appreciate your support!
