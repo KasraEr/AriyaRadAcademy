@@ -10,6 +10,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import SelectedDifficultyPage from "./pages/SelectedDifficultyPage";
 import SelectedCategoryPage from "./pages/SelectedCategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
+import AuthPage from "./pages/AuthPage";
+import SignUpPage from "./pages/SignUpPage";
 
 export default function App() {
   return (
@@ -40,6 +42,8 @@ export default function App() {
         <Route path="/about-us" element={<AboutUsPage />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/articles" element={<ArticlesPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/auth/sign-up" element={<SignUpPage />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </>

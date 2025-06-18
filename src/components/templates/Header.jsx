@@ -58,7 +58,7 @@ export default function Header() {
           </ul>
           <Link
             className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end"
-            to="/"
+            to="/auth"
           >
             <img
               src={login}
