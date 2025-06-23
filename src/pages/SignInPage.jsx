@@ -13,14 +13,14 @@ export default function SignInPage({ setLogin }) {
 
   return (
     <>
-      <div className="z-5001 w-full h-full fixed left-0 top-0 backdrop-blur-[4px]">
+      <div className="z-5001 w-full h-full fixed left-0 top-0 backdrop-blur-[10px]">
         <span
           onClick={() => setLogin(null)}
-          className="inline-block size-8 text-center mr-4 mt-4 leading-8 text-xl font-bold cursor-pointer text-secondary-900 bg-secondary-100 border-text-500 rounded-xl"
+          className="flex items-center justify-center size-1 p-5 mr-4 mt-4 leading-8 text-xl font-bold cursor-pointer text-basic-100 bg-primary-500 border-text-500 rounded-xl"
         >
           X
         </span>
-        <div className="m-auto flex flex-col items-center justify-center gap-5 bg-amber-100 w-fit p-5 rounded-2xl h-60 mt-40">
+        <div className="shadow-[0_14px_28px_rgba(0,0,0,0.25),0_10px_10px_rgba(0,0,0,0.22)] mt-27 w-full max-w-[725px] h-[390px] mx-auto rounded-4xl p-4 flex flex-col items-center justify-center gap-10">
           <h3 className="text-primary-900/80 leading-11 text-center">
             کد تایید ارسال شده را وارد فرمایید
           </h3>

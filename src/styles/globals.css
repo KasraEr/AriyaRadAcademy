@@ -8,6 +8,11 @@ body {
   font-feature-settings: "lnum" 1;
 }
 
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield;
+}
+
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 /* document.documentElement.classList.toggle("dark") */
 

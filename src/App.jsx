@@ -12,6 +12,7 @@ import SelectedCategoryPage from "./pages/SelectedCategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AuthPage from "./pages/AuthPage";
 import SignUpPage from "./pages/SignUpPage";
+import BackToTop from "./components/templates/BackToTop";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="/auth/sign-up" element={<SignUpPage />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
+      <BackToTop />
     </>
   );
 }

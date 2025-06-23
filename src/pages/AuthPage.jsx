@@ -20,20 +20,22 @@ export default function AuthPage() {
     e.preventDefault();
     setShown(true);
     btn.current.innerText = "لطفا منتظر بمانید";
-    setLogin(true);
+    setTimeout(function () {
+      setLogin(true);
+    }, 3000);
   };
 
   return (
-    <div className="mt-8 w-full bg-primary-500/10 rounded-4xl p-4 flex flex-col items-center justify-center gap-10">
-      <h2 className="text-primary-900/80">ورود | عضویت</h2>
-      <p className="b3 text-primary-900/60">
+    <div className="mt-8 w-full max-w-[725px] mx-auto shadow-[0_3px_8px_rgba(0,0,0,0.24)] rounded-4xl p-4 flex flex-col items-center justify-center gap-10">
+      <h2 className="text-primary-500">ورود | عضویت</h2>
+      <p className="b3 text-text-900/70 text-justify">
         لطفا شماره تماس خود را وارد فرماید
       </p>
       <input
-        type="text"
+        type="number"
         ref={input}
         placeholder="09000000000"
-        className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
+        className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
       <div className="bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 overflow-hidden rounded-[6px] p-1 w-2xs flex items-center justify-center">
         <button
@@ -66,7 +68,7 @@ export default function AuthPage() {
           ></path>
         </svg>
       </div>
-      <p className="subtitle3 text-text-500 text-justify w-2xs leading-7 before:content-['*']">
+      <p className="subtitle3 text-text-900/70 font-semibold text-justify w-2xs leading-7 before:content-['*']">
         اگر قبلا ثبت نام نکرده باشید، برای ادامه فرایند به صفحه ثبت نام منتقل
         خواهید شد.
       </p>
