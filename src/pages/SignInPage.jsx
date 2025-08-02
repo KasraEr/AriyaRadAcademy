@@ -1,8 +1,10 @@
 import { useRef, useEffect } from "react";
+// r-r-d
+import { useNavigate } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 
-export default function SignInPage({ setLogin }) {
+export default function SignInPage({ setLogin, setShown }) {
   useTitle("ورود");
 
   const input = useRef(null);
@@ -11,11 +13,19 @@ export default function SignInPage({ setLogin }) {
     input.current.focus();
   }, []);
 
+  const navigate = useNavigate();
+
+  const closeHandler = () => {
+    setLogin(null);
+    setShown(false);
+    navigate("/auth", { replace: true });
+  };
+
   return (
     <>
       <div className="z-5001 w-full h-full fixed left-0 top-0 backdrop-blur-[10px]">
         <span
-          onClick={() => setLogin(null)}
+          onClick={closeHandler}
           className="flex items-center justify-center size-1 p-5 mr-4 mt-4 leading-8 text-xl font-bold cursor-pointer text-basic-100 bg-primary-500 border-text-500 rounded-xl"
         >
           X

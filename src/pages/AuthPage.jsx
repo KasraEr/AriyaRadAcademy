@@ -20,9 +20,7 @@ export default function AuthPage() {
     e.preventDefault();
     setShown(true);
     btn.current.innerText = "لطفا منتظر بمانید";
-    setTimeout(function () {
-      setLogin(true);
-    }, 3000);
+    setLogin(true);
   };
 
   return (
@@ -72,7 +70,7 @@ export default function AuthPage() {
         اگر قبلا ثبت نام نکرده باشید، برای ادامه فرایند به صفحه ثبت نام منتقل
         خواهید شد.
       </p>
-      {!!login && <SignInPage setLogin={setLogin} />}
+      {!!login && <SignInPage setLogin={setLogin} setShown={setShown} />}
     </div>
   );
 }
