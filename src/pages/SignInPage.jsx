@@ -1,54 +1,100 @@
-import { useRef, useEffect } from "react";
-// r-r-d
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 
-export default function SignInPage({ setLogin, setShown }) {
+export default function SignInPage() {
   useTitle("ورود");
 
-  const input = useRef(null);
-
-  useEffect(() => {
-    input.current.focus();
-  }, []);
-
-  const navigate = useNavigate();
-
-  const closeHandler = () => {
-    setLogin(null);
-    setShown(false);
-    navigate("/auth", { replace: true });
-  };
+    const [form, setForm] = useState({
+      firstname: "",
+      lastname: "",
+      email: "",
+      phonenumber: "",
+    });
+  
+    const changeHandler = (e) => {
+      setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
+    };
+  
+    const submitHandler = (e) => {
+      e.preventDefault();
+      console.log(form);
+    };
 
   return (
     <>
-      <div className="z-5001 w-full h-full fixed left-0 top-0 backdrop-blur-[10px]">
-        <span
-          onClick={closeHandler}
-          className="flex items-center justify-center size-1 p-5 mr-4 mt-4 leading-8 text-xl font-bold cursor-pointer text-basic-100 bg-primary-500 border-text-500 rounded-xl"
+      <div className="mt-5 w-full max-w-[725px] mx-auto shadow-[0_3px_8px_rgba(0,0,0,0.24)] rounded-4xl p-4">
+        <form
+          onSubmit={submitHandler}
+          className="flex flex-col items-center justify-center gap-10"
         >
-          X
-        </span>
-        <div className="shadow-[0_14px_28px_rgba(0,0,0,0.25),0_10px_10px_rgba(0,0,0,0.22)] mt-27 w-full max-w-[725px] h-[390px] mx-auto rounded-4xl p-4 flex flex-col items-center justify-center gap-10">
-          <h3 className="text-primary-900/80 leading-11 text-center">
-            کد تایید ارسال شده را وارد فرمایید
-          </h3>
+          <label
+            className="text-primary-900/80 b1 leading-11 text-center"
+            htmlFor="firstname"
+          >
+            نام
+          </label>
           <input
+            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
             type="text"
-            ref={input}
-            placeholder="*****"
+            id="firstname"
+            name="firstname"
+            placeholder="نام خود را به فارسی وارد کنید"
+            value={form.firstname}
+            onChange={changeHandler}
+          />
+          <label
+            className="text-primary-900/80 b1 leading-11 text-center"
+            htmlFor="lastname"
+          >
+            نام خانوادگی
+          </label>
+          <input
+            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
+            type="text"
+            id="lastname"
+            name="lastname"
+            placeholder="نام خانوادگی خود را به فارسی وارد کنید"
+            value={form.lastname}
+            onChange={changeHandler}
+          />
+          <label
+            className="text-primary-900/80 b1 leading-11 text-center"
+            htmlFor="email"
+          >
+            ایمیل
+          </label>
+          <input
             className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="example@example.com"
+            value={form.email}
+            onChange={changeHandler}
+          />
+          <label
+            className="text-primary-900/80 b1 leading-11 text-center"
+            htmlFor="phonenumber"
+          >
+            شماره تماس
+          </label>
+          <input
+            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
+            type="text"
+            id="phonenumber"
+            name="phonenumber"
+            placeholder="شماره موبایل خود را وارد کنید"
+            value={form.phonenumber}
+            onChange={changeHandler}
           />
           <button
-            onClick={() => {
-              console.log(input.current.value);
-            }}
             className="bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 overflow-hidden rounded-[6px] p-2 w-2xs"
+            type="submit"
           >
-            ورود
+            ثبت نام
           </button>
-        </div>
+        </form>
       </div>
     </>
   );

@@ -1,4 +1,6 @@
 import { useState } from "react";
+//c-hooks
+import useTitle from "../hooks/useTitle";
 
 export default function SignUpPage() {
   const [form, setForm] = useState({
@@ -7,6 +9,8 @@ export default function SignUpPage() {
     email: "",
     phonenumber: "",
   });
+
+  useTitle("عضویت");
 
   const changeHandler = (e) => {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }));

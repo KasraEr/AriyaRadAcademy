@@ -1,26 +1,46 @@
+//utils
+import api from "../utils/config.js";
+//react
 import { useRef, useEffect, useState } from "react";
+//r-r-d
+import { useNavigate } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
-//temps
-import SignInPage from "./SignInPage.jsx";
 
 export default function AuthPage() {
   useTitle("ورود یا عضویت");
 
   const [shown, setShown] = useState(false);
-  const [login, setLogin] = useState(null);
   const input = useRef(null);
   const btn = useRef(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     input.current.focus();
   }, []);
 
+  const checkUser = async () => {
+    const phoneNumber = input.current.value;
+    try {
+      const response = await api.post("/api/Auth/SendOTP", { phoneNumber });
+      if (response?.status === 200) {
+        navigate("/auth/sign-in");
+      }
+    } catch (error) {
+      const status = error?.response?.status;
+
+      if (status === 404) {
+        navigate("/auth/sign-up");
+      }
+    }
+  };
+
   const clickHandler = (e) => {
     e.preventDefault();
     setShown(true);
     btn.current.innerText = "لطفا منتظر بمانید";
-    setLogin(true);
+    checkUser();
   };
 
   return (
@@ -30,7 +50,7 @@ export default function AuthPage() {
         لطفا شماره تماس خود را وارد فرماید
       </p>
       <input
-        type="number"
+        type="text"
         ref={input}
         placeholder="09000000000"
         className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -70,7 +90,6 @@ export default function AuthPage() {
         اگر قبلا ثبت نام نکرده باشید، برای ادامه فرایند به صفحه ثبت نام منتقل
         خواهید شد.
       </p>
-      {!!login && <SignInPage setLogin={setLogin} setShown={setShown} />}
     </div>
   );
 }

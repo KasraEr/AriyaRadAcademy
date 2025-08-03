@@ -14,6 +14,7 @@ import SelectedCategoryPage from "./pages/SelectedCategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import AuthPage from "./pages/AuthPage";
 import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
 import DashboardPage from "./pages/DashboardPage";
 //temps
 import BackToTop from "./components/templates/BackToTop";
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/auth/sign-up" element={<SignUpPage />} />
+        <Route path="/auth/sign-in" element={<SignInPage />} />
         <Route path="/*" element={<NotFoundPage />} />
         <Route
           path="/dashboard"
