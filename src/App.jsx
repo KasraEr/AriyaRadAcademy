@@ -18,6 +18,8 @@ import SignInPage from "./pages/SignInPage";
 import DashboardPage from "./pages/DashboardPage";
 //temps
 import BackToTop from "./components/templates/BackToTop";
+//
+import "react-toastify/dist/ReactToastify.css";
 
 const token = getToken();
 

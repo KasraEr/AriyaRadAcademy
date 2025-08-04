@@ -24,13 +24,12 @@ export default function AuthPage() {
     const phoneNumber = input.current.value;
     try {
       const response = await api.post("/api/Auth/SendOTP", { phoneNumber });
-      if (response?.status === 200) {
-        navigate("/auth/sign-in");
+      if (response?.status === 201) {
+        navigate("/auth/sign-in", { state: { phoneNumber } });
       }
     } catch (error) {
       const status = error?.response?.status;
-
-      if (status === 404) {
+      if (status === 400) {
         navigate("/auth/sign-up");
       }
     }

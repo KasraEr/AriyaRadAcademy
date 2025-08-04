@@ -4,10 +4,10 @@ import useTitle from "../hooks/useTitle";
 
 export default function SignUpPage() {
   const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phonenumber: "",
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    phoneNumber: "",
   });
 
   useTitle("عضویت");
@@ -29,62 +29,62 @@ export default function SignUpPage() {
       >
         <label
           className="text-primary-900/80 b1 leading-11 text-center"
-          htmlFor="firstname"
+          htmlFor="firstName"
         >
           نام
         </label>
         <input
           className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
           type="text"
-          id="firstname"
-          name="firstname"
+          id="firstName"
+          name="firstName"
           placeholder="نام خود را به فارسی وارد کنید"
-          value={form.firstname}
+          value={form.firstName}
           onChange={changeHandler}
         />
         <label
           className="text-primary-900/80 b1 leading-11 text-center"
-          htmlFor="lastname"
+          htmlFor="lastName"
         >
           نام خانوادگی
         </label>
         <input
           className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
           type="text"
-          id="lastname"
-          name="lastname"
+          id="lastName"
+          name="lastName"
           placeholder="نام خانوادگی خود را به فارسی وارد کنید"
-          value={form.lastname}
+          value={form.lastName}
           onChange={changeHandler}
         />
         <label
           className="text-primary-900/80 b1 leading-11 text-center"
-          htmlFor="email"
+          htmlFor="emailAddress"
         >
           ایمیل
         </label>
         <input
           className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
-          type="email"
-          id="email"
-          name="email"
+          type="emailAddress"
+          id="emailAddress"
+          name="emailAddress"
           placeholder="example@example.com"
-          value={form.email}
+          value={form.emailAddress}
           onChange={changeHandler}
         />
         <label
           className="text-primary-900/80 b1 leading-11 text-center"
-          htmlFor="phonenumber"
+          htmlFor="phoneNumber"
         >
           شماره تماس
         </label>
         <input
           className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
           type="text"
-          id="phonenumber"
-          name="phonenumber"
+          id="phoneNumber"
+          name="phoneNumber"
           placeholder="شماره موبایل خود را وارد کنید"
-          value={form.phonenumber}
+          value={form.phoneNumber}
           onChange={changeHandler}
         />
         <button
