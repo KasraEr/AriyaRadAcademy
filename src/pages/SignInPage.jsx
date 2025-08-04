@@ -2,15 +2,17 @@ import { useRef, useEffect } from "react";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //r-r-d
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
+import { setToken } from "../utils/tokenService.js";
 //toastify
 import { ToastContainer, toast } from "react-toastify";
 
 export default function SignInPage() {
   useTitle("ورود");
 
+  const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state?.phoneNumber;
 
@@ -29,13 +31,12 @@ export default function SignInPage() {
         rememberMe: true,
       });
       if (response?.status === 201) {
-        // navigate("/auth/sign-in");
-        console.log("first");
+        setToken(response.data.token);
         toast.success("ورود قهرمانانه شمارو تبریک میگیم", {
           className: "b1",
           bodyClassName: "b1",
           position: "bottom-right",
-          autoClose: 2500,
+          autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
@@ -43,11 +44,25 @@ export default function SignInPage() {
           progress: undefined,
           theme: "light",
         });
+        setTimeout(() => {
+          navigate("/dashboard", { replace: true });
+        }, 1600);
       }
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
-        // navigate("/auth/sign-up");
+        toast.error("کد صحیح نیست. دوباره تلاش کنید.", {
+          className: "b1",
+          bodyClassName: "b1",
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         console.log(error.message);
       }
     }
