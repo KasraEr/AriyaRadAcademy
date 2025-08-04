@@ -18,7 +18,11 @@ import SignInPage from "./pages/SignInPage";
 import DashboardPage from "./pages/DashboardPage";
 //temps
 import BackToTop from "./components/templates/BackToTop";
-//
+import Profile from "./components/templates/Profile";
+import Cart from "./components/templates/Cart";
+import UserCourses from "./components/templates/UserCourses";
+import Exit from "./components/templates/Exit";
+//toastify
 import "react-toastify/dist/ReactToastify.css";
 
 const token = getToken();
@@ -59,7 +63,13 @@ export default function App() {
         <Route
           path="/dashboard"
           element={token ? <DashboardPage /> : <Navigate to="/auth" replace />}
-        />
+        >
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/cart" element={<Cart />} />
+          <Route path="/dashboard/courses" element={<UserCourses />} />
+          <Route path="/dashboard/exit" element={<Exit />} />
+          <Route path="/dashboard/*" element={<Navigate to="/dashboard" />} />
+        </Route>
       </Routes>
       <BackToTop />
     </>
