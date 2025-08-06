@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 //utils
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
 import { getToken } from "../utils/tokenService";
+//r-r-d
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 //jwt-decode
 import { jwtDecode } from "jwt-decode";
 
 export default function DashboardPage() {
   const token = getToken();
-  const { name } = jwtDecode(token);
+
+  const { name, sub } = jwtDecode(token);
+
   const navigate = useNavigate();
+
   useEffect(() => {
     navigate("/dashboard/profile", { replace: true });
   }, []);

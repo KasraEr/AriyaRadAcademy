@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 //r-r-d
 import { Routes, Route, Navigate } from "react-router-dom";
 //tokenService
@@ -25,9 +26,18 @@ import Exit from "./components/templates/Exit";
 //toastify
 import "react-toastify/dist/ReactToastify.css";
 
-const token = getToken();
-
 export default function App() {
+  const [token, setToken] = useState(getToken());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(getToken());
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   return (
     <>
       <Routes>

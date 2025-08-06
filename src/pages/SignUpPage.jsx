@@ -1,6 +1,7 @@
 import { useState } from "react";
 //c-hooks
 import useTitle from "../hooks/useTitle";
+import api from "../utils/config";
 
 export default function SignUpPage() {
   const [form, setForm] = useState({
@@ -16,9 +17,22 @@ export default function SignUpPage() {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(form);
+    try {
+      const response = await api.post("/api/Auth/Register", form);
+      if (response.status === 200) {
+        console.log("✅ ثبت‌نام موفق:");
+        // return { success: true, data: response.data };
+      }
+    } catch (error) {
+      if (error.response?.status === 400) {
+        console.warn("⚠️ ثبت‌نام ناموفق: دسترسی غیرمجاز");
+        // return { success: false, message: 'اطلاعات وارد شده معتبر نیست.' };
+      }
+      console.error("❌ خطای ناشناخته:", error.message);
+      // return { success: false, message: 'خطایی رخ داده است.' };
+    }
   };
 
   return (
@@ -79,7 +93,7 @@ export default function SignUpPage() {
           شماره تماس
         </label>
         <input
-          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
           type="text"
           id="phoneNumber"
           name="phoneNumber"

@@ -11,8 +11,10 @@ export default function AuthPage() {
   useTitle("ورود یا عضویت");
 
   const [shown, setShown] = useState(false);
-  const input = useRef(null);
+
   const btn = useRef(null);
+
+  const input = useRef(null);
 
   const navigate = useNavigate();
 
@@ -31,12 +33,17 @@ export default function AuthPage() {
       const status = error?.response?.status;
       if (status === 400) {
         navigate("/auth/sign-up");
+      } else {
+        // toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید.");
+        setShown(false);
+        btn.current.innerText = "بررسی و ادامه";
       }
     }
   };
 
   const clickHandler = (e) => {
     e.preventDefault();
+    if (shown) return;
     setShown(true);
     btn.current.innerText = "لطفا منتظر بمانید";
     checkUser();
