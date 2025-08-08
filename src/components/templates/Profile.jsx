@@ -7,6 +7,8 @@ import { jwtDecode } from "jwt-decode";
 //icons
 import edit from "../../assets/icons/Edit.svg";
 import tick from "../../assets/icons/Tick.svg";
+//toastify
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});
@@ -29,18 +31,6 @@ export default function Profile() {
           response.data;
         setOldData({ id, firstName, lastName, emailAddress, phoneNumber });
       } catch (error) {
-        toast.error("لطفا مجددا امتحان فرمایید", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
         console.log(error.message);
       }
     };
@@ -59,16 +49,42 @@ export default function Profile() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put("/api/User/Update", { form });
-      console.log("✅ Update successful:", response.data);
-      // return response.data;
+      const response = await api.put("/api/User/Update", {form});
+      console.log(response);
     } catch (error) {
-      console.error("❌ Update failed:", error.response?.data || error.message);
-      // throw error;
+      const status = error?.response?.status;
+      if (status === 400) {
+        toast.error("نشد که :( دوباره سعی کن", {
+          className: "b1",
+          bodyClassName: "b1",
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        console.log(error.message);
+        setShown(false);
+        btn.current.innerText = "ورود";
+        toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید", {
+          className: "b1",
+          bodyClassName: "b1",
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   };
-
-  // console.log(oldData.id)
 
   return (
     <>
@@ -151,6 +167,7 @@ export default function Profile() {
           ثبت تغییرات
         </button>
       </form>
+      <ToastContainer />
     </>
   );
 }

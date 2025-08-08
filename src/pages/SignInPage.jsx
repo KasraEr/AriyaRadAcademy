@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //r-r-d
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
 import { setToken } from "../utils/tokenService.js";
@@ -13,9 +13,8 @@ export default function SignInPage() {
   useTitle("ورود");
 
   const [shown, setShown] = useState(false);
-  const btn = useRef(null);
 
-  // const navigate = useNavigate();
+  const btn = useRef(null);
 
   const location = useLocation();
 
@@ -71,11 +70,22 @@ export default function SignInPage() {
           progress: undefined,
           theme: "light",
         });
-        console.log(error.message);
       } else {
-        // toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید.");
+        console.log(error.message);
         setShown(false);
         btn.current.innerText = "ورود";
+        toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید", {
+          className: "b1",
+          bodyClassName: "b1",
+          position: "bottom-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     }
   };
