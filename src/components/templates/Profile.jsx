@@ -30,6 +30,7 @@ export default function Profile() {
         const { id, firstName, lastName, emailAddress, phoneNumber } =
           response.data;
         setOldData({ id, firstName, lastName, emailAddress, phoneNumber });
+        setForm({ emailAddress, phoneNumber });
       } catch (error) {
         console.log(error.message);
       }
@@ -49,8 +50,8 @@ export default function Profile() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put("/api/User/Update", {form});
-      console.log(response);
+      const response = await api.put("/api/User/Update", form);
+      // console.log(response);
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
@@ -68,8 +69,6 @@ export default function Profile() {
         });
       } else {
         console.log(error.message);
-        setShown(false);
-        btn.current.innerText = "ورود";
         toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید", {
           className: "b1",
           bodyClassName: "b1",
@@ -153,7 +152,7 @@ export default function Profile() {
         />
         <button
           className="flex items-center justify-center gap-1 rounded-4xl p-2 bg-warning-500 text-basic-100"
-          type="submit"
+          type="button"
           onClick={clickhandler}
         >
           <img src={edit} alt="" />
