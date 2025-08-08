@@ -4,6 +4,9 @@ import api from "../../utils/config";
 import { getToken } from "../../utils/tokenService";
 //jwt
 import { jwtDecode } from "jwt-decode";
+//icons
+import edit from "../../assets/icons/Edit.svg";
+import tick from "../../assets/icons/Tick.svg";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});
@@ -56,13 +59,7 @@ export default function Profile() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put("/api/User/Update", {
-        id: oldData.id,
-        firstName: oldData.firstName,
-        lastName: oldData.lastName,
-        phoneNumber: form.phoneNumber,
-        emailAddress: form.emailAddress,
-      });
+      const response = await api.put("/api/User/Update", { form });
       console.log("✅ Update successful:", response.data);
       // return response.data;
     } catch (error) {
@@ -74,51 +71,86 @@ export default function Profile() {
   // console.log(oldData.id)
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="firstName">نام</label>
+    <>
+      <h2 className="text-primary-900 my-5">مشخصات کاربری</h2>
+      <form
+        className="flex flex-col items-center justify-center gap-4 my-5"
+        onSubmit={submitHandler}
+      >
+        <label
+          className="text-primary-900/80 b1 leading-11 text-center"
+          htmlFor="firstName"
+        >
+          نام
+        </label>
         <input
-          className="border"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
           disabled
           type="text"
           id="firstName"
           placeholder={oldData.firstName}
         />
-        <label htmlFor="lastName">نام خانوادگی</label>
+        <label
+          className="text-primary-900/80 b1 leading-11 text-center"
+          htmlFor="lastName"
+        >
+          نام خانوادگی
+        </label>
         <input
-          className="border"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-right"
           disabled
           type="text"
           id="lastName"
           placeholder={oldData.lastName}
         />
-        <label htmlFor="emailAddress">ایمیل</label>
+        <label
+          className="text-primary-900/80 b1 leading-11 text-center"
+          htmlFor="emailAddress"
+        >
+          ایمیل
+        </label>
         <input
-          className="border"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
           disabled={isEditable ? false : true}
           type="text"
           name="emailAddress"
           id="emailAddress"
-          placeholder={isEditable ? "" : oldData.emailAddress}
+          placeholder={oldData.emailAddress}
           value={form.emailAddress}
           onChange={changeHandler}
         />
-        <label htmlFor="phoneNumber">شماره تماس</label>
+        <label
+          className="text-primary-900/80 b1 leading-11 text-center"
+          htmlFor="phoneNumber"
+        >
+          شماره تماس
+        </label>
         <input
-          className="border"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
           disabled={isEditable ? false : true}
           type="text"
           name="phoneNumber"
           id="phoneNumber"
-          placeholder={isEditable ? "" : oldData.phoneNumber}
+          placeholder={oldData.phoneNumber}
           value={form.phoneNumber}
           onChange={changeHandler}
         />
-        <button type="submit" onClick={clickhandler}>
+        <button
+          className="flex items-center justify-center gap-1 rounded-4xl p-2 bg-warning-500 text-basic-100"
+          type="submit"
+          onClick={clickhandler}
+        >
+          <img src={edit} alt="" />
           ویرایش اطلاعات
         </button>
-        <button type="submit">ثبت تغییرات</button>
+        <button
+          className="flex items-center justify-center gap-1 rounded-4xl p-2 bg-success-500 text-basic-100"
+          type="submit"
+        >
+          <img src={tick} alt="" />
+          ثبت تغییرات
+        </button>
       </form>
-    </div>
+    </>
   );
 }

@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 export default function DashboardPage() {
   const token = getToken();
 
-  const { name, sub } = jwtDecode(token);
+  const { name } = jwtDecode(token);
 
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export default function DashboardPage() {
         <p className="text-primary-500 b4 md:b2 xl:b1 text-center ml:text-right">
           <strong>{name} </strong>جان به پنل کاربری خوش آمدید
         </p>
-        <div className="w-full grid grid-cols-1 grid-rows-2 gap-8">
+        <div className="w-full grid grid-cols-1 grid-rows-[auto] gap-8">
           <div className="w-full">
             <ul className="flex items-center justify-between gap-3">
               <li className="w-full text-right b3">
