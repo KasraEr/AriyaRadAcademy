@@ -25,7 +25,7 @@ export default function Header() {
   return (
     <>
       <header className="w-full">
-        <nav className="grid grid-rows-1 grid-cols-[1fr_1fr] place-items-center p-5 bg-linear-to-r from-[#6A11CB] to-primary-500 sm:bg-none sm:grid-cols-[0.85fr_2.1fr_60px] sm:gap-5 ml:grid-cols-[1fr_3fr_70px] lg:grid-cols-[1fr_4fr_70px] xl:grid-cols-[2fr_5fr_1fr]">
+        <nav className="grid grid-rows-1 grid-cols-[1fr_1fr] place-items-center p-5 bg-linear-to-r from-[#6A11CB] to-primary-500 sm:bg-none sm:grid-cols-[0.83fr_2.1fr_0.8fr] sm:gap-5 ml:grid-cols-[1fr_3fr_1fr] lg:grid-cols-[1fr_4fr_1fr] xl:grid-cols-[2fr_5fr_1fr]">
           <Link to="/" className="justify-self-start">
             <img src={logo} className="w-34 sm:hidden" alt="" />
             <img
@@ -70,12 +70,15 @@ export default function Header() {
             </li>
           </ul>
           <Link
-            // className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end"
-            className="hidden sm:inline border b3 ml:b2 lg:b1 p-2 rounded-2xl"
+            className={`${
+              token
+                ? "bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900"
+                : "bg-secondary-500 text-basic-100 hover:bg-secondary-100 hover:text-secondary-900"
+            } hidden sm:inline b4 ml:b2 lg:b1 p-1 rounded-2xl transition xmd:justify-self-end`}
             to={token ? "/dashboard" : "/auth"}
             aria-current="page"
           >
-            {token ? "داشبورد" : "ورود / عضویت"}
+            {token ? "داشبورد" : "ورود/عضویت"}
           </Link>
         </nav>
       </header>
