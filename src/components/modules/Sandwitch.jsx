@@ -4,12 +4,16 @@ import sandwitch from "../../assets/icons/sandwitch.svg";
 import exit from "../../assets/icons/exit.svg";
 import logo from "../../assets/icons/sandwitch-logo.png";
 import call from "../../assets/icons/call.svg";
-import login from "../../assets/icons/login.svg";
 //react-router-dom
 import { NavLink, Link } from "react-router-dom";
+//utils
+import { getToken } from "../../utils/tokenService";
 
 export default function Sandwitch() {
   const [isShown, setIsShown] = useState(false);
+
+  const token = getToken();
+
   return (
     <div className="z-5000 justify-self-end sm:hidden">
       <button>
@@ -51,9 +55,9 @@ export default function Sandwitch() {
             <NavLink to="/contact-us">تماس با آریاراد</NavLink>
           </li>
           <li onClick={() => setIsShown(false)} className="b2 text-primary-500">
-            <Link to="/auth">
-              <img src={login} alt="" title="ورود / عضویت" />
-            </Link>
+            <NavLink to={token ? "/dashboard" : "/auth"}>
+              {token ? "داشبورد" : "ورود / عضویت"}
+            </NavLink>
           </li>
         </ul>
         <button className="flex w-full h-10 px-3 py-1 justify-center items-center gap-2 shrink-0 rounded-[50px] bg-primary-500 text-basic-100 m-auto">

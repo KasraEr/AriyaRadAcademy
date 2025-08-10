@@ -35,7 +35,7 @@ export default function SignInPage() {
       const response = await api.post("/api/Auth/Login", {
         phoneNumber,
         otpCode: input.current.value,
-        rememberMe: true,
+        rememberMe: false,
       });
       if (response?.status === 201) {
         setToken(response.data.token);

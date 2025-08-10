@@ -8,6 +8,7 @@ export default function Exit() {
 
   const exitHandler = () => {
     removeToken();
+    window.dispatchEvent(new Event("tokenChanged"));
     navigate("/", { replace: true });
   };
   return (

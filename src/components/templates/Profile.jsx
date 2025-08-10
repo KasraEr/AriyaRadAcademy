@@ -51,7 +51,19 @@ export default function Profile() {
     e.preventDefault();
     try {
       const response = await api.put("/api/User/Update", form);
-      // console.log(response);
+      response?.status === 200 && setIsEditable(false);
+      toast.success("اطلاعات شما به روزرسانی شد", {
+        className: "b1",
+        bodyClassName: "b1",
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
@@ -125,7 +137,8 @@ export default function Profile() {
           ایمیل
         </label>
         <input
-          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
+          dir="ltr"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs"
           disabled={isEditable ? false : true}
           type="text"
           name="emailAddress"
@@ -141,7 +154,8 @@ export default function Profile() {
           شماره تماس
         </label>
         <input
-          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left"
+          dir="ltr"
+          className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs"
           disabled={isEditable ? false : true}
           type="text"
           name="phoneNumber"

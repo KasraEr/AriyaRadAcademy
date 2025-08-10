@@ -2,9 +2,11 @@ import { useEffect } from "react";
 //utils
 import { getToken } from "../utils/tokenService";
 //r-r-d
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 //jwt-decode
 import { jwtDecode } from "jwt-decode";
+// c-hooks
+import useTitle from "../hooks/useTitle";
 
 export default function DashboardPage() {
   const token = getToken();
@@ -13,9 +15,17 @@ export default function DashboardPage() {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const isDashboardRoute = location.pathname.startsWith("/dashboard");
+
+  useTitle(isDashboardRoute ? "داشبورد" : "");
+
   useEffect(() => {
-    navigate("/dashboard/profile", { replace: true });
-  }, []);
+    if (location.pathname === "/dashboard") {
+      navigate("/dashboard/profile", { replace: true });
+    }
+  }, [location.pathname]);
 
   return (
     <>

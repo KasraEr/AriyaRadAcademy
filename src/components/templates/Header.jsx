@@ -1,14 +1,27 @@
+import { useState, useEffect } from "react";
 //modules
 import Sandwitch from "../modules/Sandwitch";
 //images
 import logo from "/src/assets/images/nav-logo.png";
 import logo2 from "/src/assets/images/bigNav-logo.png";
-//icons
-import login from "/src/assets/icons/login.svg";
 //r-r-d
 import { Link, NavLink } from "react-router-dom";
+//utils
+import { getToken } from "../../utils/tokenService";
 
 export default function Header() {
+  const [token, setToken] = useState(getToken());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(getToken());
+    };
+
+    window.addEventListener("tokenChanged", handleStorageChange);
+    return () =>
+      window.removeEventListener("tokenChanged", handleStorageChange);
+  }, []);
+
   return (
     <>
       <header className="w-full">
@@ -57,15 +70,12 @@ export default function Header() {
             </li>
           </ul>
           <Link
-            className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end"
-            to="/auth"
+            // className="hidden sm:flex w-full sm:max-ml:justify-end lg:justify-end"
+            className="hidden sm:inline border b3 ml:b2 lg:b1 p-2 rounded-2xl"
+            to={token ? "/dashboard" : "/auth"}
+            aria-current="page"
           >
-            <img
-              src={login}
-              className="ml:w-7 lg:w-8"
-              alt="ورود | عضویت"
-              title="ورود | عضویت"
-            />
+            {token ? "داشبورد" : "ورود / عضویت"}
           </Link>
         </nav>
       </header>

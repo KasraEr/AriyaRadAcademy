@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 //r-r-d
 import { Routes, Route, Navigate } from "react-router-dom";
-//tokenService
+//utils
 import { getToken } from "./utils/tokenService";
 //pages
 import HomePage from "./pages/HomePage";
