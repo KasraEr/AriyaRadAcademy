@@ -30,12 +30,12 @@ export default function DashboardPage() {
   return (
     <>
       <div className="w-full ml:max-lg:max-w-[600px] mx-auto border border-text-500 rounded-4xl p-4 flex flex-col items-center justify-center gap-8">
-        <p className="text-primary-500 b4 md:b2 xl:b1 text-center ml:text-right">
+        <h3 className="text-primary-500 text-center ml:text-right my-6">
           <strong>{name} </strong>جان به پنل کاربری خوش آمدید
-        </p>
-        <div className="w-full grid grid-cols-1 grid-rows-[auto] gap-8">
-          <div className="w-full">
-            <ul className="flex items-center justify-between gap-3">
+        </h3>
+        <div className="w-full grid grid-cols-1 grid-rows-[auto] gap-8 ml:grid-cols-[1.5fr_5fr] ml:grid-rows-1">
+          <div className="w-full ml:place-items-center ml:border-l ml:border-l-basic-900 box-border ml:pt-2">
+            <ul className="flex ml:flex-col items-center justify-between gap-3 ml:gap-12">
               <li className="w-full text-right b3">
                 <NavLink className="w-full" to="/dashboard/profile">
                   مشخصات
@@ -58,7 +58,7 @@ export default function DashboardPage() {
               </li>
             </ul>
           </div>
-          <div className="w-full">
+          <div className="w-full grid grid-cols-1 grid-rows-1 place-items-center ml:self-stretch">
             <Outlet />
           </div>
         </div>

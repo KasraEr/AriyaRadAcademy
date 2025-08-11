@@ -1,6 +1,9 @@
-
 export default function Cart() {
   return (
-    <div>Cart</div>
-  )
+    <>
+      <div className="text-center">
+        <h2>سبد خرید شما خالی است!!</h2>
+      </div>
+    </>
+  );
 }

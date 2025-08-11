@@ -74,7 +74,7 @@ export default function Header() {
               token
                 ? "bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900"
                 : "bg-secondary-500 text-basic-100 hover:bg-secondary-100 hover:text-secondary-900"
-            } hidden sm:inline b4 ml:b2 lg:b1 p-1 rounded-2xl transition xmd:justify-self-end`}
+            } hidden sm:inline b4 ml:b2 lg:b1 p-1 rounded-2xl transition xmd:justify-self-end xmd:p-2`}
             to={token ? "/dashboard" : "/auth"}
             aria-current="page"
           >
