@@ -5,9 +5,11 @@ import useTitle from "../hooks/useTitle.js";
 import { useLocation } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
-import { setToken } from "../utils/tokenService.js";
+import { setToken, getToken } from "../utils/tokenService.js";
 //toastify
 import { ToastContainer, toast } from "react-toastify";
+//jwt-decode
+import { jwtDecode } from "jwt-decode";
 
 export default function SignInPage() {
   useTitle("ورود");
@@ -38,22 +40,27 @@ export default function SignInPage() {
         rememberMe: false,
       });
       if (response?.status === 201) {
-        setToken(response.data.token);
-        toast.success("ورود قهرمانانه شمارو تبریک میگیم", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          window.location.href = "/dashboard";
-        }, 1600);
+        const token = response.data.token;
+        setToken(token);
+        const role = jwtDecode(token);
+        if (role.role === "Adminstrator") {
+          window.location.href = "/admin";
+        } else {
+          toast.success("ورود قهرمانانه شمارو تبریک میگیم", {
+            className: "b1",
+            bodyClassName: "b1",
+            position: "bottom-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "light",
+          });
+          setTimeout(() => {
+            window.location.href = "/dashboard";
+          }, 1600);
+        }
       }
     } catch (error) {
       const status = error?.response?.status;
