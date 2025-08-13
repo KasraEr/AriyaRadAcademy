@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
+//layout
+import Layout from "./layout/Layout.jsx";
 //r-r-d
 import { Routes, Route, Navigate } from "react-router-dom";
 //utils
 import { getToken } from "./utils/tokenService";
+//admin
+import AdminRoutes from "./admin/AdminRoutes";
 //pages
 import HomePage from "./pages/HomePage";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -41,45 +45,50 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/courses"
-          element={<Navigate to="/categories" replace />}
-        />
-        <Route
-          path="/categories/courses"
-          element={<Navigate to="/categories" replace />}
-        />
-        <Route
-          path="/categories/courses/:difficulty"
-          element={<SelectedDifficultyPage />}
-        />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route
-          path="/categories/:category"
-          element={<SelectedCategoryPage />}
-        />
-        <Route
-          path="/categories/:category/:_title"
-          element={<CourseDetailPage />}
-        />
-        <Route path="/about-us" element={<AboutUsPage />} />
-        <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/articles" element={<ArticlesPage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/auth/sign-up" element={<SignUpPage />} />
-        <Route path="/auth/sign-in" element={<SignInPage />} />
-        <Route path="/*" element={<NotFoundPage />} />
-        <Route
-          path="/dashboard"
-          element={token ? <DashboardPage /> : <Navigate to="/auth" replace />}
-        >
-          <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="/dashboard/cart" element={<Cart />} />
-          <Route path="/dashboard/courses" element={<UserCourses />} />
-          <Route path="/dashboard/exit" element={<Exit />} />
-          <Route path="/dashboard/*" element={<Navigate to="/dashboard" />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/courses"
+            element={<Navigate to="/categories" replace />}
+          />
+          <Route
+            path="/categories/courses"
+            element={<Navigate to="/categories" replace />}
+          />
+          <Route
+            path="/categories/courses/:difficulty"
+            element={<SelectedDifficultyPage />}
+          />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route
+            path="/categories/:category"
+            element={<SelectedCategoryPage />}
+          />
+          <Route
+            path="/categories/:category/:_title"
+            element={<CourseDetailPage />}
+          />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/contact-us" element={<ContactUsPage />} />
+          <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/auth/sign-up" element={<SignUpPage />} />
+          <Route path="/auth/sign-in" element={<SignInPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              token ? <DashboardPage /> : <Navigate to="/auth" replace />
+            }
+          >
+            <Route path="/dashboard/profile" element={<Profile />} />
+            <Route path="/dashboard/cart" element={<Cart />} />
+            <Route path="/dashboard/courses" element={<UserCourses />} />
+            <Route path="/dashboard/exit" element={<Exit />} />
+            <Route path="/dashboard/*" element={<Navigate to="/dashboard" />} />
+          </Route>
         </Route>
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
       <BackToTop />
     </>
