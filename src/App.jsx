@@ -30,8 +30,6 @@ import Exit from "./components/templates/Exit";
 //toastify
 import "react-toastify/dist/ReactToastify.css";
 
-// اگه خواستی یه تقویم شمسی سبک‌تر و بدون dependency conflict استفاده کنیم، می‌تونم یه کامپوننت custom برات بسازم که هیچ پکیجی نخواد. فقط بگو، من پایه‌ام 😎
-
 export default function App() {
   const [token, setToken] = useState(getToken());
 
