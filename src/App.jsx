@@ -29,6 +29,7 @@ import UserCourses from "./components/templates/UserCourses";
 import Exit from "./components/templates/Exit";
 //toastify
 import "react-toastify/dist/ReactToastify.css";
+import GlobalToast from "./components/modules/GlobalToast";
 
 export default function App() {
   const [token, setToken] = useState(getToken());
@@ -91,6 +92,7 @@ export default function App() {
         <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
       <BackToTop />
+      <GlobalToast />
     </>
   );
 }

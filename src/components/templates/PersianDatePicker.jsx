@@ -142,7 +142,7 @@ export default function PersianDatePicker({ value, onChange, label }) {
   return (
     <div className="relative w-full max-w-xs" dir="rtl">
       {label && (
-        <label className="block mb-2 text-sm font-medium">{label}</label>
+        <label className="block subtitle2 mb-2 text-sm font-medium">{label}</label>
       )}
 
       <input
@@ -152,45 +152,45 @@ export default function PersianDatePicker({ value, onChange, label }) {
           months[selectedJalaali.jm - 1]
         } ${toPersianDigits(selectedJalaali.jy)}`}
         onClick={() => setShowPicker(true)}
-        className="w-full p-2 text-sm border rounded-lg cursor-pointer"
+        className="w-full p-2 b4 text-sm border rounded-lg cursor-pointer"
       />
 
       {showPicker && (
         <div
           ref={pickerRef}
-          className="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg p-3"
+          className="absolute z-10 mt-1 w-[355px] bg-white border rounded-lg shadow-lg p-3"
         >
           {/* هدر تقویم */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex space-x-1 rtl:space-x-reverse">
               <button
                 onClick={() => changeYear(-1)}
-                className="p-1 text-sm rounded hover:bg-gray-100"
+                className="p-1 text-sm rounded hover:bg-gray-100 border"
               >
                 سال قبل
               </button>
               <button
                 onClick={() => changeYear(1)}
-                className="p-1 text-sm rounded hover:bg-gray-100"
+                className="p-1 text-sm rounded hover:bg-gray-100 border"
               >
                 سال بعد
               </button>
             </div>
 
-            <div className="font-medium">
+            <div className="b2">
               {months[currentMonth - 1]} {toPersianDigits(currentYear)}
             </div>
 
             <div className="flex space-x-1 rtl:space-x-reverse">
               <button
                 onClick={() => changeMonth(-1)}
-                className="p-1 text-sm rounded hover:bg-gray-100"
+                className="p-1 text-sm rounded hover:bg-gray-100 border"
               >
                 ماه قبل
               </button>
               <button
                 onClick={() => changeMonth(1)}
-                className="p-1 text-sm rounded hover:bg-gray-100"
+                className="p-1 text-sm rounded hover:bg-gray-100 border"
               >
                 ماه بعد
               </button>
