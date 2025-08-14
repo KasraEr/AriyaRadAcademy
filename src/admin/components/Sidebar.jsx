@@ -6,7 +6,7 @@ export default function Sidebar() {
       <aside className="w-64 bg-white shadow-md p-4">
         <h2 className="text-xl font-bold mb-6">پنل مدیریت</h2>
         <nav>
-          <ul className="flex flex-col items-center justify-center gap-4 list-none">
+          <ul className="flex flex-col items-start justify-center gap-4 list-none">
             <li className="b1 text-primary-900">
               <NavLink
                 to="/admin/dashboard"
