@@ -20,10 +20,12 @@ export const CourseProvider = ({ children }) => {
   }, []);
 
   return (
-    <CourseContext.Provider value={{ courses }}>
-      {children}
-    </CourseContext.Provider>
+    <CourseContext.Provider value={courses}>{children}</CourseContext.Provider>
+    // <CourseContext.Provider value={{courses}}>{children}</CourseContext.Provider>
   );
 };
 
 export const useCourses = () => useContext(CourseContext);
+// const courses = useCourses() => برای بالایی
+// export const useCourses = () => useContext(CourseContext);
+// const {courses,...} = useCourses()
