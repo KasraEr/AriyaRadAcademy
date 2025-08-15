@@ -1,2 +1,3 @@
-export const toPersianDigits = (num) =>
-  num.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+export const toPersianDigits = (str) =>
+  str?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]) ?? "";
+
