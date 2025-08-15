@@ -8,6 +8,7 @@ import PersianDatePicker from "../../components/templates/PersianDatePicker";
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
 import { formatJalali } from "../../utils/formatJalali";
+import { toPersianDigits } from "../../utils/toPersianDigits";
 
 export default function Courses() {
   const initialCourse = () => ({
@@ -96,17 +97,20 @@ export default function Courses() {
 
   const columns = [
     { header: "عنوان", accessor: "title" },
-    { header: "مدت (ساعت)", accessor: "durationInHours" },
-    { header: "قیمت (تومان)", accessor: "priceInTomans" },
+    {
+      header: "مدت (ساعت)",
+      cell: (row) => toPersianDigits(row.durationInHours),
+    },
+    {
+      header: "قیمت (تومان)",
+      cell: (row) => toPersianDigits(row.priceInTomans),
+    },
     { header: "تاریخ برگزاری", cell: (row) => formatJalali(row.timeOfHolding) },
     {
       header: "عملیات",
       cell: (row) => (
         <div className="flex gap-2 justify-start">
-          <button
-            className="b2 text-blue-600"
-            onClick={() => openEditModal(row)}
-          >
+          <button className="text-blue-600" onClick={() => openEditModal(row)}>
             ویرایش
           </button>
           <button
@@ -140,20 +144,20 @@ export default function Courses() {
             </h3>
 
             <div>
-              <label className="block mb-1">عنوان</label>
+              <label className="block mb-1 b2">عنوان</label>
               <input
                 type="text"
                 value={newCourse.title}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, title: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-1">مدت (ساعت)</label>
+              <label className="block mb-1 b2">مدت (ساعت)</label>
               <input
                 type="number"
                 value={newCourse.durationInHours}
@@ -163,7 +167,7 @@ export default function Courses() {
                     durationInHours: +e.target.value,
                   })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
                 required
               />
             </div>
@@ -185,97 +189,97 @@ export default function Courses() {
             />
 
             <div>
-              <label className="block mb-1">قیمت (تومان)</label>
+              <label className="block mb-1 b2">قیمت (تومان)</label>
               <input
                 type="number"
                 value={newCourse.priceInTomans}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, priceInTomans: +e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
                 required
               />
             </div>
 
             <div>
-              <label className="block mb-1">توضیحات</label>
+              <label className="block mb-1 b2">توضیحات</label>
               <textarea
                 value={newCourse.description}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, description: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">لینک تصویر کاور</label>
+              <label className="block mb-1 b2">لینک تصویر کاور</label>
               <input
                 type="text"
                 value={newCourse.coverImage}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, coverImage: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">لینک ویدیو کاور</label>
+              <label className="block mb-1 b2">لینک ویدیو کاور</label>
               <input
                 type="text"
                 value={newCourse.coverVideo}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, coverVideo: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">سرفصل‌ها</label>
+              <label className="block mb-1 b2">سرفصل‌ها</label>
               <input
                 type="text"
                 value={newCourse.headings}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, headings: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">شناسه مدرس</label>
+              <label className="block mb-1 b2">شناسه مدرس</label>
               <input
                 type="number"
                 value={newCourse.techerId}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, techerId: +e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">شناسه دسته‌بندی</label>
+              <label className="block mb-1 b2">شناسه دسته‌بندی</label>
               <input
                 type="number"
                 value={newCourse.categoryId}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, categoryId: +e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               />
             </div>
 
             <div>
-              <label className="block mb-1">سطح سختی</label>
+              <label className="block mb-1 b2">سطح سختی</label>
               <select
                 value={newCourse.difficulty}
                 onChange={(e) =>
                   setNewCourse({ ...newCourse, difficulty: e.target.value })
                 }
-                className="w-full p-2 border rounded-lg"
+                className="b2 w-full p-2 border rounded-lg"
               >
                 <option value="">انتخاب سطح سختی</option>
                 <option value="introductory">مبتدی</option>

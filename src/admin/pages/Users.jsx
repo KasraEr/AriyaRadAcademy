@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+// utils
 import api from "../../utils/config";
+import { showToast } from "../../utils/toast";
 import { toPersianDigits } from "../../utils/toPersianDigits";
-import { getPersianDate } from "../../utils/getPersianDate";
 import dayjs from "dayjs";
 import jalaliday from "jalaliday";
-import { ToastContainer, toast } from "react-toastify";
+// components
+import Table from "../components/Table";
 
 dayjs.extend(jalaliday);
 
@@ -19,6 +21,7 @@ const Users = () => {
       })
       .catch((err) => {
         console.error("خطا در دریافت کاربران:", err);
+        showToast("دریافت کاربران ناموفق بود", "error");
       });
   }, []);
 
@@ -27,103 +30,72 @@ const Users = () => {
       await api.delete("/api/User/Delete", {
         data: { id },
       });
-      toast.success("کاربر با موفقیت حذف شد", {
-        className: "b1",
-        bodyClassName: "b1",
-        position: "bottom-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "light",
-      });
+      showToast("کاربر با موفقیت حذف شد");
       setUsers((prev) => prev.filter((u) => u.id !== id));
     } catch (err) {
       console.error("خطا در حذف کاربر:", err);
-      toast.error("حذف کاربر ناموفق بود", {
-        className: "b1",
-        bodyClassName: "b1",
-        position: "bottom-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("حذف کاربر ناموفق بود", "error");
     }
   };
+
+  const columns = [
+    {
+      header: "نام کامل",
+      accessor: "fullName",
+      cell: (row) => `${row.firstName} ${row.lastName}`,
+    },
+    { header: "ایمیل", accessor: "emailAddress" },
+    {
+      header: "شماره تماس",
+      accessor: "phoneNumber",
+      cell: (row) => toPersianDigits(row.phoneNumber),
+    },
+    { header: "نقش", accessor: "role" },
+    {
+      header: "وضعیت",
+      accessor: "isLockout",
+      cell: (row) =>
+        row.isLockout ? (
+          <span className="text-red-500">غیرفعال</span>
+        ) : (
+          <span className="text-green-500">فعال</span>
+        ),
+    },
+    {
+      header: "آخرین ورود",
+      accessor: "lastLogin",
+      cell: (row) =>
+        toPersianDigits(
+          dayjs(row.lastLogin).calendar("jalali").format("YYYY/MM/DD HH:mm")
+        ),
+    },
+    {
+      header: "عملیات",
+      accessor: "actions",
+      cell: (row) => (
+        <div className="flex gap-2">
+          <button className="text-blue-500">ویرایش</button>
+          <button
+            className="text-red-500"
+            onClick={() => {
+              if (window.confirm("آیا مطمئنی که می‌خوای این کاربر حذف بشه؟")) {
+                handleDelete(row.id);
+              }
+            }}
+          >
+            حذف
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
       <div className="flex justify-between items-center my-4">
         <h3>مدیریت کاربران</h3>
-        <span className="subtitle1">{toPersianDigits(getPersianDate())}</span>
       </div>
-
-      <div className="bg-white p-4 rounded shadow overflow-x-auto">
-        <table className="w-full text-right">
-          <thead>
-            <tr className="border-b">
-              <th className="b2 py-2">نام کامل</th>
-              <th className="b2 py-2">ایمیل</th>
-              <th className="b2 py-2">شماره تماس</th>
-              <th className="b2 py-2">نقش</th>
-              <th className="b2 py-2">وضعیت</th>
-              <th className="b2 py-2">آخرین ورود</th>
-              <th className="b2 py-2">عملیات</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users?.map((user) => (
-              <tr key={user.id} className="border-b hover:bg-gray-200">
-                <td className="subtitle2 py-2">
-                  {user.firstName} {user.lastName}
-                </td>
-                <td className="subtitle2 py-2">{user.emailAddress}</td>
-                <td className="subtitle2 py-2">
-                  {toPersianDigits(user.phoneNumber)}
-                </td>
-                <td className="subtitle2 py-2">{user.role}</td>
-                <td className="subtitle2 py-2">
-                  {user.isLockout ? (
-                    <span className="text-red-500">غیرفعال</span>
-                  ) : (
-                    <span className="text-green-500">فعال</span>
-                  )}
-                </td>
-                <td className="subtitle2 py-2">
-                  {toPersianDigits(
-                    dayjs(user.lastLogin)
-                      .calendar("jalali")
-                      .format("YYYY/MM/DD HH:mm")
-                  )}
-                </td>
-                <td className="subtitle2 py-2 flex gap-2">
-                  <button className="text-blue-500">ویرایش</button>
-                  <button
-                    className="text-red-500"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "آیا مطمئنی که می‌خوای این کاربر حذف بشه؟"
-                        )
-                      ) {
-                        handleDelete(user.id);
-                      }
-                    }}
-                  >
-                    حذف
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <ToastContainer />
+      <Table data={users} columns={columns} />
     </>
   );
 };

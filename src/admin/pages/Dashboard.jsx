@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/config";
 import { Bar } from "react-chartjs-2";
-import { getPersianDate } from "../../utils/getPersianDate";
 import { toPersianDigits } from "../../utils/toPersianDigits";
 import {
   Chart as ChartJS,
@@ -87,7 +86,6 @@ const Dashboard = () => {
     <>
       <div className="flex justify-between items-center my-2">
         <h3>داشبورد مدیریت</h3>
-        <span className="subtitle1">{toPersianDigits(getPersianDate())}</span>
       </div>
       <div className="bg-white p-4 rounded shadow">
         <Bar data={chartData} options={chartOptions} />

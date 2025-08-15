@@ -5,7 +5,7 @@ export default function Table({ data, columns }) {
         <thead className="bg-gray-100">
           <tr>
             {columns?.map((col, index) => (
-              <th key={index} className="text-right px-4 py-2 border-b">
+              <th key={index} className="b1 text-right px-4 py-2 border-b">
                 {col.header}
               </th>
             ))}
@@ -16,16 +16,19 @@ export default function Table({ data, columns }) {
             <tr>
               <td
                 colSpan={columns.length}
-                className="text-center p-4 text-gray-500"
+                className="b1 text-center p-4 text-gray-500"
               >
                 هیچ داده‌ای موجود نیست
               </td>
             </tr>
           ) : (
             data?.map((row, rowIndex) => (
-              <tr key={rowIndex} className="hover:bg-gray-50">
+              <tr key={rowIndex} className="hover:bg-text-500/35">
                 {columns.map((col, colIndex) => (
-                  <td key={colIndex} className="px-4 py-2 border-b text-right">
+                  <td
+                    key={colIndex}
+                    className="b2 px-4 py-2 border-b text-right"
+                  >
                     {col.cell ? col.cell(row) : row[col.accessor]}
                   </td>
                 ))}
