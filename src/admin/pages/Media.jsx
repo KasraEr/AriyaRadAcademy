@@ -1,176 +1,167 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Modal from "../components/Modal";
+import Table from "../components/Table";
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
-import Table from "../components/Table";
 
-// تبدیل filePath به { fileName, mediaType }
-const parseFilePath = (filePath) => {
-  if (!filePath) return { fileName: "", mediaType: "" };
-  const parts = filePath.split(/[/\\]+/);
-  const fileName = parts.pop();
-  const folder = parts[parts.length - 1]?.toLowerCase();
-  const mediaType =
-    folder === "images" ? "image" : folder === "videos" ? "video" : "";
-  return { fileName, mediaType };
-};
+export default function Media() {
+  const [mediaList, setMediaList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [mediaType, setMediaType] = useState("image");
+  const [file, setFile] = useState(null);
 
-// ساخت URL مشاهده
-const buildViewUrl = (mediaType, fileName) =>
-  `/api/File/${encodeURIComponent(mediaType)}/${encodeURIComponent(fileName)}`;
-
-const Media = () => {
-  const [data, setData] = useState([]);
-  const [uploading, setUploading] = useState(false);
-
-  // آپلود فایل
-  const handleUpload = (type) => {
-    if (uploading) return;
-
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = type === "image" ? "image/*" : "video/*";
-
-    fileInput.onchange = async () => {
-      const file = fileInput.files?.[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append("file", file); // طبق مستندات
-
-      try {
-        setUploading(true);
-        const url =
-          type === "image"
-            ? "/api/File/upload-image"
-            : "/api/File/upload-video";
-
-        const res = await api.post(url, formData, {
-          headers: { "Content-Type": undefined }, // اجازه بده مرورگر boundary ست کنه
-        });
-
-        const filePath = res?.data?.filePath;
-        if (!filePath) {
-          showToast("آپلود انجام شد ولی مسیر فایل برنگشت", "error");
-          return;
-        }
-
-        const { fileName, mediaType } = parseFilePath(filePath);
-        if (fileName && mediaType) {
-          setData((prev) => [{ fileName, mediaType }, ...prev]);
-          showToast(
-            mediaType === "image"
-              ? "عکس با موفقیت آپلود شد"
-              : "ویدیو با موفقیت آپلود شد"
-          );
-        } else {
-          showToast(
-            "آپلود موفق بود اما نوع یا نام فایل شناسایی نشد",
-            "warning"
-          );
-        }
-      } catch (err) {
-        console.error("خطا در آپلود:", err);
-        showToast("آپلود فایل ناموفق بود", "error");
-      } finally {
-        setUploading(false);
-        // پاکسازی ورودی داینامیک
-        fileInput.value = "";
-        fileInput.onchange = null;
-        fileInput.remove();
-      }
-    };
-
-    fileInput.click();
-  };
-
-  // حذف (کامنت چون API نداری)
-  /*
-  const handleDelete = async (row) => {
+  // گرفتن لیست
+  const fetchMedia = async () => {
+    setLoading(true);
     try {
-      await api.delete("/api/File/Delete", {
-        data: { fileName: row.fileName, mediaType: row.mediaType },
-      });
-      showToast("فایل با موفقیت حذف شد");
-      setData((prev) =>
-        prev.filter(
-          (item) =>
-            !(item.fileName === row.fileName && item.mediaType === row.mediaType)
-        )
-      );
-    } catch (err) {
-      console.error("خطا در حذف فایل:", err);
-      showToast("حذف فایل ناموفق بود", "error");
+      const endpoint =
+        mediaType === "image" ? "/api/File/all-images" : "/api/File/all-videos";
+      const res = await api.get(endpoint);
+      setMediaList(res.data || []);
+    } catch {
+      showToast("خطا در دریافت لیست مدیا", "error");
+    } finally {
+      setLoading(false);
     }
   };
-  */
+
+  useEffect(() => {
+    fetchMedia();
+  }, [mediaType]);
+
+  // آپلود فایل
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!file) return showToast("فایلی انتخاب نشده", "error");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const endpoint =
+        mediaType === "image"
+          ? "/api/File/upload-image"
+          : "/api/File/upload-video";
+      await api.post(endpoint, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      showToast("فایل با موفقیت آپلود شد");
+      setModalOpen(false);
+      setFile(null);
+      fetchMedia();
+    } catch {
+      showToast("خطا در آپلود فایل", "error");
+    }
+  };
+
+  // حذف فایل
+  const handleDelete = async (fileName) => {
+    if (!window.confirm("آیا از حذف این فایل مطمئن هستید؟")) return;
+    try {
+      await api.delete("/api/File/delete", {
+        params: { fileName, mediaType },
+      });
+      showToast("فایل حذف شد");
+      fetchMedia();
+    } catch {
+      showToast("خطا در حذف فایل", "error");
+    }
+  };
 
   const columns = [
-    { header: "نام فایل", accessor: "fileName" },
-    { header: "نوع فایل", accessor: "mediaType" },
     {
-      header: "آدرس فایل",
-      accessor: "url",
-      cell: (row) => (
-        <a
-          href={buildViewUrl(row.mediaType, row.fileName)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline"
-        >
-          مشاهده
-        </a>
-      ),
+      header: "پیش‌نمایش",
+      cell: (row) =>
+        mediaType === "image" ? (
+          <img
+            src={`/api/File/${mediaType}/${row}`}
+            alt="media"
+            className="w-20 h-20 object-cover"
+          />
+        ) : (
+          <video
+            src={`/api/File/${mediaType}/${row}`}
+            controls
+            className="w-32 h-20"
+          />
+        ),
     },
+    { header: "نام فایل", cell: (row) => row },
     {
       header: "عملیات",
-      accessor: "actions",
       cell: (row) => (
-        <div className="flex gap-2">
-          {/* <button
-            className="text-red-500"
-            onClick={() => {
-              if (window.confirm("آیا از حذف فایل اطمینان دارید؟")) {
-                handleDelete(row);
-              }
-            }}
-          >
-            حذف
-          </button> */}
-          <span className="text-gray-400 italic">حذف غیرفعال</span>
-        </div>
+        <button className="text-red-600" onClick={() => handleDelete(row)}>
+          حذف
+        </button>
       ),
     },
   ];
 
   return (
-    <>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="subtitle1">مدیریت فایل‌ها</h2>
-        <div className="flex gap-2">
-          <button
-            className={`active ${
-              uploading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={() => handleUpload("image")}
-            disabled={uploading}
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="h6">مدیریت مدیا</h1>
+        <div className="flex gap-3">
+          <select
+            value={mediaType}
+            onChange={(e) => setMediaType(e.target.value)}
+            className="b2 border rounded-lg p-2"
           >
-            {uploading ? "در حال آپلود..." : "افزودن عکس"}
-          </button>
+            <option value="image">تصاویر</option>
+            <option value="video">ویدئوها</option>
+          </select>
           <button
-            className={`active ${
-              uploading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={() => handleUpload("video")}
-            disabled={uploading}
+            onClick={() => setModalOpen(true)}
+            className="active"
           >
-            {uploading ? "در حال آپلود..." : "افزودن ویدیو"}
+            آپلود فایل
           </button>
         </div>
       </div>
 
-      <Table data={data} columns={columns} />
-    </>
-  );
-};
+      {loading ? (
+        <p>در حال بارگذاری...</p>
+      ) : (
+        <Table data={mediaList} columns={columns} />
+      )}
 
-export default Media;
+      {modalOpen && (
+        <Modal onClose={() => setModalOpen(false)} size="lg">
+          <form onSubmit={handleUpload} className="space-y-4" dir="rtl">
+            <h3 className="subtitle2">
+              آپلود {mediaType === "image" ? "تصویر" : "ویدئو"}
+            </h3>
+
+            <div>
+              <label className="block mb-1 b2">انتخاب فایل</label>
+              <input
+                type="file"
+                accept={mediaType === "image" ? "image/*" : "video/*"}
+                onChange={(e) => setFile(e.target.files[0])}
+                className="b2 w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+                className="px-4 py-2 border rounded-lg"
+              >
+                انصراف
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                آپلود
+              </button>
+            </div>
+          </form>
+        </Modal>
+      )}
+    </div>
+  );
+}

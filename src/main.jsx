@@ -6,6 +6,7 @@ import PersianWrapper from "./components/templates/PersianWrapper.jsx";
 import { CourseProvider } from "./context/CourseContext.jsx";
 import "keen-slider/keen-slider.min.css";
 import "leaflet/dist/leaflet.css";
+import 'prosemirror-view/style/prosemirror.css';
 
 createRoot(document.getElementById("root")).render(
   <Router>
