@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Courses from "./pages/Courses";
 import Articles from "./pages/Articles";
+import Media from "./pages/Media";
 //utils
 import { isAdmin } from "../utils/authGuard";
 
@@ -18,6 +19,7 @@ export default function AdminRoutes() {
         <Route path="users" element={<Users />} />
         <Route path="courses" element={<Courses />} />
         <Route path="articles" element={<Articles />} />
+        <Route path="media" element={<Media />} />
       </Route>
     </Routes>
   );

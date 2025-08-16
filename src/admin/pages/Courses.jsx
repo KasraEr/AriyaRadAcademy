@@ -99,10 +99,12 @@ export default function Courses() {
     { header: "عنوان", accessor: "title" },
     {
       header: "مدت (ساعت)",
+      accessor: "durationInHours",
       cell: (row) => toPersianDigits(row.durationInHours),
     },
     {
       header: "قیمت (تومان)",
+      accessor: "priceInTomans",
       cell: (row) => toPersianDigits(row.priceInTomans),
     },
     { header: "تاریخ برگزاری", cell: (row) => formatJalali(row.timeOfHolding) },

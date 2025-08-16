@@ -39,6 +39,14 @@ export default function Sidebar() {
                 مقالات
               </NavLink>
             </li>
+            <li className="b1 text-primary-900">
+              <NavLink
+                to="/admin/media"
+                className="transition hover:text-secondary-900"
+              >
+                مدیا
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </aside>
