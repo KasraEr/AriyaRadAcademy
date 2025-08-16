@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Modal from "../components/Modal";
 import Table from "../components/Table";
 import api from "../../utils/config";
@@ -226,17 +226,32 @@ export default function Articles() {
 }
 
 function RichTextEditor({ value, onChange }) {
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
+  const extensions = useMemo(
+    () => [
+      StarterKit.configure({
+        link: false,
+        underline: false,
+        bulletList: true,
+        orderedList: true,
+        blockquote: true,
+      }),
       Underline,
       Link.configure({
         openOnClick: false,
         autolink: true,
         linkOnPaste: true,
+        HTMLAttributes: {
+          rel: "noopener noreferrer",
+          target: "_blank",
+        },
       }),
     ],
-    content: value || "<pre></pre>",
+    []
+  );
+
+  const editor = useEditor({
+    extensions,
+    content: value || '<pre class="b1"></pre>',
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -251,7 +266,7 @@ function RichTextEditor({ value, onChange }) {
 
   useEffect(() => {
     if (!editor) return;
-    const html = value || "<pre></pre>";
+    const html = value || '<pre class="b1"></pre>';
     if (html !== editor.getHTML()) {
       editor.commands.setContent(html, false);
     }
