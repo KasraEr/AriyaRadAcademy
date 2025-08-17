@@ -13,27 +13,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-pre {
-  white-space: pre;
-  overflow-x: auto;
-  background-color: #000000;
-  padding: 1rem;
-  border-radius: 6px;
-  direction: ltr;
-}
-
-pre code {
-  display: block;
-  font-family: monospace;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.prose pre {
-  white-space: pre !important;
-  overflow-x: auto !important;
-}
-
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 /* document.documentElement.classList.toggle("dark") */
 
