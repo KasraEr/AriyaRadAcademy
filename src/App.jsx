@@ -21,6 +21,7 @@ import AuthPage from "./pages/AuthPage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import DashboardPage from "./pages/DashboardPage";
+import ArticleDetailsPage from "./pages/ArticleDetailsPage.jsx";
 //temps
 import BackToTop from "./components/templates/BackToTop";
 import Profile from "./components/templates/Profile";
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
           <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/articles/:name" element={<ArticleDetailsPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/auth/sign-up" element={<SignUpPage />} />
           <Route path="/auth/sign-in" element={<SignInPage />} />

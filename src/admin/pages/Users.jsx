@@ -197,7 +197,8 @@ const Users = () => {
                   setFormData({ ...formData, role: e.target.value })
                 }
               >
-                <option value={0}>کاربر عادی</option>
+                <option value={0}>لطفا انتخاب کنید</option>
+                <option value={1}>کاربر عادی</option>
                 <option value={300}>مدیر سیستم</option>
               </select>
             </div>

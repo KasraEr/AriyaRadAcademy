@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function ArticleCard({ data, id }) {
+export default function ArticleCard({ data, id }) {
+  const navigate = useNavigate();
+
   const imageUrl =
     data?.image && `https://ariyaradacademy.com/api/File/image/${data.image}`;
 
@@ -15,7 +17,7 @@ function ArticleCard({ data, id }) {
         className="w-full rounded-[10px]"
       />
 
-      <h3 className="text-[21px]">{data.name}</h3>
+      <p className="b1">{data.name}</p>
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
@@ -23,11 +25,12 @@ function ArticleCard({ data, id }) {
         </p>
       </div>
 
-      <button className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition">
-        <Link to="">خواندن مقاله</Link>
+      <button
+        onClick={() => navigate(`/articles/${data.name}`, { state: { id } })}
+        className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
+      >
+        خواندن مقاله
       </button>
     </div>
   );
 }
-
-export default ArticleCard;
