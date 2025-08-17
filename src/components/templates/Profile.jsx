@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 //utils
 import api from "../../utils/config";
 import { getToken } from "../../utils/tokenService";
+import { showToast } from "../../utils/toast";
 //jwt
 import { jwtDecode } from "jwt-decode";
 //icons
 import edit from "../../assets/icons/Edit.svg";
 import tick from "../../assets/icons/Tick.svg";
-//toastify
-import { ToastContainer, toast } from "react-toastify";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});
@@ -52,47 +51,14 @@ export default function Profile() {
     try {
       const response = await api.put("/api/User/Update", form);
       response?.status === 200 && setIsEditable(false);
-      toast.success("اطلاعات شما به روزرسانی شد", {
-        className: "b1",
-        bodyClassName: "b1",
-        position: "bottom-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("اطلاعات شما به روزرسانی شد");
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
-        toast.error("نشد که :( دوباره سعی کن", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("نشد که :( دوباره سعی کن", "error");
       } else {
         console.log(error.message);
-        toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("خطایی رخ داده است. لطفا دوباره تلاش کنید", "error");
       }
     }
   };
@@ -184,7 +150,6 @@ export default function Profile() {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </>
   );
 }

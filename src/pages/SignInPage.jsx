@@ -5,9 +5,8 @@ import useTitle from "../hooks/useTitle.js";
 import { useLocation } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
-import { setToken, getToken } from "../utils/tokenService.js";
-//toastify
-import { ToastContainer, toast } from "react-toastify";
+import { setToken } from "../utils/tokenService.js";
+import { showToast } from "../utils/toast.js";
 //jwt-decode
 import { jwtDecode } from "jwt-decode";
 
@@ -46,17 +45,7 @@ export default function SignInPage() {
         if (role.role === "Adminstrator") {
           window.location.href = "/admin";
         } else {
-          toast.success("ورود قهرمانانه شمارو تبریک میگیم", {
-            className: "b1",
-            bodyClassName: "b1",
-            position: "bottom-right",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            theme: "light",
-          });
+          showToast("ورود قهرمانانه شمارو تبریک میگیم");
           setTimeout(() => {
             window.location.href = "/dashboard";
           }, 1600);
@@ -65,34 +54,12 @@ export default function SignInPage() {
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
-        toast.error("کد صحیح نیست. دوباره تلاش کنید.", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("کد صحیح نیست. دوباره تلاش کنید", "error");
       } else {
         console.log(error.message);
         setShown(false);
         btn.current.innerText = "ورود";
-        toast.error("خطایی رخ داده است. لطفا دوباره تلاش کنید", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("خطایی رخ داده است. لطفا دوباره تلاش کنید", "error");
       }
     }
   };
@@ -152,7 +119,6 @@ export default function SignInPage() {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </>
   );
 }
