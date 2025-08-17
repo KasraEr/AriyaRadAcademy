@@ -40,7 +40,7 @@ export default function ArticlesPage() {
       ) : (
         <div className="grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
           {articles?.map((article) => (
-            <ArticleCard key={article.id} data={article} />
+            <ArticleCard data={article} key={article.id} id={article.id} />
           ))}
         </div>
       )}
