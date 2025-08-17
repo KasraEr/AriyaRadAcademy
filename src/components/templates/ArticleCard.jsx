@@ -1,12 +1,9 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 function ArticleCard({ data, id }) {
-  const imageUrl = useMemo(() => {
-    return (
-      data?.image && `https://ariyaradacademy.com/api/File/image/${data.image}`
-    );
-  }, [data?.image]);
+  const imageUrl =
+    data?.image && `https://ariyaradacademy.com/api/File/image/${data.image}`;
+
   return (
     <div
       key={id}
@@ -33,4 +30,4 @@ function ArticleCard({ data, id }) {
   );
 }
 
-export default memo(ArticleCard);
+export default ArticleCard;

@@ -11,7 +11,6 @@ export default function Media() {
   const [mediaType, setMediaType] = useState("image");
   const [file, setFile] = useState(null);
 
-  // گرفتن لیست
   const fetchMedia = async () => {
     setLoading(true);
     try {
@@ -30,29 +29,24 @@ export default function Media() {
     fetchMedia();
   }, [mediaType]);
 
-  // ساخت آدرس پیش‌نمایش امن و هوشمند
   const getMediaUrl = (type, filePath) => {
     const base = api?.defaults?.baseURL || "";
     if (!filePath) return "";
 
-    // اگر URL کامل است، مستقیم برگردان
     if (/^https?:\/\//i.test(filePath)) {
       return filePath;
     }
 
-    // اگر مسیر شامل uploads/... است، پوشه را حذف کن و فقط نام فایل را نگه دار
     const cleanName = filePath.replace(/^uploads\/(images|videos)\//, "");
 
     return `${base}/api/File/${type}/${encodeURIComponent(cleanName)}`;
   };
 
-  // گرفتن فقط نام فایل برای نمایش در ستون نام
   const getCleanFileName = (filePath) => {
     if (!filePath) return "";
     return filePath.replace(/^uploads\/(images|videos)\//, "");
   };
 
-  // آپلود فایل
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) return showToast("فایلی انتخاب نشده", "error");
@@ -76,7 +70,6 @@ export default function Media() {
     }
   };
 
-  // حذف فایل
   const handleDelete = async (fileName) => {
     if (!window.confirm("آیا از حذف این فایل مطمئن هستید؟")) return;
     try {

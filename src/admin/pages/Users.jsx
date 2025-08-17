@@ -77,7 +77,7 @@ const Users = () => {
   };
 
   const roleLabel = (role) => {
-    if (role === 0) return "کاربر عادی";
+    if (role === 1) return "کاربر عادی";
     if (role === 300) return "مدیر سیستم";
     return role;
   };
