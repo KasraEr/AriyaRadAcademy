@@ -1,14 +1,34 @@
-import { useEffect, useState,useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Modal from "../components/Modal";
 import Table from "../components/Table";
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
 // TipTap imports
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Underline from "@tiptap/extension-underline";
 import "prosemirror-view/style/prosemirror.css";
+
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
+
+import {
+  FaBold,
+  FaItalic,
+  FaUnderline,
+  FaHeading,
+  FaListUl,
+  FaListOl,
+  FaQuoteRight,
+  FaCode,
+  FaEraser,
+  FaLink,
+  FaUnlink,
+  FaAlignLeft,
+  FaAlignCenter,
+  FaAlignRight,
+  // FaAlignJustify,
+} from "react-icons/fa";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
@@ -286,13 +306,17 @@ function RichTextEditor({ value, onChange }) {
           target: "_blank",
         },
       }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+        alignments: ["left", "center", "right", "justify"],
+      }),
     ],
     []
   );
 
   const editor = useEditor({
     extensions,
-    content: value || '<pre class="b1"></pre>',
+    content: value || '<pre></pre>',
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -307,7 +331,7 @@ function RichTextEditor({ value, onChange }) {
 
   useEffect(() => {
     if (!editor) return;
-    const html = value || '<pre class="b1"></pre>';
+    const html = value || '<pre></pre>';
     if (html !== editor.getHTML()) {
       editor.commands.setContent(html, false);
     }
@@ -315,16 +339,16 @@ function RichTextEditor({ value, onChange }) {
 
   if (!editor) return null;
 
-  const Btn = ({ label, active, onClick, title }) => (
+  const Btn = ({ children, active, onClick, title }) => (
     <button
       type="button"
       title={title}
       onClick={onClick}
-      className={`px-2 py-1 border rounded ${
+      className={`px-2 py-1 border rounded flex items-center justify-center ${
         active ? "bg-gray-100 font-bold" : ""
       }`}
     >
-      {label}
+      {children}
     </button>
   );
 
@@ -332,83 +356,82 @@ function RichTextEditor({ value, onChange }) {
     <div>
       <div className="flex flex-wrap gap-2 mb-2">
         <Btn
-          label="B"
           title="Bold"
           active={editor.isActive("bold")}
           onClick={() => editor.chain().focus().toggleBold().run()}
-        />
+        >
+          <FaBold />
+        </Btn>
         <Btn
-          label="I"
           title="Italic"
           active={editor.isActive("italic")}
           onClick={() => editor.chain().focus().toggleItalic().run()}
-        />
+        >
+          <FaItalic />
+        </Btn>
         <Btn
-          label="U"
           title="Underline"
           active={editor.isActive("underline")}
           onClick={() => editor.chain().focus().toggleUnderline().run()}
-        />
+        >
+          <FaUnderline />
+        </Btn>
         <Btn
-          label="H1"
           title="Heading 1"
           active={editor.isActive("heading", { level: 1 })}
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
           }
-        />
+        >
+          <FaHeading /> 1
+        </Btn>
         <Btn
-          label="H2"
           title="Heading 2"
           active={editor.isActive("heading", { level: 2 })}
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
-        />
+        >
+          <FaHeading /> 2
+        </Btn>
         <Btn
-          label="• لیست"
           title="Bullet List"
           active={editor.isActive("bulletList")}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-        />
+        >
+          <FaListUl />
+        </Btn>
         <Btn
-          label="۱. لیست"
           title="Ordered List"
           active={editor.isActive("orderedList")}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        />
+        >
+          <FaListOl />
+        </Btn>
         <Btn
-          label="Quote"
           title="Blockquote"
           active={editor.isActive("blockquote")}
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        />
+        >
+          <FaQuoteRight />
+        </Btn>
         <Btn
-          label="Code"
           title="Code Block"
           active={editor.isActive("codeBlock")}
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        />
+        >
+          <FaCode />
+        </Btn>
         <Btn
-          label="⎌ پاک‌کردن"
-          title="Clear marks & nodes"
+          title="Clear"
           onClick={() =>
             editor.chain().focus().unsetAllMarks().clearNodes().run()
           }
-        />
+        >
+          <FaEraser />
+        </Btn>
         <Btn
-          label="↶ Undo"
-          title="Undo"
-          onClick={() => editor.chain().focus().undo().run()}
-        />
-        <Btn
-          label="↷ Redo"
-          title="Redo"
-          onClick={() => editor.chain().focus().redo().run()}
-        />
-        <Btn
-          label="🔗 لینک"
-          title="Set link"
+          title="Set Link"
           active={editor.isActive("link")}
           onClick={() => {
             const prev = editor.getAttributes("link")?.href || "";
@@ -420,12 +443,43 @@ function RichTextEditor({ value, onChange }) {
             }
             editor.chain().focus().setLink({ href: url }).run();
           }}
-        />
+        >
+          <FaLink />
+        </Btn>
         <Btn
-          label="❌ لینک"
-          title="Unset link"
+          title="Unset Link"
           onClick={() => editor.chain().focus().unsetLink().run()}
-        />
+        >
+          <FaUnlink />
+        </Btn>
+        <Btn
+          title="Align Left"
+          active={editor.isActive({ textAlign: "left" })}
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+        >
+          <FaAlignLeft />
+        </Btn>
+        <Btn
+          title="Align Center"
+          active={editor.isActive({ textAlign: "center" })}
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+        >
+          <FaAlignCenter />
+        </Btn>
+        <Btn
+          title="Align Right"
+          active={editor.isActive({ textAlign: "right" })}
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+        >
+          <FaAlignRight />
+        </Btn>
+        {/* <Btn
+          title="Justify"
+          active={editor.isActive({ textAlign: "justify" })}
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+        >
+          <FaAlignJustify />
+        </Btn> */}
       </div>
 
       <EditorContent editor={editor} />

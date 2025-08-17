@@ -16,15 +16,12 @@ export default function ArticleCard({ data, id }) {
         alt={data.name || ""}
         className="w-full rounded-[10px]"
       />
-
       <p className="b1">{data.name}</p>
-
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
           {data.author}
         </p>
       </div>
-
       <button
         onClick={() => navigate(`/articles/${data.name}`, { state: { id } })}
         className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
