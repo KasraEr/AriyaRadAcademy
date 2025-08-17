@@ -1,10 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState,useMemo } from "react";
 import Modal from "../components/Modal";
 import Table from "../components/Table";
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
-import { toPersianDigits } from "../../utils/toPersianDigits";
-
 // TipTap imports
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -24,6 +22,34 @@ export default function Articles() {
     image: "",
   });
 
+  const normalizeFileName = (input) => {
+    if (!input) return "";
+    let s = String(input).trim();
+    try {
+      const u = new URL(s, window.location.origin);
+      s = u.pathname || s;
+    } catch {}
+    s = s.replace(/^\/+/, "");
+    s = s
+      .replace(/^api\/File\/(image|video)\//, "")
+      .replace(/^uploads\/(images|videos)\//, "");
+    const last = s.split("/").pop() || "";
+    return last.split("?")[0].split("#")[0];
+  };
+
+  const buildImageUrl = (input) => {
+    const fileName = normalizeFileName(input);
+    if (!fileName) return "";
+    try {
+      return new URL(
+        `/api/File/image/${fileName}`,
+        api?.defaults?.baseURL || window.location.origin
+      ).toString();
+    } catch {
+      return `/api/File/image/${fileName}`;
+    }
+  };
+
   const fetchArticles = async () => {
     setLoading(true);
     try {
@@ -42,7 +68,11 @@ export default function Articles() {
 
   const handleOpenModal = (article = null) => {
     setEditingArticle(article);
-    setForm(article || { author: "", name: "", body: "", image: "" });
+    setForm(
+      article
+        ? { ...article, image: normalizeFileName(article.image) }
+        : { author: "", name: "", body: "", image: "" }
+    );
     setModalOpen(true);
   };
 
@@ -54,14 +84,18 @@ export default function Articles() {
 
   const handleSave = async () => {
     try {
+      const payload = {
+        ...form,
+        image: normalizeFileName(form.image),
+      };
       if (editingArticle) {
         await api.put("/api/Article/Update", {
           id: editingArticle.id,
-          ...form,
+          ...payload,
         });
         showToast("مقاله با موفقیت ویرایش شد");
       } else {
-        await api.post("/api/Article/Create", form);
+        await api.post("/api/Article/Create", payload);
         showToast("مقاله با موفقیت ایجاد شد");
       }
       handleCloseModal();
@@ -105,7 +139,7 @@ export default function Articles() {
       cell: (row) =>
         row.image ? (
           <img
-            src={row.image}
+            src={buildImageUrl(row.image)}
             alt="article"
             className="w-16 h-16 object-cover"
           />
@@ -143,10 +177,7 @@ export default function Articles() {
       {loading ? (
         <p>در حال بارگذاری...</p>
       ) : (
-        <Table
-          data={articles.map((a) => ({ ...a, id: toPersianDigits(a.id) }))}
-          columns={columns}
-        />
+        <Table data={articles} columns={columns} />
       )}
 
       {modalOpen && (
@@ -199,8 +230,18 @@ export default function Articles() {
                 type="text"
                 value={form.image}
                 onChange={(e) => setForm({ ...form, image: e.target.value })}
+                placeholder="مثال: 7b42c37c-....png"
                 className="b2 w-full p-2 border rounded-lg"
               />
+              {form.image && (
+                <div className="mt-2">
+                  <img
+                    src={buildImageUrl(form.image)}
+                    alt="preview"
+                    className="w-24 h-24 object-cover rounded border"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="flex justify-end gap-3">

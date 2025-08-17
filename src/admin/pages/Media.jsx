@@ -30,6 +30,28 @@ export default function Media() {
     fetchMedia();
   }, [mediaType]);
 
+  // ساخت آدرس پیش‌نمایش امن و هوشمند
+  const getMediaUrl = (type, filePath) => {
+    const base = api?.defaults?.baseURL || "";
+    if (!filePath) return "";
+
+    // اگر URL کامل است، مستقیم برگردان
+    if (/^https?:\/\//i.test(filePath)) {
+      return filePath;
+    }
+
+    // اگر مسیر شامل uploads/... است، پوشه را حذف کن و فقط نام فایل را نگه دار
+    const cleanName = filePath.replace(/^uploads\/(images|videos)\//, "");
+
+    return `${base}/api/File/${type}/${encodeURIComponent(cleanName)}`;
+  };
+
+  // گرفتن فقط نام فایل برای نمایش در ستون نام
+  const getCleanFileName = (filePath) => {
+    if (!filePath) return "";
+    return filePath.replace(/^uploads\/(images|videos)\//, "");
+  };
+
   // آپلود فایل
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -43,9 +65,8 @@ export default function Media() {
         mediaType === "image"
           ? "/api/File/upload-image"
           : "/api/File/upload-video";
-      await api.post(endpoint, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.post(endpoint, formData);
+
       showToast("فایل با موفقیت آپلود شد");
       setModalOpen(false);
       setFile(null);
@@ -75,23 +96,29 @@ export default function Media() {
       cell: (row) =>
         mediaType === "image" ? (
           <img
-            src={`/api/File/${mediaType}/${row}`}
+            src={getMediaUrl(mediaType, row)}
             alt="media"
             className="w-20 h-20 object-cover"
           />
         ) : (
           <video
-            src={`/api/File/${mediaType}/${row}`}
+            src={getMediaUrl(mediaType, row)}
             controls
             className="w-32 h-20"
           />
         ),
     },
-    { header: "نام فایل", cell: (row) => row },
+    {
+      header: "نام فایل",
+      cell: (row) => getCleanFileName(row),
+    },
     {
       header: "عملیات",
       cell: (row) => (
-        <button className="text-red-600" onClick={() => handleDelete(row)}>
+        <button
+          className="text-red-600"
+          onClick={() => handleDelete(getCleanFileName(row))}
+        >
           حذف
         </button>
       ),
@@ -111,10 +138,7 @@ export default function Media() {
             <option value="image">تصاویر</option>
             <option value="video">ویدئوها</option>
           </select>
-          <button
-            onClick={() => setModalOpen(true)}
-            className="active"
-          >
+          <button onClick={() => setModalOpen(true)} className="active">
             آپلود فایل
           </button>
         </div>
