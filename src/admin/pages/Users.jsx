@@ -48,7 +48,7 @@ const Users = () => {
     setFormData({
       phoneNumber: user.phoneNumber || "",
       emailAddress: user.emailAddress || "",
-      role: user.role ?? 0,
+      role: user.role ?? 1,
     });
   };
 
