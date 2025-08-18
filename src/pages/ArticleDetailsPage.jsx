@@ -38,7 +38,7 @@ export default function ArticleDetailsPage() {
           <img
             src={imageUrl}
             alt={article.name}
-            className="rounded-[15px] max-w-[650px]"
+            className="rounded-[15px] w-full max-w-[650px]"
           />
           <div
             className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
