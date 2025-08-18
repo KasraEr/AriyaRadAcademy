@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import artAuthor from "../../assets/icons/articleAuthor.svg";
 
 export default function ArticleCard({ data, id }) {
   const navigate = useNavigate();
@@ -9,16 +10,20 @@ export default function ArticleCard({ data, id }) {
   return (
     <div
       key={id}
-      className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]"
+      className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-3 ml:my-5 ml:min-h-[calc(470px+8%)]"
     >
       <img
         src={imageUrl}
         alt={data.name || ""}
         className="w-full rounded-[10px]"
       />
-      <p className="b1">{data.name}</p>
+      <p className="b1 text-center">{data.name}</p>
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
+        <p className="flex items-center justify-center gap-2 b3 text-text-500 pt-3">
+          <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
+            <img src={artAuthor} alt="" />
+            نویسنده :{" "}
+          </span>
           {data.author}
         </p>
       </div>
@@ -31,3 +36,7 @@ export default function ArticleCard({ data, id }) {
     </div>
   );
 }
+
+
+
+

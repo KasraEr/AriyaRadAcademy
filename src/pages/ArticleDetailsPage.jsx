@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import api from "../utils/config";
 // امنیت
 import DOMPurify from "dompurify";
+//
+import artAuthor from "../assets/icons/articleAuthor.svg";
 
 export default function ArticleDetailsPage() {
   const [article, setArticle] = useState({});
@@ -31,18 +33,29 @@ export default function ArticleDetailsPage() {
   return (
     <>
       <div className="w-full">
-        <div className="border border-text-500 rounded-4xl grid grid-cols-1 place-items-center gap-3 p-4">
+        <div className="grid grid-cols-1 place-items-center gap-8 p-3">
           <h3 className="text-primary-900 text-center">{article.name}</h3>
-          <img src={imageUrl} alt={article.name} className="rounded-[15px]" />
+          <img
+            src={imageUrl}
+            alt={article.name}
+            className="rounded-[15px] max-w-[650px]"
+          />
           <div
-            className="w-full text-justify prose prose-lg font-[ariyarad-medium]"
+            className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
             dir="rtl"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(article.body || ""),
             }}
           ></div>
-
-          <p className="subtitle3">نویسنده : {article.author}</p>
+          <div className="pt-3">
+            <p className="flex items-center justify-center gap-2 b3 text-text-500">
+              <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
+                <img src={artAuthor} alt="" />
+                نویسنده :{" "}
+              </span>
+              {article.author}
+            </p>
+          </div>
         </div>
       </div>
     </>

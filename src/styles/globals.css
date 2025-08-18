@@ -13,6 +13,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+code,
+pre {
+  direction: ltr;
+  text-align: left;
+}
+
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 /* document.documentElement.classList.toggle("dark") */
 
