@@ -1,27 +1,14 @@
-import { useState, useEffect } from "react";
-//C-hooks
+//context
+import { useArticles } from "../context/ArticleContext.jsx";
+//c-hooks
 import useTitle from "../hooks/useTitle.js";
 //r-r-d
 import { Link } from "react-router-dom";
-//utils
-import api from "../utils/config.js";
 //temps
 import ArticleCard from "../components/templates/ArticleCard.jsx";
 
 export default function ArticlesPage() {
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const { data } = await api.get("/api/Article/GetSelectList");
-        setArticles(data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-    fetchArticles();
-  }, []);
+  const articles = useArticles();
 
   useTitle("مقالات");
 

@@ -16,6 +16,7 @@ export default function ArticleCard({ data, id }) {
         src={imageUrl}
         alt={data.name || ""}
         className="w-full rounded-3xl"
+        loading="lazy"
       />
       <p className="b1 text-center h-[50px]">{data.name}</p>
       <div className="flex items-center justify-between w-full border-t border-text-500">
