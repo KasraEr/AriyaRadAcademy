@@ -19,7 +19,7 @@ export default function ArticleCard({ data, id }) {
         className="w-full rounded-3xl"
         loading="lazy"
       />
-      <p className="b1 text-center h-[50px]">{data.name}</p>
+      <p className="b1 text-start leading-7 h-[50px]">{data.name}</p>
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="flex items-center justify-center gap-2 b3 text-text-500 pt-3">
           <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">

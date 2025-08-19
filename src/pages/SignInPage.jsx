@@ -42,7 +42,7 @@ export default function SignInPage() {
         const token = response.data.token;
         setToken(token);
         const role = jwtDecode(token);
-        if (role.role === "Adminstrator") {
+        if (role.role === "Administrator") {
           window.location.href = "/admin";
         } else {
           showToast("ورود قهرمانانه شمارو تبریک میگیم");

@@ -1,14 +1,19 @@
 import { useEffect, useState, useMemo } from "react";
+//compinents
 import Modal from "../components/Modal";
 import Table from "../components/Table";
+//utils
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
+//tailwind-typo
 import "prosemirror-view/style/prosemirror.css";
+//tiptap
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
+//react-icons
 import {
   FaBold,
   FaItalic,

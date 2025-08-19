@@ -8,13 +8,16 @@ import logo2 from "/src/assets/images/bigNav-logo.png";
 import { Link, NavLink } from "react-router-dom";
 //utils
 import { getToken } from "../../utils/tokenService";
+import { isAdmin } from "../../utils/authGuard";
 
 export default function Header() {
   const [token, setToken] = useState(getToken());
+  const [admin, setAdmin] = useState(isAdmin());
 
   useEffect(() => {
     const handleStorageChange = () => {
       setToken(getToken());
+      setAdmin(isAdmin());
     };
 
     window.addEventListener("tokenChanged", handleStorageChange);
@@ -69,16 +72,17 @@ export default function Header() {
               </NavLink>
             </li>
           </ul>
+
           <Link
             className={`${
               token
                 ? "bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900"
                 : "bg-secondary-500 text-basic-100 hover:bg-secondary-100 hover:text-secondary-900"
             } hidden sm:inline b4 ml:b2 lg:b1 p-1 rounded-2xl transition xmd:justify-self-end xmd:p-2`}
-            to={token ? "/dashboard" : "/auth"}
+            to={token ? (admin ? "/admin" : "/dashboard") : "/auth"}
             aria-current="page"
           >
-            {token ? "داشبورد" : "ورود/عضویت"}
+            {token ? (admin ? "ادمین پنل" : "داشبورد") : "ورود/عضویت"}
           </Link>
         </nav>
       </header>

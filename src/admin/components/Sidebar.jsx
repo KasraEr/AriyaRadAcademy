@@ -33,6 +33,14 @@ export default function Sidebar() {
             </li>
             <li className="b1 text-primary-900">
               <NavLink
+                to="/admin/categories"
+                className="transition hover:text-secondary-900"
+              >
+                دسته بندی دوره‌ها
+              </NavLink>
+            </li>
+            <li className="b1 text-primary-900">
+              <NavLink
                 to="/admin/articles"
                 className="transition hover:text-secondary-900"
               >

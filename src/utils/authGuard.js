@@ -7,7 +7,7 @@ export const isAdmin = () => {
 
   try {
     const decoded = jwtDecode(token);
-    return decoded.role === "Adminstrator";
+    return decoded.role === "Administrator";
   } catch (err) {
     console.error("توکن نامعتبره:", err);
     return false;

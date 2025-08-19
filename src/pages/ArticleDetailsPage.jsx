@@ -1,3 +1,6 @@
+// react
+import { useEffect, useRef } from "react";
+
 // context
 import { useArticles } from "../context/ArticleContext";
 // r-r-d
@@ -18,12 +21,112 @@ export default function ArticleDetailsPage() {
   const { getImageUrl } = useImageCache();
   const imageUrl = article?.image && getImageUrl(article.image);
 
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    const root = contentRef.current;
+    if (!root || !article?.body) return;
+
+    const bindCopyButtons = () => {
+      const blocks = Array.from(root.querySelectorAll("pre"));
+      blocks.forEach((pre) => {
+        if (pre.dataset.copyBound === "1") return;
+        pre.dataset.copyBound = "1";
+
+        pre.classList.add("relative", "overflow-x-auto");
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "کپی";
+        btn.setAttribute("data-copy-btn", "1");
+        btn.className = [
+          "absolute",
+          "top-2",
+          "right-2",
+          "z-10",
+          "px-2",
+          "py-1",
+          "rounded-md",
+          "bg-gray-800/80",
+          "text-white",
+          "text-xs",
+          "hover:bg-gray-700",
+          "transition",
+        ].join(" ");
+
+        pre.appendChild(btn);
+        pre.setAttribute("dir", "ltr");
+        pre.style.textAlign = "left";
+      });
+    };
+
+    const onClick = async (e) => {
+      const btn = e.target.closest('button[data-copy-btn="1"]');
+      if (!btn || !root.contains(btn)) return;
+
+      const pre = btn.closest("pre");
+      if (!pre) return;
+
+      const codeEl = pre.querySelector("code");
+      const raw = (codeEl ? codeEl.innerText : pre.innerText) || "";
+      const text = raw.replace(/\u00A0/g, " ");
+
+      const flash = (label, cls) => {
+        const prev = btn.textContent;
+        btn.textContent = label;
+        if (cls) btn.classList.add(cls);
+        setTimeout(() => {
+          btn.textContent = prev;
+          if (cls) btn.classList.remove(cls);
+        }, 1200);
+      };
+
+      try {
+        await navigator.clipboard.writeText(text);
+        flash("کپی شد", "bg-green-600");
+      } catch {
+        flash("ناموفق", "bg-red-600");
+      }
+    };
+
+    let scheduled = false;
+    const scheduleBind = () => {
+      if (scheduled) return;
+      scheduled = true;
+      setTimeout(() => {
+        scheduled = false;
+        bindCopyButtons();
+      }, 0);
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (
+          m.type === "childList" &&
+          (m.addedNodes.length || m.removedNodes.length)
+        ) {
+          scheduleBind();
+          break;
+        }
+      }
+    });
+
+    bindCopyButtons();
+    root.addEventListener("click", onClick);
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      root.removeEventListener("click", onClick);
+    };
+  }, [article?.body]);
+
   if (!article) {
     return (
       <div className="w-full p-6 animate-pulse">
         <div className="h-6 w-1/3 bg-gray-300 rounded mx-auto mb-6"></div>
-        <div className="w-full max-w-[650px] h-80 bg-gray-300 rounded-2xl mx-auto mb-6"></div>
-        <div className="space-y-3 max-w-[650px] mx-auto">
+        <div className="w-full max-w-[700px] h-80 bg-gray-300 rounded-2xl mx-auto mb-6"></div>
+        <div className="space-y-3 max-w-[700px] mx-auto">
           <div className="h-4 bg-gray-300 rounded"></div>
           <div className="h-4 bg-gray-300 rounded w-5/6"></div>
           <div className="h-4 bg-gray-300 rounded w-4/6"></div>
@@ -34,23 +137,25 @@ export default function ArticleDetailsPage() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 place-items-center gap-8 p-3">
+      <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
         <h3 className="text-primary-900 text-center">{article?.name}</h3>
 
         <img
           src={imageUrl}
           alt={article?.name || "تصویر مقاله"}
-          className="rounded-2xl w-full max-w-[650px]"
+          className="rounded-2xl w-full max-w-[700px]"
           loading="lazy"
         />
 
         <div
-          className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
+          key={article?.id || id}
+          ref={contentRef}
+          className="w-full max-w-[700px] text-justify prose prose-lg font-[ariyarad-medium]"
           dir="rtl"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(article?.body || ""),
           }}
-        ></div>
+        />
 
         <div className="pt-3">
           <p className="flex items-center justify-center gap-2 b3 text-text-500">
