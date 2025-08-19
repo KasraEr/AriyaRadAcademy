@@ -5,6 +5,7 @@ import ScrollToTop from "./utils/ScrollToTop.js";
 import PersianWrapper from "./components/templates/PersianWrapper.jsx";
 import { CourseProvider } from "./context/CourseContext.jsx";
 import { ArticleProvider } from "./context/ArticleContext.jsx";
+import { ImageCacheProvider } from "./context/ImageCasheContext.jsx";
 import "keen-slider/keen-slider.min.css";
 import "leaflet/dist/leaflet.css";
 import "prosemirror-view/style/prosemirror.css";
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
     <PersianWrapper>
       <CourseProvider>
         <ArticleProvider>
-          <App />
+          <ImageCacheProvider>
+            <App />
+          </ImageCacheProvider>
         </ArticleProvider>
       </CourseProvider>
     </PersianWrapper>

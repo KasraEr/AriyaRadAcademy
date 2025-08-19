@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import DOMPurify from "dompurify";
 // icons
 import artAuthor from "../assets/icons/articleAuthor.svg";
+import { useImageCache } from "../context/ImageCasheContext";
 
 export default function ArticleDetailsPage() {
   const location = useLocation();
@@ -14,9 +15,8 @@ export default function ArticleDetailsPage() {
   const articles = useArticles();
   const article = articles?.find((item) => item.id === id);
 
-  const imageUrl =
-    article?.image &&
-    `https://ariyaradacademy.com/api/File/image/${article.image}`;
+  const { getImageUrl } = useImageCache();
+  const imageUrl = article?.image && getImageUrl(article.image);
 
   if (!article) {
     return (

@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import artAuthor from "../../assets/icons/articleAuthor.svg";
+import { useImageCache } from "../../context/ImageCasheContext";
 
 export default function ArticleCard({ data, id }) {
   const navigate = useNavigate();
 
-  const imageUrl =
-    data?.image && `https://ariyaradacademy.com/api/File/image/${data.image}`;
+  const { getImageUrl } = useImageCache();
+  const imageUrl = data?.image && getImageUrl(data.image);
 
   return (
     <div
