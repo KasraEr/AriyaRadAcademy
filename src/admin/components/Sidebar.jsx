@@ -55,6 +55,14 @@ export default function Sidebar() {
                 مدیا
               </NavLink>
             </li>
+            <li className="b1 text-primary-900">
+              <NavLink
+                to="/admin/teachers"
+                className="transition hover:text-secondary-900"
+              >
+                هم‌یاران
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </aside>
