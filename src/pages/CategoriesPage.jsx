@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import useTitle from "../hooks/useTitle.js";
 //context
 import { useImageCache } from "../context/ImageCasheContext.jsx";
+//icons
+import category from "../assets/icons/category.png";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -28,20 +30,31 @@ export default function CategoriesPage() {
   useTitle("دسته بندی دوره ها");
 
   if (!ready) {
-    return <div>در حال بارگذاری تصاویر...</div>;
+    return <div className="b1">در حال بارگذاری تصاویر...</div>;
   }
 
   return (
-    <div className="grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
-      {categories.length > 0 ? (
-        categories.map((category) => (
-          <Link to={category.name} key={category.id}>
-            <img src={getImageUrl(category.coverImage)} alt={category.name} />
-          </Link>
-        ))
-      ) : (
-        <p>هیچ دسته‌بندی‌ای یافت نشد</p>
-      )}
+    <div className="flex flex-col gap-6">
+      <h2 className="text-primary-500 flex items-center gap-2">
+        <img src={category} alt="" />
+        دسته بندی دوره ها
+      </h2>
+      <div className="w-full grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
+        {categories?.length > 0 ? (
+          categories
+            ?.filter((item) => item.inActive === false)
+            .map((category) => (
+              <Link to={category.name} key={category.id}>
+                <img
+                  src={getImageUrl(category.coverImage)}
+                  alt={category.name}
+                />
+              </Link>
+            ))
+        ) : (
+          <p className="b1">هیچ دسته‌بندی‌ای یافت نشد</p>
+        )}
+      </div>
     </div>
   );
 }

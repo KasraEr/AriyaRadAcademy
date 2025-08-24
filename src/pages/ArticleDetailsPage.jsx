@@ -143,14 +143,14 @@ export default function ArticleDetailsPage() {
         <img
           src={imageUrl}
           alt={article?.name || "تصویر مقاله"}
-          className="rounded-2xl w-full max-w-[700px]"
+          className="rounded-2xl w-full max-w-[650px]"
           loading="lazy"
         />
 
         <div
           key={article?.id || id}
           ref={contentRef}
-          className="w-full max-w-[700px] text-justify prose prose-lg font-[ariyarad-medium]"
+          className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
           dir="rtl"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(article?.body || ""),
