@@ -9,7 +9,7 @@ export default function Layout() {
     <>
       <div className="max-w-[1400px] mx-auto">
         <Header />
-        <main className="w-full p-5 lg:p-6 min-h-full mb-7">
+        <main className="w-full p-5 lg:p-6 min-h-svh mb-7">
           <Outlet />
         </main>
       </div>

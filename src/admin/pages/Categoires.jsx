@@ -124,6 +124,7 @@ export default function Categories() {
 
   const columns = [
     { header: "نام دسته‌بندی", cell: (row) => row.name },
+    { header: "آیدی", cell: (row) => row.id },
     { header: "غیرفعال", cell: (row) => (row.inActive ? "بله" : "خیر") },
     {
       header: "تصویر",

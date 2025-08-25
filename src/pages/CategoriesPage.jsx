@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 //utils
 import api from "../utils/config.js";
 //react-router-dom
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //context
@@ -14,6 +14,8 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
 
   const { getImageUrl, ready } = useImageCache();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -44,12 +46,15 @@ export default function CategoriesPage() {
           categories
             ?.filter((item) => item.inActive === false)
             .map((category) => (
-              <Link to={category.name} key={category.id}>
-                <img
-                  src={getImageUrl(category.coverImage)}
-                  alt={category.name}
-                />
-              </Link>
+              <img
+                className="cursor-pointer"
+                src={getImageUrl(category.coverImage)}
+                alt={category.name}
+                key={category.id}
+                onClick={() =>
+                  navigate(`${category.name}`, { state: { id: category.id } })
+                }
+              />
             ))
         ) : (
           <p className="b1">هیچ دسته‌بندی‌ای یافت نشد</p>
