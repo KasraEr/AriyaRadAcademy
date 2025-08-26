@@ -19,30 +19,3 @@ export const getPersianDate = () => {
     jDate.jd
   ).padStart(2, "0")}`;
 };
-
-// import dayjs from "dayjs";
-// import jalaliday from "jalaliday";
-
-// dayjs.extend(jalaliday);
-
-// export const getPersianDate = () => {
-//   return dayjs().calendar("jalali").locale("fa-IR").format("dddd YYYY/MM/DD");
-// };
-//////////////////////////////////////////////////////////////////////////
-// import dayjs from "dayjs";
-// import jalaliday from "jalaliday";
-// import utc from "dayjs/plugin/utc";
-// import timezone from "dayjs/plugin/timezone";
-
-// dayjs.extend(jalaliday);
-// dayjs.extend(utc);
-// dayjs.extend(timezone);
-
-// export const getPersianDates = () => {
-//   return dayjs()
-//     .tz("Asia/Tehran")
-//     .calendar("jalali")
-//     .locale("fa-IR")
-//     .format("dddd YYYY/MM/DD");
-// };
-///////////////////////////////////////////////////////////////////////////

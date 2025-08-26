@@ -62,7 +62,7 @@ export default function SelectedCategoryPage() {
       }
     >
       {filteredCategory?.map((course) => (
-        <Card key={course.id} data={course} />
+        <Card key={course.id} courseData={course} />
       ))}
     </div>
   );

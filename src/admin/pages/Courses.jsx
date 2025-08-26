@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-//admin components
+// admin components
 import Table from "../components/Table";
 import Modal from "../components/Modal";
-//temps
+// temps
 import PersianDatePicker from "../../components/templates/PersianDatePicker";
-//utils
+// utils
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
 import { formatJalali } from "../../utils/formatJalali";
@@ -21,7 +21,8 @@ export default function Courses() {
     coverImage: "",
     coverVideo: "",
     headings: "",
-    techerId: 0,
+    prerequisite: "", // پیش‌نیاز
+    techerId: 0, // عمداً همین نگارش
     categoryId: 0,
     difficulty: "",
   });
@@ -52,7 +53,8 @@ export default function Courses() {
   };
 
   const openEditModal = (course) => {
-    setNewCourse(course);
+    // برای سازگاری با فیلد جدید، مقادیر پیش‌فرض رو هم اعمال می‌کنیم
+    setNewCourse({ ...initialCourse(), ...course });
     setEditMode(true);
     setModalOpen(true);
   };
@@ -108,6 +110,7 @@ export default function Courses() {
       cell: (row) => toPersianDigits(row.priceInTomans),
     },
     { header: "تاریخ برگزاری", cell: (row) => formatJalali(row.timeOfHolding) },
+    { header: "پیش‌نیاز", accessor: "prerequisite" }, // ستون جدید
     {
       header: "عملیات",
       cell: (row) => (
@@ -251,6 +254,19 @@ export default function Courses() {
             </div>
 
             <div>
+              <label className="block mb-1 b2">پیش‌نیاز</label>
+              <input
+                type="text"
+                value={newCourse.prerequisite}
+                onChange={(e) =>
+                  setNewCourse({ ...newCourse, prerequisite: e.target.value })
+                }
+                className="b2 w-full p-2 border rounded-lg"
+                placeholder="مثلاً: HTML & CSS مقدماتی"
+              />
+            </div>
+
+            <div>
               <label className="block mb-1 b2">شناسه مدرس</label>
               <input
                 type="number"
@@ -311,4 +327,3 @@ export default function Courses() {
     </div>
   );
 }
-``;

@@ -92,10 +92,6 @@ export default function Teachers() {
   };
 
   const columns = [
-    { header: "نام", cell: (row) => row.fullName },
-    { header: "آیدی", cell: (row) => row.id },
-    { header: "مهارت", cell: (row) => row.skill },
-    { header: "توضیحات", cell: (row) => row.descirption },
     {
       header: "تصویر",
       accessor: "image",
@@ -110,6 +106,10 @@ export default function Teachers() {
           "-"
         ),
     },
+    { header: "نام", cell: (row) => row.fullName },
+    { header: "آیدی", cell: (row) => row.id },
+    { header: "مهارت", cell: (row) => row.skill },
+    { header: "توضیحات", cell: (row) => row.descirption },
     {
       header: "عملیات",
       cell: (row) => (

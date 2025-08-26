@@ -18,7 +18,6 @@ const months = [
 ];
 
 /**
- * تاریخ ISO یا Date رو به فرمت جلالی با اعداد فارسی تبدیل می‌کنه
  * @param {string|Date} isoString
  * @returns {string}
  */

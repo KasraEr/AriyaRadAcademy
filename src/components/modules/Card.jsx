@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 //icons
 import teacherIcon from "/src/assets/icons/teacher-icon.svg";
 import durationIcon from "/src/assets/icons/duration-icon.svg";
@@ -5,21 +6,50 @@ import tosIcon from "/src/assets/icons/tos-icon.svg";
 import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
 //react-router-dom
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+//utils
+import { formatJalali } from "../../utils/formatJalali";
+import api from "../../utils/config";
+//context
+import { useImageCache } from "../../context/ImageCasheContext";
 
-export default function Card({ data }) {
-  console.log(data)
+export default function Card({ courseData }) {
+  const [teacher, setTeacher] = useState({});
+
+  useEffect(() => {
+    const getTeacherData = async () => {
+      try {
+        const { data } = await api.get(
+          `/api/Teacher/GetById?Id=${courseData.teacherId}`
+        );
+        setTeacher(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    getTeacherData();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const { getImageUrl } = useImageCache();
+  const imageUrl = courseData?.coverImage && getImageUrl(courseData.coverImage);
+
   return (
     <div className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]">
-      <img src={data.coverImage} alt="" className="w-full" />
-      <h3 className="text-[21px]">{data.title}</h3>
+      <img
+        src={imageUrl}
+        alt={courseData.title}
+        className="w-full rounded-[8px]"
+      />
+      <h3 className="text-[21px]">{courseData.title}</h3>
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
           <img src={teacherIcon} alt="" />
           هم‌یار
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {data.teacher}
+          {teacher.fullName}
         </p>
       </div>
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -28,7 +58,7 @@ export default function Card({ data }) {
           مدت زمان
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {data.durationInHours} ساعت
+          {courseData.durationInHours} ساعت
         </p>
       </div>
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -37,7 +67,7 @@ export default function Card({ data }) {
           زمان برگزاری
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {data.tos.month} {data.tos.year}
+          {formatJalali(courseData.timeOfHolding)}
         </p>
       </div>
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -46,7 +76,7 @@ export default function Card({ data }) {
           مهلت ثبت‌نام
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {data.signUp.d} {data.signUp.m} {data.signUp.y}
+          {formatJalali(courseData.registrationDeadline)}
         </p>
       </div>
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -55,13 +85,18 @@ export default function Card({ data }) {
           مبلغ
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {data.priceInTomans.toLocaleString()} تومان
+          {courseData.priceInTomans.toLocaleString("fa-IR")} تومان
         </p>
       </div>
-      <button className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition">
-        <Link to={`/categories/${data.category}/${data.title}`}>
-          مشاهده اطلاعات
-        </Link>
+      <button
+        onClick={() => {
+          navigate(`/categories/${courseData.category}/${courseData.title}`, {
+            state: { teacher, courseData },
+          });
+        }}
+        className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
+      >
+        مشاهده اطلاعات
       </button>
     </div>
   );

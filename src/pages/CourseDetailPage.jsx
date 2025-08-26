@@ -1,7 +1,5 @@
-//react-router-dom
-import { useParams } from "react-router-dom";
-//data
-import courses from "/src/utils/courses.js";
+//r-r-d
+import { useLocation } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //icons
@@ -11,50 +9,60 @@ import tosIcon from "/src/assets/icons/tos-icon.svg";
 import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/src/assets/images/play.svg";
+//context
+import { useImageCache } from "../context/ImageCasheContext.jsx";
+//utils
+import { formatJalali } from "../utils/formatJalali.js";
 
 export default function CourseDetailPage() {
-  useTitle("مشخصات دوره");
-  const { category, _title } = useParams();
-  const courseDetail = courses?.filter(
-    (course) => course.category === category && course.title === _title
-  );
+  const location = useLocation();
 
-  const [data] = courseDetail;
+  const teacher = location.state?.teacher;
+
+  const courseData = location.state?.courseData;
 
   const {
-    image,
-    teacherImage,
-    teacherCurrentJob,
-    teacherDesc,
     title,
-    teacher,
-    duration,
-    tos: { month, year },
-    signUp: { d, m, y },
-    price,
-    headline,
-  } = data;
+    durationInHours,
+    timeOfHolding,
+    registrationDeadline,
+    priceInTomans,
+    description,
+    coverImage,
+    coverVideo,
+    headings,
+    prerequisite,
+  } = courseData;
 
-  const text = headline.split(".");
+  const { fullName, skill, descirption } = teacher;
+
+  useTitle("مشخصات دوره");
+
+  const { getImageUrl } = useImageCache();
+  const courseImageUrl = coverImage && getImageUrl(coverImage);
+  const teacherImageUrl =
+    teacher?.coverImage && getImageUrl(teacher.coverImage);
+
+  const text = headings.split(".");
 
   return (
     <div className="w-full">
-      <div className="border border-text-500 rounded-4xl grid grid-cols-1 place-items-start gap-3 p-4">
+      <div className="border border-text-500 rounded-4xl grid grid-cols-1 place-items-start gap-6 p-4">
         <h2 className="text-primary-900 mx-auto">{title}</h2>
         <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4">
           <img
-            src={image}
-            className="w-full max-ml:mb-4 ml:order-last"
-            alt=""
+            src={courseImageUrl}
+            className="w-full max-ml:mb-4 ml:order-last rounded-2xl"
+            alt={title}
           />
-          <div className="flex flex-col items-center justify-evenly gap-6 overflow-hidden border border-text-500 rounded-4xl p-4">
+          <div className="flex flex-col items-center justify-evenly gap-9 overflow-hidden border border-text-500 rounded-4xl p-4">
             <div className="flex items-center justify-between w-full">
               <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
                 <img src={teacherIcon} alt="" />
                 هم‌یار
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {teacher}
+                {fullName}
               </p>
             </div>
             <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -63,7 +71,7 @@ export default function CourseDetailPage() {
                 مدت زمان
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {duration} ماه
+                {durationInHours} ساعت
               </p>
             </div>
             <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -72,7 +80,7 @@ export default function CourseDetailPage() {
                 زمان برگزاری
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {month} {year}
+                {formatJalali(timeOfHolding)}
               </p>
             </div>
             <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -81,7 +89,7 @@ export default function CourseDetailPage() {
                 مهلت ثبت‌نام
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {d} {m} {y}
+                {formatJalali(registrationDeadline)}
               </p>
             </div>
             <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -90,34 +98,21 @@ export default function CourseDetailPage() {
                 مبلغ
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {price.toLocaleString()} تومان
+                {priceInTomans.toLocaleString("fa-IR")} تومان
               </p>
             </div>
+            <button className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
+              شرکت در دوره
+            </button>
           </div>
-        </div>
-        <div className="bg-primary-500 flex flex-col items-center gap-6 w-full p-4 rounded-4xl">
-          <p className="subtitle1 text-text-100 text-center leading-13">
-            جهت دریافت اطلاعات کامل و ثبت نام در دوره با شماره‌ زیر تماس بگیرید.
-          </p>
-          <h3 className="text-text-100">۴۸۱۹ ۴۰۱ ۰۲۶۳</h3>
         </div>
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
-        <div className="w-full ml:grid ml:grid-cols-[1.2fr_1fr] ml:gap-4 mb-4">
-          <div className="w-full max-ml:mb-4 flex items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
-            <img src={play} className="cursor-pointer" alt="" />
+        <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4 mb-4">
+          <div className="w-full h-[400px] max-ml:mb-4 flex items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
+            <img src={play} className="cursor-pointer rounded-2xl" alt="" />
           </div>
-          <p className="b4 ml:b3 text-justify leading-9">
-            تجربه کاربری (Ux)، یعنی طراحی یه مسیر درست برای کاربر، جوری که
-            استفاده از یه محصول دیجیتال (مثل سایت یا اپلیکیشن) برامون راحت،
-            لذت‌بخش و بدون سردرگمی باشه. تو UX قراره بفهمیم کاربر چی می‌خواد،
-            چطور فکر می‌کنه و چطور می‌تونیم تجربه‌ای براش بسازیم که هم ساده
-            باشه، هم مفید. رابط کاربری (Ui) هم اون چیزیه که کاربر مستقیماً
-            می‌بینه و باهاش تعامل می‌کنه — مثل دکمه‌ها، رنگ‌ها، فونت‌ها،
-            فاصله‌ها، عکس‌ها، آیکون‌ها و طراحی ظاهری صفحات. به زبون ساده: UX
-            بیشتر با تحقیق، تحلیل، رفتار کاربر، مسیر استفاده، ساختار صفحات و
-            کاربردپذیری سروکار داره. UI با ظاهر و حس کلی کار درگیره؛ اینکه
-            همه‌چی چشم‌نواز، مرتب و قابل فهم باشه. تو یه طراحی خوب، UI و UX مثل
-            دو بال پروازن؛ اگه یکی‌شون درست کار نکنه، محصول نمی‌تونه بلند شه!
+          <p className="b4 ml:b3 text-justify leading-11 h-[400px]">
+            {description}
           </p>
         </div>
         <div className="flex flex-col items-start w-full gap-5 border-t border-text-500">
@@ -130,19 +125,35 @@ export default function CourseDetailPage() {
             ))}
           </ul>
         </div>
-        <div className="border-t border-text-500 flex flex-col items-start justify-center gap-4">
+        <div className="flex flex-col items-start w-full gap-5 border-t border-text-500">
+          <h3 className="text-primary-500 pt-5">پیش‌نیازهای دوره</h3>
+          <ul className="list-disc leading-9">
+            {prerequisite === "ندارد" ? (
+              <p className="b1 text-primary-900">
+                این دوره هیچ پیش‌نیازی ندارد
+              </p>
+            ) : (
+              prerequisite.split(".").map((item, index) => (
+                <li key={index} className="b3 xl:b2 mr-5.5">
+                  {item}
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+        <div className="border-t border-text-500 flex flex-col items-start justify-center gap-4 ml:gap-1">
           <h3 className="text-primary-500 pt-5 mb-4">معرفی هم‌یار</h3>
           <div className="ml:grid ml:grid-cols-[1.3fr_1fr] place-items-center">
             <img
-              src={teacherImage}
+              src={teacherImageUrl}
               className="mx-auto rounded-full size-50 border-2 border-primary-500 ml:order-last"
-              alt=""
+              alt="عکس هم‌یار"
             />
             <div className="flex flex-col items-start justify-center gap-5">
-              <h3 className="text-text-900">{teacher}</h3>
-              <p className="b3 xl:b2 text-primary-100">{teacherCurrentJob}</p>
+              <h3 className="text-text-900">{fullName}</h3>
+              <p className="b3 xl:b2 text-primary-100">{skill}</p>
               <p className="b3 xl:b2 text-text-900 text-justify leading-9">
-                {teacherDesc}
+                {descirption}
               </p>
             </div>
           </div>
