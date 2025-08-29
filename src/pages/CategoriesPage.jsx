@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 //utils
 import api from "../utils/config.js";
 //react-router-dom
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //context
@@ -45,6 +45,8 @@ export default function CategoriesPage() {
         {categories?.length > 0 ? (
           categories
             ?.filter((item) => item.inActive === false)
+            .slice()
+            .reverse()
             .map((category) => (
               <img
                 className="cursor-pointer"
@@ -52,7 +54,11 @@ export default function CategoriesPage() {
                 alt={category.name}
                 key={category.id}
                 onClick={() =>
-                  navigate(`${category.name}`, { state: { id: category.id } })
+                  navigate(
+                    `/categories/${category.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`
+                  )
                 }
               />
             ))
