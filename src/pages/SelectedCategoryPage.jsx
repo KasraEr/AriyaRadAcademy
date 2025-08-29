@@ -56,7 +56,7 @@ export default function SelectedCategoryPage() {
   if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!filteredCategory.length)
-    return <p className="text-center mt-10">هیچ دوره‌ای یافت نشد</p>;
+    return <p className="b2 text-center mt-10">هیچ دوره‌ای یافت نشد</p>;
 
   return (
     <div
