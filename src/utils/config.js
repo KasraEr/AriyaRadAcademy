@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken, removeToken } from "./tokenService";
 
 const api = axios.create({
-  baseURL: "https://ariyaradacademy.com",
+  baseURL: "https://api.ariyaradacademy.com",
 });
 
 api.interceptors.request.use(
