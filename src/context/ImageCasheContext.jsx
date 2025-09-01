@@ -4,6 +4,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
 } from "react";
 import api from "../utils/config";
 
@@ -12,39 +13,41 @@ const ImageCacheContext = createContext(null);
 export function ImageCacheProvider({ children }) {
   const [cache, setCache] = useState(new Map());
   const [ready, setReady] = useState(false);
+  const cancelRef = useRef(false);
 
-  const baseURL = "https://api.ariyaradacademy.com/";
+  const buildUrl = useCallback((fileName) => {
+    return `${api.defaults.baseURL}/api/File/image/${fileName}`;
+  }, []);
 
-  const buildUrl = (path) => {
-    const fileName = path.split("/").pop();
-    return `https://api.ariyaradacademy.com/api/File/image/${fileName}`;
-  };
-
-  const preloadImage = (url) =>
-    new Promise((resolve) => {
+  const preloadImage = useCallback((url) => {
+    return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => resolve(url);
       img.onerror = () => resolve(url);
       img.src = url;
     });
+  }, []);
 
   useEffect(() => {
-    let cancelled = false;
+    cancelRef.current = false;
 
     const fetchAndPreload = async () => {
       try {
         const { data } = await api.get("/api/File/all-images");
 
-        const urls = data.map((path) => buildUrl(path));
+        if (!Array.isArray(data)) throw new Error("Invalid image list");
 
-        await Promise.all(urls.map((u) => preloadImage(u)));
+        const fileNames = data.map((path) => path.split("/").pop());
+        const urls = fileNames.map(buildUrl);
 
-        if (!cancelled) {
-          const map = new Map();
-          data.forEach((path) => {
-            map.set(path.split("/").pop(), buildUrl(path));
+        await Promise.all(urls.map(preloadImage));
+
+        if (!cancelRef.current) {
+          const newCache = new Map();
+          fileNames.forEach((name) => {
+            newCache.set(name, buildUrl(name));
           });
-          setCache(map);
+          setCache(newCache);
           setReady(true);
         }
       } catch (err) {
@@ -56,15 +59,13 @@ export function ImageCacheProvider({ children }) {
     fetchAndPreload();
 
     return () => {
-      cancelled = true;
+      cancelRef.current = true;
     };
-  }, []);
+  }, [buildUrl, preloadImage]);
 
   const getImageUrl = useCallback(
-    (fileName) => {
-      return cache.get(fileName) || `${baseURL}api/File/image/${fileName}`;
-    },
-    [cache]
+    (fileName) => cache.get(fileName) || buildUrl(fileName),
+    [cache, buildUrl]
   );
 
   return (
@@ -76,7 +77,8 @@ export function ImageCacheProvider({ children }) {
 
 export const useImageCache = () => {
   const ctx = useContext(ImageCacheContext);
-  if (!ctx)
+  if (!ctx) {
     throw new Error("useImageCache must be used within ImageCacheProvider");
+  }
   return ctx;
 };
