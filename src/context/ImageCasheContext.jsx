@@ -13,11 +13,11 @@ export function ImageCacheProvider({ children }) {
   const [cache, setCache] = useState(new Map());
   const [ready, setReady] = useState(false);
 
-  const baseURL = "https://ariyaradacademy.com/";
+  const baseURL = "https://api.ariyaradacademy.com/";
 
   const buildUrl = (path) => {
     const fileName = path.split("/").pop();
-    return `https://ariyaradacademy.com/api/File/image/${fileName}`;
+    return `https://api.ariyaradacademy.com/api/File/image/${fileName}`;
   };
 
   const preloadImage = (url) =>
