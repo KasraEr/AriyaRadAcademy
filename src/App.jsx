@@ -70,7 +70,7 @@ export default function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
           <Route path="/articles" element={<ArticlesPage />} />
-          <Route path="/articles/:id" element={<ArticleDetailsPage />} />
+          <Route path="/articles/:name" element={<ArticleDetailsPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/auth/sign-up" element={<SignUpPage />} />
           <Route path="/auth/sign-in" element={<SignInPage />} />
