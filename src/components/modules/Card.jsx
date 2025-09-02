@@ -17,6 +17,16 @@ export default function Card({ courseData }) {
   const [teacher, setTeacher] = useState({});
   const [getCat, setGetCat] = useState({});
 
+  const slugify = (text) => {
+    return text
+      ?.toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\u0600-\u06FF\w\-]+/g, "")
+      .replace(/\-\-+/g, "-");
+  };
+
   useEffect(() => {
     const getTeacherData = async () => {
       try {
@@ -28,6 +38,7 @@ export default function Card({ courseData }) {
         console.error(error.message);
       }
     };
+
     const getCatData = async () => {
       try {
         const { data } = await api.get(
@@ -38,12 +49,12 @@ export default function Card({ courseData }) {
         console.error(error.message);
       }
     };
+
     getTeacherData();
     getCatData();
-  }, []);
+  }, [courseData.teacherId, courseData.categoryId]);
 
   const navigate = useNavigate();
-
   const { getImageUrl } = useImageCache();
   const imageUrl = courseData?.coverImage && getImageUrl(courseData.coverImage);
 
@@ -55,56 +66,58 @@ export default function Card({ courseData }) {
         className="w-full rounded-[8px]"
       />
       <h3 className="text-[21px]">{courseData.title}</h3>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
-          <img src={teacherIcon} alt="" />
-          هم‌یار
+        <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+          <img src={teacherIcon} alt="" /> هم‌یار
         </p>
-        <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
+        <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {teacher.fullName}
         </p>
       </div>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
-          <img src={durationIcon} alt="" />
-          مدت زمان
+        <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+          <img src={durationIcon} alt="" /> مدت زمان
         </p>
-        <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
+        <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {courseData.durationInHours.toLocaleString("fa-IR")} ساعت
         </p>
       </div>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
-          <img src={tosIcon} alt="" />
-          زمان برگزاری
+        <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+          <img src={tosIcon} alt="" /> زمان برگزاری
         </p>
-        <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
+        <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {formatJalali(courseData.timeOfHolding)}
         </p>
       </div>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
-          <img src={signUpIcon} alt="" />
-          مهلت ثبت‌نام
+        <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+          <img src={signUpIcon} alt="" /> مهلت ثبت‌نام
         </p>
-        <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
+        <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {formatJalali(courseData.registrationDeadline)}
         </p>
       </div>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
-        <p className="b3 text-primary-500 flex items-center justify-center gap-1 pt-4">
-          <img src={moneyIcon} alt="" />
-          مبلغ
+        <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+          <img src={moneyIcon} alt="" /> مبلغ
         </p>
-        <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
+        <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {courseData.priceInTomans.toLocaleString("fa-IR")} تومان
         </p>
       </div>
+
       <button
         onClick={() => {
-          navigate(`/categories/${getCat?.name}/${courseData.title}`, {
-            state: { teacher, courseData },
-          });
+          navigate(
+            `/categories/${slugify(getCat?.name)}/${slugify(courseData.title)}`,
+            { state: { teacher, courseData } }
+          );
         }}
         className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
       >
