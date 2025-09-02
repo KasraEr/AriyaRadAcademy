@@ -3,7 +3,7 @@ import { useKeenSlider } from "keen-slider/react";
 //modules
 import Card from "./Card";
 
-export default function CourseSlider({ data }) {
+export default function CourseSlider({ courseData }) {
   const [sliderRef] = useKeenSlider(
     {
       loop: true,
@@ -61,12 +61,12 @@ export default function CourseSlider({ data }) {
   return (
     <>
       <div ref={sliderRef} className="keen-slider">
-        {data?.map((course) => (
+        {courseData?.map((course) => (
           <div
             key={course.id}
             className={`keen-slider__slide number-slide${course.id}`}
           >
-            <Card data={course} />
+            <Card courseData={course} />
           </div>
         ))}
       </div>

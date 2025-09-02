@@ -21,8 +21,8 @@ export default function Courses() {
     coverImage: "",
     coverVideo: "",
     headings: "",
-    prerequisite: "", // پیش‌نیاز
-    techerId: 0, // عمداً همین نگارش
+    prerequisite: "", 
+    techerId: 0, 
     categoryId: 0,
     difficulty: "",
   });
@@ -53,7 +53,6 @@ export default function Courses() {
   };
 
   const openEditModal = (course) => {
-    // برای سازگاری با فیلد جدید، مقادیر پیش‌فرض رو هم اعمال می‌کنیم
     setNewCourse({ ...initialCourse(), ...course });
     setEditMode(true);
     setModalOpen(true);
@@ -110,7 +109,7 @@ export default function Courses() {
       cell: (row) => toPersianDigits(row.priceInTomans),
     },
     { header: "تاریخ برگزاری", cell: (row) => formatJalali(row.timeOfHolding) },
-    { header: "پیش‌نیاز", accessor: "prerequisite" }, // ستون جدید
+    { header: "پیش‌نیاز", accessor: "prerequisite" }, 
     {
       header: "عملیات",
       cell: (row) => (
@@ -302,6 +301,7 @@ export default function Courses() {
                 <option value="">انتخاب سطح سختی</option>
                 <option value="introductory">مبتدی</option>
                 <option value="advanced">پیشرفته</option>
+                <option value="bootcamps">بوت‌کمپ</option>
               </select>
             </div>
 
