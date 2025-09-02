@@ -71,7 +71,7 @@ export default function CourseDetailPage() {
                 مدت زمان
               </p>
               <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-                {durationInHours} ساعت
+                {durationInHours.toLocaleString("fa-IR")} ساعت
               </p>
             </div>
             <div className="flex items-center justify-between w-full border-t border-text-500">

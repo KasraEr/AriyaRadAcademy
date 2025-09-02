@@ -15,6 +15,7 @@ import { useImageCache } from "../../context/ImageCasheContext";
 
 export default function Card({ courseData }) {
   const [teacher, setTeacher] = useState({});
+  const [getCat, setGetCat] = useState({});
 
   useEffect(() => {
     const getTeacherData = async () => {
@@ -27,7 +28,18 @@ export default function Card({ courseData }) {
         console.error(error.message);
       }
     };
+    const getCatData = async () => {
+      try {
+        const { data } = await api.get(
+          `/api/Category/GetById?Id=${courseData.categoryId}`
+        );
+        setGetCat(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
     getTeacherData();
+    getCatData();
   }, []);
 
   const navigate = useNavigate();
@@ -58,7 +70,7 @@ export default function Card({ courseData }) {
           مدت زمان
         </p>
         <p className="subtitle2 text-primary-900 flex items-center justify-center gap-1 pt-4">
-          {courseData.durationInHours} ساعت
+          {courseData.durationInHours.toLocaleString("fa-IR")} ساعت
         </p>
       </div>
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -90,7 +102,7 @@ export default function Card({ courseData }) {
       </div>
       <button
         onClick={() => {
-          navigate(`/categories/${courseData.category}/${courseData.title}`, {
+          navigate(`/categories/${getCat?.name}/${courseData.title}`, {
             state: { teacher, courseData },
           });
         }}

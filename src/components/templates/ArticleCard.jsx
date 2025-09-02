@@ -33,9 +33,7 @@ export default function ArticleCard({ data, id }) {
         </p>
       </div>
       <button
-        onClick={() =>
-          navigate(`/articles/${data.id}`, { state: { id } })
-        }
+        onClick={() => navigate(`/articles/${data.id}`, { state: { id } })}
         className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
       >
         خواندن مقاله

@@ -55,7 +55,7 @@ export default function SelectedCategoryPage() {
 
   if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
-  if (!filteredCategory.length)
+  if (!filteredCategory?.length)
     return <p className="b2 text-center mt-10">هیچ دوره‌ای یافت نشد</p>;
 
   return (
@@ -66,7 +66,7 @@ export default function SelectedCategoryPage() {
           : "ml:max-lg:max-w-[650px] mx-auto grid grid-cols-2 lg:max-xmd:grid-cols-3 xmd:grid-cols-4 gap-3"
       }
     >
-      {filteredCategory.map((course) => (
+      {filteredCategory?.map((course) => (
         <Card key={course.id} courseData={course} />
       ))}
     </div>

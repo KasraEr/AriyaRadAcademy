@@ -62,10 +62,7 @@ export default function App() {
             element={<SelectedDifficultyPage />}
           />
           <Route path="/categories" element={<CategoriesPage />} />
-          <Route
-            path="/categories/:slug"
-            element={<SelectedCategoryPage />}
-          />
+          <Route path="/categories/:slug" element={<SelectedCategoryPage />} />
           <Route
             path="/categories/:category/:_title"
             element={<CourseDetailPage />}
