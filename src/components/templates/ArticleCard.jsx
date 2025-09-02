@@ -1,5 +1,8 @@
+//router
 import { useNavigate } from "react-router-dom";
+//icons
 import artAuthor from "../../assets/icons/articleAuthor.svg";
+//context
 import { useImageCache } from "../../context/ImageCasheContext";
 
 export default function ArticleCard({ data, id }) {
@@ -30,7 +33,9 @@ export default function ArticleCard({ data, id }) {
         </p>
       </div>
       <button
-        onClick={() => navigate(`/articles/${data.name}`, { state: { id } })}
+        onClick={() =>
+          navigate(`/articles/${data.id}`, { state: { id } })
+        }
         className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
       >
         خواندن مقاله

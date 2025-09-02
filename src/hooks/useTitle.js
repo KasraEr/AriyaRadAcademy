@@ -2,7 +2,16 @@ import { useEffect } from "react";
 
 const useTitle = (title) => {
   useEffect(() => {
-    document.title = `آکادمی آریاراد | ${title}`;
+    const prevTitle = document.title;
+
+    if (title && document.title !== title) {
+      document.title = title;
+    }
+
+    return () => {
+      document.title = prevTitle;
+    };
   }, [title]);
 };
+
 export default useTitle;

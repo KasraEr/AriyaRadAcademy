@@ -1,15 +1,16 @@
 // react
 import { useEffect, useRef } from "react";
-
 // context
 import { useArticles } from "../context/ArticleContext";
+import { useImageCache } from "../context/ImageCasheContext";
 // r-r-d
 import { useLocation } from "react-router-dom";
 // امنیت
 import DOMPurify from "dompurify";
 // icons
 import artAuthor from "../assets/icons/articleAuthor.svg";
-import { useImageCache } from "../context/ImageCasheContext";
+//C-hooks
+import useTitle from "../hooks/useTitle.js";
 
 export default function ArticleDetailsPage() {
   const location = useLocation();
@@ -120,6 +121,8 @@ export default function ArticleDetailsPage() {
       root.removeEventListener("click", onClick);
     };
   }, [article?.body]);
+
+  useTitle(article?.name);
 
   if (!article) {
     return (
