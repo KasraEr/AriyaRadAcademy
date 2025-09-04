@@ -63,6 +63,14 @@ export default function Sidebar() {
                 هم‌یاران
               </NavLink>
             </li>
+            <li className="b1 text-primary-900">
+              <NavLink
+                to="/admin/emails"
+                className="transition hover:text-secondary-900"
+              >
+                ایمیل
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </aside>

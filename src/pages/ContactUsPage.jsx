@@ -55,7 +55,7 @@ export default function ContactUsPage() {
         <a target="_blank" href="https://t.me/#">
           <img src={telegram} alt="" />
         </a>
-        <a target="_blank" href="#">
+        <a target="_blank" href="mailto:info@ariyaradacademy.com">
           <img src={email} alt="" />
         </a>
       </div>

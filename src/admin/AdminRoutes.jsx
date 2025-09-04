@@ -6,9 +6,10 @@ import Courses from "./pages/Courses";
 import Articles from "./pages/Articles";
 import Media from "./pages/Media";
 import Categoires from "./pages/Categoires";
+import Teachers from "./pages/Teachers";
+import Email from "./pages/Email";
 //utils
 import { isAdmin } from "../utils/authGuard";
-import Teachers from "./pages/Teachers";
 
 export default function AdminRoutes() {
   if (!isAdmin()) return <Navigate to="/auth" replace />;
@@ -24,6 +25,7 @@ export default function AdminRoutes() {
         <Route path="media" element={<Media />} />
         <Route path="categories" element={<Categoires />} />
         <Route path="teachers" element={<Teachers />} />
+        <Route path="emails" element={<Email />} />
       </Route>
     </Routes>
   );
