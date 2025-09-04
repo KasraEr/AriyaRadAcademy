@@ -115,7 +115,7 @@ export default function Card({ courseData }) {
       <button
         onClick={() => {
           navigate(
-            `/categories/${slugify(getCat?.name)}/${slugify(courseData.title)}`,
+            `/categories/${getCat?.name}/${slugify(courseData.title)}`,
             { state: { teacher, courseData } }
           );
         }}

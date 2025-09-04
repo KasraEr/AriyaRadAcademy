@@ -135,7 +135,6 @@ export default function CourseDetailPage() {
     [headings]
   );
 
-  // حالت‌ها
   if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!courseData)
@@ -205,11 +204,11 @@ export default function CourseDetailPage() {
         </div>
 
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
-        <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4 mb-4">
-          <div className="w-full h-[400px] flex items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
+        <div className="w-full ml:grid ml:grid-cols-2 gap-3 ml:gap-4 mb-4">
+          <div className="w-full flex h-[400px] items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
             <img src={play} className="cursor-pointer rounded-2xl" alt="" />
           </div>
-          <p className="b4 ml:b3 text-justify leading-11 h-[400px]">
+          <p className="b3 ml:b2 text-justify leading-10 h-[400px] overflow-y-scroll">
             {description}
           </p>
         </div>
@@ -229,7 +228,7 @@ export default function CourseDetailPage() {
           <h3 className="text-primary-500 pt-5">پیش‌نیازهای دوره</h3>
           <ul className="list-disc leading-9">
             {prerequisite === "ندارد" ? (
-              <p className="b1 text-primary-900"></p>
+              <p className="flex items-center justify-center gap-2 b1 text-primary-900 before:content-['✅']">این دوره پیش نیازی ندارد</p>
             ) : (
               prerequisite
                 ?.split(".")
@@ -249,7 +248,7 @@ export default function CourseDetailPage() {
           <div className="ml:grid ml:grid-cols-[1.3fr_1fr] place-items-center">
             <img
               src={teacherImageUrl}
-              className="mx-auto rounded-full size-50 border-2 border-primary-500 ml:order-last"
+              className="mx-auto my-4 rounded-full size-50 border-2 border-primary-500 ml:order-last"
               alt="عکس هم‌یار"
             />
             <div className="flex flex-col items-start justify-center gap-5">

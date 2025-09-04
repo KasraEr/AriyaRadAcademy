@@ -1,16 +1,15 @@
-// React
 import { useEffect, useMemo, useState } from "react";
-// Router
 import { Link } from "react-router-dom";
-// Context
 import { useCourses } from "../../context/CourseContext";
-// Modules
 import Card from "../modules/Card";
 import CourseSlider from "../modules/CourseSlider";
 
-export default function IntroductoryCourses() {
+export default function IntroductoryCourses({
+  breakpoint = 650,
+  minCoursesForSlider = 5,
+}) {
   const [isSmallScreen, setIsSmallScreen] = useState(
-    window.matchMedia("(max-width: 650px)").matches
+    window.matchMedia(`(max-width: ${breakpoint}px)`).matches
   );
 
   const courses = useCourses();
@@ -22,14 +21,17 @@ export default function IntroductoryCourses() {
   }, [courses]);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 650px)");
+    const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
     const handleResize = (e) => setIsSmallScreen(e.matches);
 
     mediaQuery.addEventListener("change", handleResize);
     return () => mediaQuery.removeEventListener("change", handleResize);
-  }, []);
+  }, [breakpoint]);
 
   if (!filteredCourses.length) return null;
+
+  const shouldShowCards =
+    isSmallScreen || filteredCourses.length < minCoursesForSlider;
 
   return (
     <div className="flex flex-col items-center gap-4 my-15 ml:max-lg:max-w-[600px] mx-auto">
@@ -40,13 +42,15 @@ export default function IntroductoryCourses() {
         </p>
       </div>
 
-      {isSmallScreen ? (
-        filteredCourses.map((course) => (
-          <Card key={course.id} courseData={course} />
-        ))
-      ) : (
-        <CourseSlider courseData={filteredCourses} />
-      )}
+      <div className="lg:flex items-start gap-3 w-[400px]">
+        {shouldShowCards ? (
+          filteredCourses.map((course) => (
+            <Card key={course.id} courseData={course} />
+          ))
+        ) : (
+          <CourseSlider courseData={filteredCourses} />
+        )}
+      </div>
     </div>
   );
 }
