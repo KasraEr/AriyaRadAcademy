@@ -42,7 +42,7 @@ export default function IntroductoryCourses({
         </p>
       </div>
 
-      <div className="lg:flex items-start gap-3 w-[400px]">
+      <div className="lg:flex items-start gap-3 w-[335px]">
         {shouldShowCards ? (
           filteredCourses.map((course) => (
             <Card key={course.id} courseData={course} />
