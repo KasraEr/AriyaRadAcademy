@@ -7,11 +7,8 @@ import Teacher from "../components/templates/Teacher";
 import Bootcamps from "../components/templates/Bootcamps";
 import Certificates from "../components/templates/Certificates";
 import AdvancedCourses from "../components/templates/AdvancedCourses";
-//C-hooks
-import useTitle from "../hooks/useTitle.js";
 
 export default function HomePage() {
-  useTitle("صفحه اصلی");
 
   return (
     <>

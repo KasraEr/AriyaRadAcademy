@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 //r-r-d
 import { Link } from "react-router-dom";
 //images
@@ -9,9 +10,21 @@ import instagram from "/src/assets/images/footer-instagram.svg";
 import fanni from "/src/assets/images/footer-fanni.svg";
 
 export default function Footer() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.zarinpal.com/webservice/TrustCode";
+    script.type = "text/javascript";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <footer className="w-full p-5 bg-linear-to-r from-[#6A11CB] to-primary-500">
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 grid-rows-[50px_1fr_1fr_1fr_64px] gap-4 2md:gap-5 2xl:grid-cols-4 2xl:grid-rows-[auto]">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 grid-rows-[50px_1fr_1fr_1fr_1fr_64px] gap-4 2md:gap-5 2xl:grid-cols-5 2xl:grid-rows-[auto]">
         <ul className="flex 2xl:flex-col items-center justify-between ml:justify-evenly list-none">
           <li className="b2 lg:b1 text-basic-100">
             <Link to="/categories">دسته بندی دوره ها</Link>
@@ -49,8 +62,26 @@ export default function Footer() {
           <img src={logo} className="xl:w-25" alt="" />
           <img src={fanni} className="xl:w-25" alt="" />
         </div>
+        <div className="w-full flex 2xl:flex-col items-center justify-evenly 2xl:gap-2">
+          <div>
+            <a
+              referrerPolicy="origin"
+              target="_blank"
+              href="https://trustseal.enamad.ir/?id=645205&Code=d43UVOtzYNEEvKWmhNTXBVJwKQFnm6ZM"
+            >
+              <img
+                referrerPolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=645205&Code=d43UVOtzYNEEvKWmhNTXBVJwKQFnm6ZM"
+                alt=""
+                className="cursor-pointer"
+                code="d43UVOtzYNEEvKWmhNTXBVJwKQFnm6ZM"
+              />
+            </a>
+          </div>
+          <div id="zarinpal" className="xl:w-25"></div>
+        </div>
 
-        <div className="w-full text-center border-t border-basic-100 pt-3 2xl:col-span-4">
+        <div className="w-full text-center border-t border-basic-100 pt-3 2xl:col-span-5">
           <p className="b3 lg:b1 text-basic-100 leading-8">
             ساخته شده با ❤️ | کلیه حقوق این سایت برای{" "}
             <br className="2xl:hidden" /> شرکت مسیر توسعه فناوران جوان محفوظ می
