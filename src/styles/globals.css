@@ -6,6 +6,13 @@ body {
   padding: 0;
   margin: 0;
   text-transform: capitalize;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 input[type="number"] {
@@ -17,6 +24,26 @@ code,
 pre {
   direction: ltr;
   text-align: left;
+}
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+img,
+svg,
+picture,
+video,
+a,
+canvas {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 /* @custom-variant dark (&:where(.dark, .dark *)); */
