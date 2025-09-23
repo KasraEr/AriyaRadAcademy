@@ -78,7 +78,7 @@ export default function Footer() {
               />
             </a>
           </div>
-          <div id="zarinpal" className="xl:w-25 m-auto">
+          <div id="zarinpal" className="w-[125px] xl:w-25 m-auto">
             <script
               src="https://www.zarinpal.com/webservice/TrustCode"
               type="text/javascript"
