@@ -64,7 +64,7 @@ export default function App() {
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/categories/:slug" element={<SelectedCategoryPage />} />
           <Route
-            path="/categories/:category/:_title"
+            path="/categories/:categorySlug/:courseSlug"
             element={<CourseDetailPage />}
           />
           <Route path="/about-us" element={<AboutUsPage />} />
@@ -74,19 +74,19 @@ export default function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/auth/sign-up" element={<SignUpPage />} />
           <Route path="/auth/sign-in" element={<SignInPage />} />
-          <Route path="/*" element={<NotFoundPage />} />
           <Route
             path="/dashboard"
             element={
               token ? <DashboardPage /> : <Navigate to="/auth" replace />
             }
           >
-            <Route path="/dashboard/profile" element={<Profile />} />
-            <Route path="/dashboard/cart" element={<Cart />} />
-            <Route path="/dashboard/courses" element={<UserCourses />} />
-            <Route path="/dashboard/exit" element={<Exit />} />
-            <Route path="/dashboard/*" element={<Navigate to="/dashboard" />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="courses" element={<UserCourses />} />
+            <Route path="exit" element={<Exit />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>

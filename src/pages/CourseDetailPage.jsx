@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // C-hooks
 import useTitle from "../hooks/useTitle.js";
 // icons
@@ -16,36 +16,30 @@ import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";
 
 export default function CourseDetailPage() {
-  const location = useLocation();
   const { categorySlug, courseSlug } = useParams();
 
-  const initialTeacher = location.state?.teacher || null;
-  const initialCourse = location.state?.courseData || null;
-
-  const [teacher, setTeacher] = useState(initialTeacher);
-  const [courseData, setCourseData] = useState(initialCourse);
-  const [loading, setLoading] = useState(!initialCourse);
+  const [teacher, setTeacher] = useState(null);
+  const [courseData, setCourseData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const { getImageUrl } = useImageCache();
 
   const slugify = (text) =>
     text
-      ?.toString()
+      .toString()
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w\-]+/g, "")
-      .replace(/\-\-+/g, "-");
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
 
   useEffect(() => {
     let active = true;
-
     const fetchData = async () => {
       try {
         setLoading(true);
         setError("");
-
         const { data: categories } = await api.get(
           "/api/Category/GetSelectList"
         );
@@ -58,7 +52,6 @@ export default function CourseDetailPage() {
           setLoading(false);
           return;
         }
-
         const { data: courses } = await api.get(
           `/api/Course/GetSelectList?CategoryId=${category.id}`
         );
@@ -72,7 +65,6 @@ export default function CourseDetailPage() {
 
         if (!active) return;
         setCourseData(course);
-
         const { data: teacherData } = await api.get(
           `/api/Teacher/GetById?Id=${course.teacherId}`
         );
@@ -87,9 +79,7 @@ export default function CourseDetailPage() {
       }
     };
 
-    if (!initialCourse) {
-      fetchData();
-    }
+    fetchData();
 
     return () => {
       active = false;
@@ -179,7 +169,7 @@ export default function CourseDetailPage() {
               </p>
             </div>
 
-            <div className="flex items-center justify-between w-full border-t border-text-500">
+            <div className="flex items-center justify_between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
                 <img src={signUpIcon} alt="" /> مهلت ثبت‌نام
               </p>
@@ -189,7 +179,7 @@ export default function CourseDetailPage() {
             </div>
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
-              <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
+              <p className="b3 text-primary-500 flex items_center gap-1 pt-4">
                 <img src={moneyIcon} alt="" /> مبلغ
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
@@ -197,7 +187,7 @@ export default function CourseDetailPage() {
               </p>
             </div>
 
-            <button className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
+            <button className="w_full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
               شرکت در دوره
             </button>
           </div>
@@ -228,7 +218,9 @@ export default function CourseDetailPage() {
           <h3 className="text-primary-500 pt-5">پیش‌نیازهای دوره</h3>
           <ul className="list-disc leading-9">
             {prerequisite === "ندارد" ? (
-              <p className="flex items-center justify-center gap-2 b1 text-primary-900 before:content-['✅']">این دوره پیش نیازی ندارد</p>
+              <p className="flex items-center justify-center gap-2 b1 text-primary-900 before:content-['✅']">
+                این دوره پیش نیازی ندارد
+              </p>
             ) : (
               prerequisite
                 ?.split(".")

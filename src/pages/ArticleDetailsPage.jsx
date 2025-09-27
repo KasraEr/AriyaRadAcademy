@@ -4,20 +4,33 @@ import { useEffect, useRef } from "react";
 import { useArticles } from "../context/ArticleContext";
 import { useImageCache } from "../context/ImageCasheContext";
 // r-r-d
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 // امنیت
 import DOMPurify from "dompurify";
 // icons
 import artAuthor from "../assets/icons/articleAuthor.svg";
-//C-hooks
+// C-hooks
 import useTitle from "../hooks/useTitle.js";
 
 export default function ArticleDetailsPage() {
   const location = useLocation();
+  const { name } = useParams();
   const id = location.state?.id;
 
   const articles = useArticles();
-  const article = articles?.find((item) => item.id === id);
+
+  const slugify = (text) =>
+    text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
+
+  const article =
+    articles?.find((item) => item.id === id) ??
+    articles?.find((item) => slugify(item.name) === name);
 
   const { getImageUrl } = useImageCache();
   const imageUrl = article?.image && getImageUrl(article.image);
@@ -142,14 +155,12 @@ export default function ArticleDetailsPage() {
     <div className="w-full">
       <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
         <h3 className="text-primary-900 text-center">{article?.name}</h3>
-
         <img
           src={imageUrl}
           alt={article?.name || "تصویر مقاله"}
           className="rounded-2xl w-full max-w-[650px]"
           loading="lazy"
         />
-
         <div
           key={article?.id || id}
           ref={contentRef}
@@ -159,7 +170,6 @@ export default function ArticleDetailsPage() {
             __html: DOMPurify.sanitize(article?.body || ""),
           }}
         />
-
         <div className="pt-3">
           <p className="flex items-center justify-center gap-2 b3 text-text-500">
             <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
