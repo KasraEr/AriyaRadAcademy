@@ -15,10 +15,16 @@ export default function Footer() {
     script.src = "https://www.zarinpal.com/webservice/TrustCode";
     script.type = "text/javascript";
     script.async = true;
-    document.body.appendChild(script);
+
+    const container = document.getElementById("zarinpal");
+    if (container) {
+      container.appendChild(script);
+    }
 
     return () => {
-      document.body.removeChild(script);
+      if (container && script.parentNode === container) {
+        container.removeChild(script);
+      }
     };
   }, []);
 
@@ -39,6 +45,7 @@ export default function Footer() {
             <Link to="/contact-us">تماس با آریاراد</Link>
           </li>
         </ul>
+
         <div className="w-full flex flex-col items-center justify-evenly gap-4">
           <p className="b4 ml:b3 2md:b2 lg:b1 text-basic-100 text-center 2xl:leading-10">
             کرج، گلشهر، خیابان درختی (ایثار)، جنب مارال چرم، یاز سنتر، طبقه ۷،
@@ -46,22 +53,25 @@ export default function Footer() {
           </p>
           <h3 className="text-basic-100">۴۸۱۹ ۴۰۱ ۰۲۶۳</h3>
         </div>
+
         <div className="w-full flex 2xl:flex-col items-center justify-around ml:justify-evenly">
           <a href="#" target="_blank">
-            <img src={whatsapp} className="xl:w-12" alt="" />
+            <img src={whatsapp} className="xl:w-12" alt="واتساپ" />
           </a>
           <a href="#" target="_blank">
-            <img src={linkedin} className="xl:w-11" alt="" />
+            <img src={linkedin} className="xl:w-11" alt="لینکدین" />
           </a>
           <a target="_blank" href="https://www.instagram.com/ariyarad_academy/">
-            <img src={instagram} className="xl:w-14" alt="" />
+            <img src={instagram} className="xl:w-14" alt="اینستاگرام" />
           </a>
         </div>
+
         <div className="w-full flex 2xl:flex-col items-center justify-evenly 2xl:gap-2">
-          <img src={kharazmi} className="xl:w-25" alt="" />
-          <img src={logo} className="xl:w-25" alt="" />
-          <img src={fanni} className="xl:w-25" alt="" />
+          <img src={kharazmi} className="xl:w-25" alt="لوگوی دانشگاه خوارزمی" />
+          <img src={logo} className="xl:w-25" alt="لوگوی آریاراد" />
+          <img src={fanni} className="xl:w-25" alt="لوگوی فنی حرفه‌ای" />
         </div>
+
         <div className="w-full flex 2xl:flex-col items-center justify-evenly 2xl:gap-2">
           <div>
             <a
@@ -78,19 +88,17 @@ export default function Footer() {
               />
             </a>
           </div>
-          <div id="zarinpal" className="w-[125px] h-[136px] xl:w-25 m-auto">
-            <script
-              src="https://www.zarinpal.com/webservice/TrustCode"
-              type="text/javascript"
-            ></script>
-          </div>
+          <div
+            id="zarinpal"
+            className="w-[125px] h-[136px] xl:w-25 m-auto"
+          ></div>
         </div>
 
         <div className="w-full text-center border-t border-basic-100 pt-3 2xl:col-span-5">
           <p className="b3 lg:b1 text-basic-100 leading-8">
             ساخته شده با ❤️ | کلیه حقوق این سایت برای{" "}
-            <br className="2xl:hidden" /> شرکت مسیر توسعه فناوران جوان محفوظ می
-            باشد
+            <br className="2xl:hidden" /> شرکت مسیر توسعه فناوران جوان محفوظ
+            می‌باشد
           </p>
         </div>
       </div>
