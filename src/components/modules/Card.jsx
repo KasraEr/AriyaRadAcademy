@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 //utils
 import { formatJalali } from "../../utils/formatJalali";
 import api from "../../utils/config";
-//context
-import { useImageCache } from "../../context/ImageCasheContext";
+//hooks
+import { useImageCache } from "../../hooks/useImageCache";
 
 export default function Card({ courseData }) {
   const [teacher, setTeacher] = useState({});
@@ -23,8 +23,8 @@ export default function Card({ courseData }) {
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w\-]+/g, "")
-      .replace(/\-\-+/g, "-");
+      .replace(/[^\u0600-\u06FF\w\\-]+/g, "")
+      .replace(/\\-\\-+/g, "-");
   };
 
   useEffect(() => {

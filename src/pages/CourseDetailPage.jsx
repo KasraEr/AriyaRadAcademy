@@ -10,7 +10,7 @@ import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/src/assets/images/play.svg";
 // context
-import { useImageCache } from "../context/ImageCasheContext.jsx";
+import { useImageCache } from "../hooks/useImageCache.js";
 // utils
 import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";

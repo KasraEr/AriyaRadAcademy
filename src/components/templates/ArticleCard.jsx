@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 //icons
 import artAuthor from "../../assets/icons/articleAuthor.svg";
 //context
-import { useImageCache } from "../../context/ImageCasheContext";
+import { useImageCache } from "../../hooks/useImageCache";
 
 export default function ArticleCard({ data, id }) {
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ export default function ArticleCard({ data, id }) {
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w\-]+/g, "")
-      .replace(/\-\-+/g, "-");
+      .replace(/[^\u0600-\u06FF\w\\-]+/g, "")
+      .replace(/\\-\\-+/g, "-");
 
   return (
     <div

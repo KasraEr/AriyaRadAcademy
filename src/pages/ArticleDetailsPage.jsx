@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 // context
 import { useArticles } from "../context/ArticleContext";
-import { useImageCache } from "../context/ImageCasheContext";
+import { useImageCache } from "../hooks/useImageCache.js";
 // r-r-d
 import { useLocation, useParams } from "react-router-dom";
 // امنیت

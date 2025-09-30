@@ -6,33 +6,40 @@ import { useNavigate } from "react-router-dom";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //context
-import { useImageCache } from "../context/ImageCasheContext.jsx";
+import { useImageCache } from "../hooks/useImageCache.js";
 //icons
 import category from "../assets/icons/category.png";
 
+let cachedCategories = null;
+
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(cachedCategories || []);
+  const [loading, setLoading] = useState(!cachedCategories);
 
   const { getImageUrl, ready } = useImageCache();
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const { data } = await api.get("/api/Category/GetSelectList");
-        setCategories(data);
-      } catch (error) {
-        console.error("خطا در دریافت لیست دوره‌ها", error.message);
-      }
-    };
-    getCategories();
+    if (!cachedCategories) {
+      const getCategories = async () => {
+        try {
+          const { data } = await api.get("/api/Category/GetSelectList");
+          cachedCategories = data;
+          setCategories(data);
+        } catch (error) {
+          console.error("خطا در دریافت لیست دوره‌ها", error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      getCategories();
+    }
   }, []);
 
   useTitle("دسته بندی دوره ها");
 
-  if (!ready) {
-    return <div className="b1">در حال بارگذاری تصاویر...</div>;
+  if (!ready || loading) {
+    return <div className="b1">در حال بارگذاری...</div>;
   }
 
   return (
@@ -49,10 +56,11 @@ export default function CategoriesPage() {
             .reverse()
             .map((category) => (
               <img
-                className="cursor-pointer"
+                className="cursor-pointer rounded shadow-md hover:scale-105 transition-transform"
                 src={getImageUrl(category.coverImage)}
                 alt={category.name}
                 key={category.id}
+                loading="lazy"
                 onClick={() =>
                   navigate(
                     `/categories/${category.name
