@@ -1,7 +1,7 @@
 // react
 import { useEffect, useRef } from "react";
 // context
-import { useArticles } from "../context/ArticleContext";
+import { useArticles } from "../hooks/useArticles.js";
 import { useImageCache } from "../hooks/useImageCache.js";
 // r-r-d
 import { useLocation, useParams } from "react-router-dom";

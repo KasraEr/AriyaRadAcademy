@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import api from "../utils/config";
 
-const ArticleContext = createContext();
+export const ArticleContext = createContext();
 
 export const ArticleProvider = ({ children }) => {
   const [articles, setArticles] = useState([]);
@@ -30,5 +30,3 @@ export const ArticleProvider = ({ children }) => {
     </ArticleContext.Provider>
   );
 };
-
-export const useArticles = () => useContext(ArticleContext);

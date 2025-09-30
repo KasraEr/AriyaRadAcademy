@@ -1,5 +1,5 @@
 //context
-import { useArticles } from "../context/ArticleContext.jsx";
+import { useArticles } from "../hooks/useArticles.js";
 //c-hooks
 import useTitle from "../hooks/useTitle.js";
 //r-r-d

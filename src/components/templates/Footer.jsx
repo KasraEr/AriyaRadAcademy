@@ -88,10 +88,7 @@ export default function Footer() {
               />
             </a>
           </div>
-          <div
-            id="zarinpal"
-            className="w-[125px] h-[136px] xl:w-25 m-auto"
-          ></div>
+          <div id="zarinpal"></div>
         </div>
 
         <div className="w-full text-center border-t border-basic-100 pt-3 2xl:col-span-5">

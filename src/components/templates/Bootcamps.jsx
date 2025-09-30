@@ -1,9 +1,7 @@
 // React
 import { useEffect, useMemo, useState } from "react";
-// Router
-import { Link } from "react-router-dom";
 // Context
-import { useCourses } from "../../context/CourseContext";
+import { useCourses } from "../../hooks/useCourses";
 // Modules
 import Card from "../modules/Card";
 import CourseSlider from "../modules/CourseSlider";
@@ -35,9 +33,6 @@ export default function Bootcamps() {
     <div className="flex flex-col items-center gap-4 my-15 ml:max-lg:max-w-[600px] mx-auto">
       <div className="border-b border-text-500 flex items-center justify-between w-full pb-3">
         <h3 className="text-primary-500">بوت‌کمپ‌ها</h3>
-        <p className="b4 text-primary-500">
-          <Link to="/categories/courses/bootcamps">مشاهده همه</Link>
-        </p>
       </div>
 
       {isSmallScreen ? (

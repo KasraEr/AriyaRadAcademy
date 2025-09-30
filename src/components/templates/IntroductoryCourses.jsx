@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { useCourses } from "../../context/CourseContext";
+import { useCourses } from "../../hooks/useCourses";
 import Card from "../modules/Card";
 import CourseSlider from "../modules/CourseSlider";
 
@@ -37,9 +36,6 @@ export default function IntroductoryCourses({
     <div className="flex flex-col items-center gap-4 my-15 ml:max-lg:max-w-[600px] mx-auto">
       <div className="border-b border-text-500 flex items-center justify-between w-full pb-3">
         <h3 className="text-primary-500">دوره‌های مقدماتی</h3>
-        <p className="b4 text-primary-500">
-          <Link to="/categories/courses/introductory">مشاهده همه</Link>
-        </p>
       </div>
 
       <div className="lg:flex items-start gap-3 w-[335px]">

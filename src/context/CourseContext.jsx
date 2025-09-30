@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import api from "../utils/config";
 
-const CourseContext = createContext();
+export const CourseContext = createContext();
 
 export const CourseProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
@@ -23,5 +23,3 @@ export const CourseProvider = ({ children }) => {
     <CourseContext.Provider value={courses}>{children}</CourseContext.Provider>
   );
 };
-
-export const useCourses = () => useContext(CourseContext);
