@@ -169,7 +169,7 @@ export default function CourseDetailPage() {
               </p>
             </div>
 
-            <div className="flex items-center justify_between w-full border-t border-text-500">
+            <div className="flex items-center justify-between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
                 <img src={signUpIcon} alt="" /> مهلت ثبت‌نام
               </p>
@@ -187,7 +187,7 @@ export default function CourseDetailPage() {
               </p>
             </div>
 
-            <button className="w_full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
+            <button className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
               شرکت در دوره
             </button>
           </div>
