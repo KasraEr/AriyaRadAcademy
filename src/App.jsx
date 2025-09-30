@@ -13,9 +13,6 @@ const ContactUsPage = lazy(() => import("./pages/ContactUsPage"));
 const CategoriesPage = lazy(() => import("./pages/CategoriesPage"));
 const ArticlesPage = lazy(() => import("./pages/ArticlesPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
-const SelectedDifficultyPage = lazy(() =>
-  import("./pages/SelectedDifficultyPage")
-);
 const SelectedCategoryPage = lazy(() => import("./pages/SelectedCategoryPage"));
 const CourseDetailPage = lazy(() => import("./pages/CourseDetailPage"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
@@ -52,10 +49,6 @@ export default function App() {
             <Route
               path="/categories/courses"
               element={<Navigate to="/categories" replace />}
-            />
-            <Route
-              path="/categories/courses/:difficulty"
-              element={<SelectedDifficultyPage />}
             />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route
