@@ -101,10 +101,6 @@ export default function Media() {
           />
         ),
     },
-    // {
-    //   header: "نام فایل",
-    //   cell: (row) => getCleanFileName(row),
-    // },
     {
       header: "نام فایل",
       cell: (row) => {
