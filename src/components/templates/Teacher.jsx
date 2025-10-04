@@ -1,5 +1,5 @@
 //images
-import hamyar from "/src/assets/images/teacher.png";
+import hamyar from "/images/teacher.png";
 
 export default function Teacher() {
   return (
@@ -7,6 +7,7 @@ export default function Teacher() {
       <img
         src={hamyar}
         alt=""
+        loading="lazy"
         className="size-[280px] xl:size-[310px] 2xl:size-[340px] border-2 border-primary-500 rounded-full lg:row-span-2 lg:order-last"
       />
       <h2 className="text-text-900 text-start xl:text-[28px] lg:order-first">

@@ -64,6 +64,7 @@ export default function Card({ courseData }) {
         src={imageUrl}
         alt={courseData.title}
         className="w-full rounded-[8px]"
+        loading="lazy"
       />
       {courseData?.type === "online" && (
         <span className="b4 bg-error-500 text-basic-100 rounded-[8px] absolute top-2 right-2 flex items-center justify-center p-1">
@@ -74,7 +75,7 @@ export default function Card({ courseData }) {
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-          <img src={teacherIcon} alt="" /> هم‌یار
+          <img src={teacherIcon} loading="lazy" alt="" /> هم‌یار
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {teacher.fullName}
@@ -83,7 +84,7 @@ export default function Card({ courseData }) {
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-          <img src={durationIcon} alt="" /> مدت زمان
+          <img src={durationIcon} loading="lazy" alt="" /> مدت زمان
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {courseData.durationInHours.toLocaleString("fa-IR")} ساعت
@@ -92,7 +93,7 @@ export default function Card({ courseData }) {
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-          <img src={tosIcon} alt="" /> زمان برگزاری
+          <img src={tosIcon} loading="lazy" alt="" /> زمان برگزاری
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {formatJalali(courseData.timeOfHolding)}
@@ -101,7 +102,7 @@ export default function Card({ courseData }) {
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-          <img src={signUpIcon} alt="" /> مهلت ثبت‌نام
+          <img src={signUpIcon} loading="lazy" alt="" /> مهلت ثبت‌نام
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {formatJalali(courseData.registrationDeadline)}
@@ -110,7 +111,7 @@ export default function Card({ courseData }) {
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-          <img src={moneyIcon} alt="" /> مبلغ
+          <img src={moneyIcon} loading="lazy" alt="" /> مبلغ
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
           {courseData.priceInTomans.toLocaleString("fa-IR")} تومان

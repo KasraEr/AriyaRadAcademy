@@ -137,14 +137,14 @@ export default function Profile() {
               type="button"
               onClick={clickhandler}
             >
-              <img src={edit} alt="" />
+              <img loading="lazy" src={edit} alt="" />
               ویرایش اطلاعات
             </button>
             <button
               className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-success-500 text-basic-100"
               type="submit"
             >
-              <img src={tick} alt="" />
+              <img loading="lazy" src={tick} alt="" />
               ثبت تغییرات
             </button>
           </div>

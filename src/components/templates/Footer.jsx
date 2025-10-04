@@ -2,12 +2,12 @@ import { useEffect } from "react";
 //r-r-d
 import { Link } from "react-router-dom";
 //images
-import linkedin from "/src/assets/images/footer-linkedin.svg";
-import whatsapp from "/src/assets/images/footer-whatsapp.svg";
-import logo from "/src/assets/images/footer-logo.svg";
-import kharazmi from "/src/assets/images/footer-kharazmi.svg";
-import instagram from "/src/assets/images/footer-instagram.svg";
-import fanni from "/src/assets/images/footer-fanni.svg";
+import linkedin from "/images/footer-linkedin.svg";
+import whatsapp from "/images/footer-whatsapp.svg";
+import logo from "/images/footer-logo.svg";
+import kharazmi from "/images/footer-kharazmi.svg";
+import instagram from "/images/footer-instagram.svg";
+import fanni from "/images/footer-fanni.svg";
 
 export default function Footer() {
   useEffect(() => {
@@ -56,20 +56,50 @@ export default function Footer() {
 
         <div className="w-full flex 2xl:flex-col items-center justify-around ml:justify-evenly">
           <a href="#" target="_blank">
-            <img src={whatsapp} className="xl:w-12" alt="واتساپ" />
+            <img
+              loading="lazy"
+              src={whatsapp}
+              className="xl:w-12"
+              alt="واتساپ"
+            />
           </a>
           <a href="#" target="_blank">
-            <img src={linkedin} className="xl:w-11" alt="لینکدین" />
+            <img
+              loading="lazy"
+              src={linkedin}
+              className="xl:w-11"
+              alt="لینکدین"
+            />
           </a>
           <a target="_blank" href="https://www.instagram.com/ariyarad_academy/">
-            <img src={instagram} className="xl:w-14" alt="اینستاگرام" />
+            <img
+              loading="lazy"
+              src={instagram}
+              className="xl:w-14"
+              alt="اینستاگرام"
+            />
           </a>
         </div>
 
         <div className="w-full flex 2xl:flex-col items-center justify-evenly 2xl:gap-2">
-          <img src={kharazmi} className="xl:w-25" alt="لوگوی دانشگاه خوارزمی" />
-          <img src={logo} className="xl:w-25" alt="لوگوی آریاراد" />
-          <img src={fanni} className="xl:w-25" alt="لوگوی فنی حرفه‌ای" />
+          <img
+            loading="lazy"
+            src={kharazmi}
+            className="xl:w-25"
+            alt="لوگوی دانشگاه خوارزمی"
+          />
+          <img
+            loading="lazy"
+            src={logo}
+            className="xl:w-25"
+            alt="لوگوی آریاراد"
+          />
+          <img
+            loading="lazy"
+            src={fanni}
+            className="xl:w-25"
+            alt="لوگوی فنی حرفه‌ای"
+          />
         </div>
 
         <div className="w-full flex 2xl:flex-col items-center justify-evenly 2xl:gap-2">

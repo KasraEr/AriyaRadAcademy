@@ -35,7 +35,7 @@ export default function ArticleCard({ data, id }) {
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="flex items-center justify-center gap-2 b3 text-text-500 pt-3">
           <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
-            <img src={artAuthor} alt="" />
+            <img src={artAuthor} alt="" loading="lazy" />
             نویسنده :{" "}
           </span>
           {data.author}

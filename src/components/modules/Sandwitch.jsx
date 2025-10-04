@@ -21,6 +21,7 @@ export default function Sandwitch() {
           src={sandwitch}
           alt=""
           className="cursor-pointer"
+          loading="lazy"
           onClick={() => setIsShown(true)}
         />
       </button>
@@ -30,12 +31,17 @@ export default function Sandwitch() {
         } bg-basic-100 fixed top-0 w-full h-full grid grid-rows-[1fr_5fr_1fr] grid-cols-1 gap-15 transition-[right] ease-in-out duration-[0.4s] p-5`}
       >
         <div className="grid grid-rows-1 grid-cols-[1fr_1fr] place-items-center">
-          <img src={logo} alt="" className="w-34 justify-self-start" />
+          <img
+            src={logo}
+            loading="lazy"
+            alt=""
+            className="w-34 justify-self-start"
+          />
           <button
             className="cursor-pointer justify-self-end"
             onClick={() => setIsShown(false)}
           >
-            <img src={exit} alt="" />
+            <img src={exit} alt="" loading="lazy" />
           </button>
         </div>
         <ul className="list-none flex flex-col items-start justify-evenly h-70 mb-[330px]">
@@ -64,7 +70,7 @@ export default function Sandwitch() {
           <a target="_blank" href="tel:02634014819">
             ۴۸۱۹ ۴۰۱ ۰۲۶۳
           </a>
-          <img src={call} alt="" />
+          <img src={call} loading="lazy" alt="" />
         </button>
       </div>
     </div>

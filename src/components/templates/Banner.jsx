@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-import programming from "/src/assets/images/programming.svg";
-import ai from "/src/assets/images/ai.svg";
-import productDesign from "/src/assets/images/product-design.svg";
-import graphicDesign from "/src/assets/images/graphic-design.svg";
+import programming from "/images/programming.svg";
+import ai from "/images/ai.svg";
+import productDesign from "/images/product-design.svg";
+import graphicDesign from "/images/graphic-design.svg";
 
 export default function Banner() {
   const categories = [
@@ -41,7 +41,12 @@ export default function Banner() {
           to={`/categories/${cat.slug}`}
           className={cat.className}
         >
-          <img src={cat.img} alt={cat.alt} className="xl:w-35 2xl:w-38" />
+          <img
+            src={cat.img}
+            alt={cat.alt}
+            loading="lazy"
+            className="xl:w-35 2xl:w-38"
+          />
         </Link>
       ))}
     </div>

@@ -1,9 +1,9 @@
 //images
-import fr88 from "/src/assets/images/frame-88.svg";
-import fr89 from "/src/assets/images/frame-89.svg";
-import fr90 from "/src/assets/images/frame-90.svg";
+import fr88 from "/images/frame-88.svg";
+import fr89 from "/images/frame-89.svg";
+import fr90 from "/images/frame-90.svg";
 
-export default function () {
+export default function Certificates() {
   return (
     <div className="w-full ml:max-lg:max-w-[600px] ml:mx-auto grid grid-rows-1 grid-cols-1 lg:grid-flow-col lg:grid-cols-[1fr] xl:grid-cols-[1.2fr] items-center justify-center gap-8 lg:gap-16 xl:gap-24">
       <div className="flex flex-col items-center justify-center gap-5">
@@ -24,13 +24,24 @@ export default function () {
         </p>
       </div>
       <div className="flex items-center justify-between lg:justify-center lg:grid lg:grid-cols-1 lg:grid-rows-1 lg:place-items-center lg:mx-auto">
-        <img src={fr88} className="size-30 xl:size-32 2xl:size-39" alt="" />
+        <img
+          src={fr88}
+          loading="lazy"
+          className="size-30 xl:size-32 2xl:size-39"
+          alt=""
+        />
         <img
           src={fr90}
           className="size-30 xl:size-32 2xl:size-39 lg:order-first lg:col-span-2"
           alt=""
+          loading="lazy"
         />
-        <img src={fr89} className="size-30 xl:size-32 2xl:size-39" alt="" />
+        <img
+          src={fr89}
+          loading="lazy"
+          className="size-30 xl:size-32 2xl:size-39"
+          alt=""
+        />
       </div>
     </div>
   );

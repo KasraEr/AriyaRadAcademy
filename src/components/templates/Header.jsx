@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 //modules
 import Sandwitch from "../modules/Sandwitch";
 //images
-import logo from "/src/assets/images/nav-logo.png";
-import logo2 from "/src/assets/images/bigNav-logo.png";
+import logo from "/images/nav-logo.png";
+import logo2 from "/images/bigNav-logo.png";
 //r-r-d
 import { Link, NavLink } from "react-router-dom";
 //utils
@@ -30,9 +30,10 @@ export default function Header() {
       <header className="w-full">
         <nav className="grid grid-rows-1 grid-cols-[1fr_1fr] place-items-center p-5 bg-linear-to-r from-[#6A11CB] to-primary-500 sm:bg-none sm:grid-cols-[0.83fr_2.1fr_0.8fr] sm:gap-5 ml:grid-cols-[1fr_3fr_1fr] lg:grid-cols-[1fr_4fr_1fr] xl:grid-cols-[2fr_5fr_1fr]">
           <Link to="/" className="justify-self-start">
-            <img src={logo} className="w-34 sm:hidden" alt="" />
+            <img src={logo} className="w-34 sm:hidden" alt="" loading="lazy" />
             <img
               src={logo2}
+              loading="lazy"
               className="hidden sm:inline w-34 ml:w-37 lg:w-42 xl:w-50"
               alt=""
             />

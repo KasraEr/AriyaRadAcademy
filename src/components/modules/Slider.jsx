@@ -1,10 +1,10 @@
 //Keen-Slider
 import { useKeenSlider } from "keen-slider/react";
 //images
-import _1 from "/src/assets/images/1.jpg";
-import _2 from "/src/assets/images/2.jpg";
-import _3 from "/src/assets/images/3.jpg";
-import _4 from "/src/assets/images/4.jpg";
+import _1 from "/images/1.jpg";
+import _2 from "/images/2.jpg";
+import _3 from "/images/3.jpg";
+import _4 from "/images/4.jpg";
 
 export default function Slider() {
   const [sliderRef] = useKeenSlider(
@@ -69,6 +69,7 @@ export default function Slider() {
         <div className="keen-slider__slide number-slide1">
           <img
             src={_1}
+            loading="lazy"
             alt=""
             className="rounded-[16px] w-full"
           />
@@ -76,6 +77,7 @@ export default function Slider() {
         <div className="keen-slider__slide number-slide2">
           <img
             src={_2}
+            loading="lazy"
             alt=""
             className="rounded-[16px] w-full"
           />
@@ -83,6 +85,7 @@ export default function Slider() {
         <div className="keen-slider__slide number-slide3">
           <img
             src={_3}
+            loading="lazy"
             alt=""
             className="rounded-[16px] w-full"
           />
@@ -90,6 +93,7 @@ export default function Slider() {
         <div className="keen-slider__slide number-slide4">
           <img
             src={_4}
+            loading="lazy"
             alt=""
             className="rounded-[16px] w-full"
           />
