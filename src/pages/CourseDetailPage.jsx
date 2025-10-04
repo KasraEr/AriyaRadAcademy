@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+// r-r-d
+import { Link } from "react-router-dom";
 // C-hooks
 import useTitle from "../hooks/useTitle.js";
 // icons
@@ -142,7 +144,7 @@ export default function CourseDetailPage() {
             className="w-full max-ml:mb-4 ml:order-last rounded-2xl"
             alt={title}
           />
-          <div className="flex flex-col items-center justify-evenly gap-9 overflow-hidden border border-text-500 rounded-4xl p-4">
+          <div className="flex flex-col items-center justify-evenly gap-6 overflow-hidden border border-text-500 rounded-4xl p-4">
             <div className="flex items-center justify-between w-full">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
                 <img loading="lazy" src={teacherIcon} alt="" /> هم‌یار
@@ -234,7 +236,9 @@ export default function CourseDetailPage() {
                 .filter(Boolean)
                 .map((item, index) => (
                   <li key={index} className="b3 xl:b2 mr-5.5">
-                    {item}
+                    <Link to={`/categories/${categorySlug}/${slugify(item)}`}>
+                      دوره {item} ✨
+                    </Link>
                   </li>
                 ))
             )}
@@ -247,7 +251,7 @@ export default function CourseDetailPage() {
             <img
               src={teacherImageUrl}
               loading="lazy"
-              className="mx-auto my-4 rounded-full size-50 border-2 border-primary-500 ml:order-last"
+              className="aspect-square mx-auto my-4 rounded-full size-50 border-2 border-primary-500 ml:order-last"
               alt="عکس هم‌یار"
             />
             <div className="flex flex-col items-start justify-center gap-5">
