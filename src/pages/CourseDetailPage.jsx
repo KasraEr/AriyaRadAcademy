@@ -8,7 +8,7 @@ import durationIcon from "/src/assets/icons/duration-icon.svg";
 import tosIcon from "/src/assets/icons/tos-icon.svg";
 import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
-import play from "/src/assets/images/play.svg";
+import play from "/images/play.svg";
 // context
 import { useImageCache } from "../hooks/useImageCache.js";
 // utils
@@ -137,6 +137,7 @@ export default function CourseDetailPage() {
 
         <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4">
           <img
+            loading="lazy"
             src={courseImageUrl}
             className="w-full max-ml:mb-4 ml:order-last rounded-2xl"
             alt={title}
@@ -144,7 +145,7 @@ export default function CourseDetailPage() {
           <div className="flex flex-col items-center justify-evenly gap-9 overflow-hidden border border-text-500 rounded-4xl p-4">
             <div className="flex items-center justify-between w-full">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-                <img src={teacherIcon} alt="" /> هم‌یار
+                <img loading="lazy" src={teacherIcon} alt="" /> هم‌یار
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
                 {teacherFullName}
@@ -153,7 +154,7 @@ export default function CourseDetailPage() {
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-                <img src={durationIcon} alt="" /> مدت زمان
+                <img loading="lazy" src={durationIcon} alt="" /> مدت زمان
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
                 {durationInHours?.toLocaleString("fa-IR")} ساعت
@@ -162,7 +163,7 @@ export default function CourseDetailPage() {
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-                <img src={tosIcon} alt="" /> زمان برگزاری
+                <img loading="lazy" src={tosIcon} alt="" /> زمان برگزاری
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
                 {formatJalali(timeOfHolding)}
@@ -171,7 +172,7 @@ export default function CourseDetailPage() {
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
-                <img src={signUpIcon} alt="" /> مهلت ثبت‌نام
+                <img loading="lazy" src={signUpIcon} alt="" /> مهلت ثبت‌نام
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
                 {formatJalali(registrationDeadline)}
@@ -180,7 +181,7 @@ export default function CourseDetailPage() {
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
               <p className="b3 text-primary-500 flex items_center gap-1 pt-4">
-                <img src={moneyIcon} alt="" /> مبلغ
+                <img loading="lazy" src={moneyIcon} alt="" /> مبلغ
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
                 {priceInTomans?.toLocaleString("fa-IR")} تومان
@@ -195,8 +196,13 @@ export default function CourseDetailPage() {
 
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
         <div className="w-full ml:grid ml:grid-cols-2 gap-3 ml:gap-4 mb-4">
-          <div className="w-full flex h-[400px] items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/src/assets/images/images.png)]">
-            <img src={play} className="cursor-pointer rounded-2xl" alt="" />
+          <div className="w-full flex h-[400px] items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/images/images.png)]">
+            <img
+              loading="lazy"
+              src={play}
+              className="cursor-pointer rounded-2xl"
+              alt=""
+            />
           </div>
           <p className="b3 ml:b2 text-justify leading-10 h-[400px] overflow-y-scroll">
             {description}
@@ -240,6 +246,7 @@ export default function CourseDetailPage() {
           <div className="ml:grid ml:grid-cols-[1.3fr_1fr] place-items-center">
             <img
               src={teacherImageUrl}
+              loading="lazy"
               className="mx-auto my-4 rounded-full size-50 border-2 border-primary-500 ml:order-last"
               alt="عکس هم‌یار"
             />

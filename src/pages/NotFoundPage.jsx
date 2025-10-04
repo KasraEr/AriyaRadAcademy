@@ -1,7 +1,7 @@
 //react-router-dom
 import { Link } from "react-router-dom";
 //images
-import notFound from "/src/assets/images/404.png";
+import notFound from "/images/404.png";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 

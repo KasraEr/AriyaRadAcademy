@@ -17,7 +17,7 @@ export default function ArticlesPage() {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-primary-500 flex items-center gap-2">
-        <img src={article} alt="" />
+        <img src={article} loading="lazy" alt="" />
         مقالات
       </h2>
       <div>

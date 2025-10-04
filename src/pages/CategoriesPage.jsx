@@ -45,7 +45,7 @@ export default function CategoriesPage() {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-primary-500 flex items-center gap-2">
-        <img src={category} alt="" />
+        <img src={category} alt="" loading="lazy" />
         دسته بندی دوره ها
       </h2>
       <div className="w-full grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
