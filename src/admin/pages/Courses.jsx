@@ -21,10 +21,11 @@ export default function Courses() {
     coverImage: "",
     coverVideo: "",
     headings: "",
-    prerequisite: "", 
-    techerId: 0, 
+    prerequisite: "",
+    techerId: 0,
     categoryId: 0,
     difficulty: "",
+    type: "",
   });
 
   const [courses, setCourses] = useState([]);
@@ -109,7 +110,12 @@ export default function Courses() {
       cell: (row) => toPersianDigits(row.priceInTomans),
     },
     { header: "تاریخ برگزاری", cell: (row) => formatJalali(row.timeOfHolding) },
-    { header: "پیش‌نیاز", accessor: "prerequisite" }, 
+    { header: "پیش‌نیاز", accessor: "prerequisite" },
+    {
+      header: "نوع دوره",
+      accessor: "type",
+      cell: (row) => (row.type === "online" ? "آنلاین" : "حضوری"),
+    },
     {
       header: "عملیات",
       cell: (row) => (
@@ -302,6 +308,22 @@ export default function Courses() {
                 <option value="introductory">مبتدی</option>
                 <option value="advanced">پیشرفته</option>
                 <option value="bootcamps">بوت‌کمپ</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-1 b2">نوع دوره</label>
+              <select
+                value={newCourse.type}
+                onChange={(e) =>
+                  setNewCourse({ ...newCourse, type: e.target.value })
+                }
+                className="b2 w-full p-2 border rounded-lg"
+                required
+              >
+                <option value="">انتخاب نوع دوره</option>
+                <option value="online">آنلاین</option>
+                <option value="offline">حضوری</option>
               </select>
             </div>
 

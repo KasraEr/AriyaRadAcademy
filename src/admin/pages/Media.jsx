@@ -101,9 +101,33 @@ export default function Media() {
           />
         ),
     },
+    // {
+    //   header: "نام فایل",
+    //   cell: (row) => getCleanFileName(row),
+    // },
     {
       header: "نام فایل",
-      cell: (row) => getCleanFileName(row),
+      cell: (row) => {
+        const cleanName = getCleanFileName(row);
+
+        const handleCopy = () => {
+          navigator.clipboard.writeText(cleanName);
+          showToast("نام فایل کپی شد");
+        };
+
+        return (
+          <div className="flex items-center gap-2">
+            <span>{cleanName}</span>
+            <button
+              onClick={handleCopy}
+              className="text-gray-500 hover:text-blue-600"
+              title="کپی نام فایل"
+            >
+              📋
+            </button>
+          </div>
+        );
+      },
     },
     {
       header: "عملیات",

@@ -59,12 +59,17 @@ export default function Card({ courseData }) {
   const imageUrl = courseData?.coverImage && getImageUrl(courseData.coverImage);
 
   return (
-    <div className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]">
+    <div className="relative flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]">
       <img
         src={imageUrl}
         alt={courseData.title}
         className="w-full rounded-[8px]"
       />
+      {courseData?.type === "online" && (
+        <span className="b4 bg-error-500 text-basic-100 rounded-[8px] absolute top-2 right-2 flex items-center justify-center p-1">
+          آنلاین
+        </span>
+      )}
       <h3 className="text-[21px]">{courseData.title}</h3>
 
       <div className="flex items-center justify-between w-full border-t border-text-500">
@@ -114,10 +119,9 @@ export default function Card({ courseData }) {
 
       <button
         onClick={() => {
-          navigate(
-            `/categories/${getCat?.name}/${slugify(courseData.title)}`,
-            { state: { teacher, courseData } }
-          );
+          navigate(`/categories/${getCat?.name}/${slugify(courseData.title)}`, {
+            state: { teacher, courseData },
+          });
         }}
         className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
       >
