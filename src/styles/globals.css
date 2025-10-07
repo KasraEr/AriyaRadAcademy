@@ -127,6 +127,15 @@ canvas {
   }
 }
 
+@layer components {
+  .zarinpal-container img {
+    @apply w-20;
+  }
+  .trust-logo img {
+    @apply w-20;
+  }
+}
+
 @utility subtitle1 {
   font-family: ariyarad-medium;
   font-size: 18px;

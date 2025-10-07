@@ -5,7 +5,7 @@ import fr90 from "/images/frame-90.svg";
 
 export default function Certificates() {
   return (
-    <div className="w-full ml:max-lg:max-w-[600px] ml:mx-auto grid grid-rows-1 grid-cols-1 lg:grid-flow-col lg:grid-cols-[1fr] xl:grid-cols-[1.2fr] items-center justify-center gap-8 lg:gap-16 xl:gap-24">
+    <div className="mt-7 w-full ml:max-lg:max-w-[600px] ml:mx-auto grid grid-rows-1 grid-cols-1 lg:grid-flow-col lg:grid-cols-[1fr] xl:grid-cols-[1.2fr] items-center justify-center gap-8 lg:gap-16 xl:gap-24">
       <div className="flex flex-col items-center justify-center gap-5">
         <h2 className="text-text-900 text-center lg:text-right leading-12">
           مدرکی که فقط کاغذ نیست؛ <br className="lg:hidden" />
