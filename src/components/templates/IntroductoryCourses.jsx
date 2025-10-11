@@ -38,7 +38,7 @@ export default function IntroductoryCourses({
         <h3 className="text-primary-500">دوره‌های مقدماتی</h3>
       </div>
 
-      <div className="lg:flex items-start gap-3 w-full border-b border-text-500">
+      <div className="lg:flex items-start gap-3 w-full border-b border-text-500 pb-3">
         {shouldShowCards ? (
           <div
             className="
