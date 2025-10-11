@@ -118,6 +118,11 @@ export default function Courses() {
       cell: (row) => (row.type === "online" ? "آنلاین" : "حضوری"),
     },
     {
+      header: "وضعیت دوره",
+      accessor: "inActive",
+      cell: (row) => (row.inActive === true ? "فعال" : "غیرفعال"),
+    },
+    {
       header: "عملیات",
       cell: (row) => (
         <div className="flex gap-2 justify-start">
