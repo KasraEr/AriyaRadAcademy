@@ -53,7 +53,6 @@ export default function CategoriesPage() {
           categories
             ?.filter((item) => item.inActive === false)
             .slice()
-            .reverse()
             .map((category) => (
               <img
                 className="cursor-pointer rounded shadow-md hover:scale-105 transition-transform"

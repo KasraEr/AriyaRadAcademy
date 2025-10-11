@@ -26,6 +26,7 @@ export default function Courses() {
     categoryId: 0,
     difficulty: "",
     type: "",
+    inActive: false,
   });
 
   const [courses, setCourses] = useState([]);
@@ -324,6 +325,22 @@ export default function Courses() {
                 <option value="">انتخاب نوع دوره</option>
                 <option value="online">آنلاین</option>
                 <option value="offline">حضوری</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-1 b2">وضعیت دوره</label>
+              <select
+                value={newCourse.inActive}
+                onChange={(e) =>
+                  setNewCourse({ ...newCourse, inActive: e.target.value })
+                }
+                className="b2 w-full p-2 border rounded-lg"
+                required
+              >
+                <option value="">انتخاب وضعیت دوره</option>
+                <option value={true}>فعال</option>
+                <option value={false}>غیرفعال</option>
               </select>
             </div>
 
