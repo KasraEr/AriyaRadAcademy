@@ -336,16 +336,20 @@ export default function Courses() {
             <div>
               <label className="block mb-1 b2">وضعیت دوره</label>
               <select
-                value={newCourse.inActive}
-                onChange={(e) =>
-                  setNewCourse({ ...newCourse, inActive: e.target.value })
+                value={newCourse.inActive ? "true" : "false"}
+                onChange={
+                  (e) =>
+                    setNewCourse({
+                      ...newCourse,
+                      inActive: e.target.value === "true",
+                    })
                 }
                 className="b2 w-full p-2 border rounded-lg"
                 required
               >
                 <option value="">انتخاب وضعیت دوره</option>
-                <option value={true}>فعال</option>
-                <option value={false}>غیرفعال</option>
+                <option value="true">فعال</option>
+                <option value="false">غیرفعال</option>
               </select>
             </div>
 
