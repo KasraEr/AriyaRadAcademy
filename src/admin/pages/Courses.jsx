@@ -120,7 +120,7 @@ export default function Courses() {
     {
       header: "وضعیت دوره",
       accessor: "inActive",
-      cell: (row) => (row.inActive === true ? "فعال" : "غیرفعال"),
+      cell: (row) => (row.inActive === true ? "غیرفعال" : "فعال"),
     },
     {
       header: "عملیات",
