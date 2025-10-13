@@ -348,8 +348,8 @@ export default function Courses() {
                 required
               >
                 <option value="">انتخاب وضعیت دوره</option>
-                <option value="true">فعال</option>
-                <option value="false">غیرفعال</option>
+                <option value="false">فعال</option>
+                <option value="true">غیرفعال</option>
               </select>
             </div>
 
