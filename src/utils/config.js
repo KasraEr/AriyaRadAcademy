@@ -3,7 +3,6 @@ import { getToken, removeToken } from "./tokenService";
 
 const api = axios.create({
   baseURL: "https://api.ariyaradacademy.com",
-  timeout: 10000,
 });
 
 const cache = new Map();

@@ -21,6 +21,12 @@ export default function Profile() {
 
   const token = getToken();
   const { sub } = jwtDecode(token);
+  // const decoded = jwtDecode(token);
+  // const decoded2 = jwtDecode(
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsIm5hbWUiOiLaqdiz2LHbjCIsInBob25lX251bWJlciI6IjA5MTI5NTgxODY4Iiwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJmYW1pbHlfbmFtZSI6Iti52LHZgdin2YbbjNin2YYiLCJlbWFpbCI6ImVyZmFuaWFuLmthc3JhQGdtYWlsLmNvbSIsImV4cCI6MTc2MDk5MzM5NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6OTAwMCIsImF1ZCI6IkFyaXlhUmFkQWNhZGVteSJ9.SgDTw2WoVDnKudDIMWvPrPh3QhfahDkDpRhEzQD2gcE"
+  // );
+  // console.log("Decoded token:", decoded);
+  // console.log("Decoded token2:", decoded2);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +41,7 @@ export default function Profile() {
       }
     };
     fetchData();
-  }, []);
+  }, [sub]);
 
   const clickhandler = (e) => {
     e.preventDefault();

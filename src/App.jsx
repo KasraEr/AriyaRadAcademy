@@ -37,7 +37,11 @@ export default function App() {
   return (
     <>
       <Suspense
-        fallback={<div className="p-6 text-center">در حال بارگذاری...</div>}
+        fallback={
+          <div className="p-6 text-center b1 text-primary-500">
+            در حال بارگذاری...
+          </div>
+        }
       >
         <Routes>
           <Route element={<Layout />}>

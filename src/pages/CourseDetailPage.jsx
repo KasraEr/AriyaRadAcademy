@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 // r-r-d
 import { Link } from "react-router-dom";
 // C-hooks
@@ -16,9 +16,13 @@ import { useImageCache } from "../hooks/useImageCache.js";
 // utils
 import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";
+import { getToken } from "../utils/tokenService.js";
 
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
+  // const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const token = getToken();
 
   const [teacher, setTeacher] = useState(null);
   const [courseData, setCourseData] = useState(null);
@@ -127,6 +131,14 @@ export default function CourseDetailPage() {
     [headings]
   );
 
+  const clickHandler = () => {
+    if (token) {
+      console.log(token);
+    } else {
+      navigate("/auth");
+    }
+  };
+
   if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!courseData)
@@ -190,7 +202,10 @@ export default function CourseDetailPage() {
               </p>
             </div>
 
-            <button className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3">
+            <button
+              onClick={clickHandler}
+              className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3"
+            >
               شرکت در دوره
             </button>
           </div>
