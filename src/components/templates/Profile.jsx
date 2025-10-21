@@ -1,49 +1,39 @@
 import { useEffect, useState } from "react";
 //utils
 import api from "../../utils/config";
-import { getToken } from "../../utils/tokenService";
 import { showToast } from "../../utils/toast";
-//jwt
-import { jwtDecode } from "jwt-decode";
 //icons
 import edit from "../../assets/icons/Edit.svg";
 import tick from "../../assets/icons/Tick.svg";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});
-
   const [isEditable, setIsEditable] = useState(false);
-
   const [form, setForm] = useState({
     phoneNumber: "",
     emailAddress: "",
   });
 
-  const token = getToken();
-  const { sub } = jwtDecode(token);
-  // const decoded = jwtDecode(token);
-  // const decoded2 = jwtDecode(
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNSIsIm5hbWUiOiLaqdiz2LHbjCIsInBob25lX251bWJlciI6IjA5MTI5NTgxODY4Iiwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJmYW1pbHlfbmFtZSI6Iti52LHZgdin2YbbjNin2YYiLCJlbWFpbCI6ImVyZmFuaWFuLmthc3JhQGdtYWlsLmNvbSIsImV4cCI6MTc2MDk5MzM5NSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6OTAwMCIsImF1ZCI6IkFyaXlhUmFkQWNhZGVteSJ9.SgDTw2WoVDnKudDIMWvPrPh3QhfahDkDpRhEzQD2gcE"
-  // );
-  // console.log("Decoded token:", decoded);
-  // console.log("Decoded token2:", decoded2);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/api/User/GetById?Id=${sub}`);
+        const response = await api.get("/api/User/GetCurrentUser");
         const { id, firstName, lastName, emailAddress, phoneNumber } =
           response.data;
+
         setOldData({ id, firstName, lastName, emailAddress, phoneNumber });
-        setForm({ emailAddress, phoneNumber });
+        setForm({
+          emailAddress: emailAddress || "",
+          phoneNumber: phoneNumber || "",
+        });
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchData();
-  }, [sub]);
+  }, []);
 
-  const clickhandler = (e) => {
+  const clickHandler = (e) => {
     e.preventDefault();
     setIsEditable(true);
   };
@@ -52,12 +42,31 @@ export default function Profile() {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }));
   };
 
+  const validateForm = () => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    const phoneRegex = /^[0-9]{8,15}$/;
+    if (!emailRegex.test(form.emailAddress)) {
+      showToast("ایمیل معتبر نیست", "error");
+      return false;
+    }
+    if (!phoneRegex.test(form.phoneNumber)) {
+      showToast("شماره تماس معتبر نیست", "error");
+      return false;
+    }
+    return true;
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     try {
       const response = await api.put("/api/User/Update", form);
-      response?.status === 200 && setIsEditable(false);
-      showToast("اطلاعات شما به روزرسانی شد");
+      if (response?.status === 200) {
+        setIsEditable(false);
+        setOldData((prev) => ({ ...prev, ...form }));
+        showToast("اطلاعات شما به روزرسانی شد");
+      }
     } catch (error) {
       const status = error?.response?.status;
       if (status === 400) {
@@ -88,7 +97,8 @@ export default function Profile() {
             disabled
             type="text"
             id="firstName"
-            placeholder={oldData.firstName}
+            value={oldData.firstName || ""}
+            readOnly
           />
           <label
             className="text-primary-900/80 b1 leading-11 text-center"
@@ -101,7 +111,8 @@ export default function Profile() {
             disabled
             type="text"
             id="lastName"
-            placeholder={oldData.lastName}
+            value={oldData.lastName || ""}
+            readOnly
           />
           <label
             className="text-primary-900/80 b1 leading-11 text-center"
@@ -112,11 +123,10 @@ export default function Profile() {
           <input
             dir="ltr"
             className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px]"
-            disabled={isEditable ? false : true}
+            disabled={!isEditable}
             type="text"
             name="emailAddress"
             id="emailAddress"
-            placeholder={oldData.emailAddress}
             value={form.emailAddress}
             onChange={changeHandler}
           />
@@ -129,11 +139,10 @@ export default function Profile() {
           <input
             dir="ltr"
             className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px]"
-            disabled={isEditable ? false : true}
-            type="text"
+            disabled={!isEditable}
+            type="tel"
             name="phoneNumber"
             id="phoneNumber"
-            placeholder={oldData.phoneNumber}
             value={form.phoneNumber}
             onChange={changeHandler}
           />
@@ -141,14 +150,17 @@ export default function Profile() {
             <button
               className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-warning-500 text-basic-100"
               type="button"
-              onClick={clickhandler}
+              onClick={clickHandler}
             >
               <img loading="lazy" src={edit} alt="" />
               ویرایش اطلاعات
             </button>
             <button
-              className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-success-500 text-basic-100"
+              className={`flex items-center justify-center gap-1 rounded-[6px] p-2 ${
+                isEditable ? "bg-success-500" : "bg-gray-400 cursor-not-allowed"
+              } text-basic-100`}
               type="submit"
+              disabled={!isEditable}
             >
               <img loading="lazy" src={tick} alt="" />
               ثبت تغییرات

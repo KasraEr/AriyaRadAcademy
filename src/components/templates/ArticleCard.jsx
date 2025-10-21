@@ -8,8 +8,8 @@ import { useImageCache } from "../../hooks/useImageCache";
 export default function ArticleCard({ data, id }) {
   const navigate = useNavigate();
 
-  const { getImageUrl } = useImageCache();
-  const imageUrl = data?.image && getImageUrl(data.image);
+  const { getImageUrl, ready } = useImageCache();
+  const imageUrl = data?.image ? getImageUrl(data.image) : null;
 
   const slugify = (text) =>
     text
@@ -25,22 +25,29 @@ export default function ArticleCard({ data, id }) {
       key={id}
       className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-3 ml:my-5 ml:min-h-[calc(470px+8%)]"
     >
-      <img
-        src={imageUrl}
-        alt={data.name || ""}
-        className="w-full rounded-3xl"
-        loading="lazy"
-      />
+      {!ready ? (
+        <div className="w-full h-[200px] bg-basic-200 rounded-3xl animate-pulse" />
+      ) : (
+        <img
+          src={imageUrl || "/fallback-placeholder.png"}
+          alt={data.name || ""}
+          className="w-full rounded-3xl"
+          loading="lazy"
+        />
+      )}
+
       <p className="b1 text-start leading-7 h-[50px]">{data.name}</p>
+
       <div className="flex items-center justify-between w-full border-t border-text-500">
         <p className="flex items-center justify-center gap-2 b3 text-text-500 pt-3">
           <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
             <img src={artAuthor} alt="" loading="lazy" />
-            نویسنده :{" "}
+            نویسنده :
           </span>
           {data.author}
         </p>
       </div>
+
       <button
         onClick={() =>
           navigate(`/articles/${slugify(data.name)}`, { state: { id } })

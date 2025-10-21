@@ -5,7 +5,7 @@ import exit from "../../assets/icons/exit.svg";
 import logo from "../../assets/icons/sandwitch-logo.png";
 import call from "../../assets/icons/call.svg";
 //react-router-dom
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //utils
 import { getToken } from "../../utils/tokenService";
 

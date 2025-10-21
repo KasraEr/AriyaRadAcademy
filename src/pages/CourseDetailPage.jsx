@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
-// r-r-d
-import { Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 // C-hooks
 import useTitle from "../hooks/useTitle.js";
 // icons
@@ -20,7 +18,6 @@ import { getToken } from "../utils/tokenService.js";
 
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
-  // const { pathname } = useLocation();
   const navigate = useNavigate();
   const token = getToken();
 
@@ -29,7 +26,7 @@ export default function CourseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const { getImageUrl } = useImageCache();
+  const { getImageUrl, ready } = useImageCache();
 
   const slugify = (text) =>
     text
@@ -46,31 +43,24 @@ export default function CourseDetailPage() {
       try {
         setLoading(true);
         setError("");
+
         const { data: categories } = await api.get(
           "/api/Category/GetSelectList"
         );
         const category = categories.find(
           (c) => slugify(c.name) === categorySlug
         );
-        if (!category) {
-          if (!active) return;
-          setError("دسته‌بندی پیدا نشد");
-          setLoading(false);
-          return;
-        }
+        if (!category) throw new Error("دسته‌بندی پیدا نشد");
+
         const { data: courses } = await api.get(
           `/api/Course/GetSelectList?CategoryId=${category.id}`
         );
         const course = courses.find((c) => slugify(c.title) === courseSlug);
-        if (!course) {
-          if (!active) return;
-          setError("دوره پیدا نشد");
-          setLoading(false);
-          return;
-        }
+        if (!course) throw new Error("دوره پیدا نشد");
 
         if (!active) return;
         setCourseData(course);
+
         const { data: teacherData } = await api.get(
           `/api/Teacher/GetById?Id=${course.teacherId}`
         );
@@ -78,15 +68,14 @@ export default function CourseDetailPage() {
         setTeacher(teacherData);
       } catch (err) {
         if (!active) return;
-        setError("خطا در بارگذاری اطلاعات");
         console.error(err);
+        setError(err.message || "خطا در بارگذاری اطلاعات");
       } finally {
         if (active) setLoading(false);
       }
     };
 
     fetchData();
-
     return () => {
       active = false;
     };
@@ -112,11 +101,18 @@ export default function CourseDetailPage() {
   const teacherCover = teacher?.coverImage;
 
   const courseImageUrl = useMemo(
-    () => (coverImage ? getImageUrl(coverImage) : ""),
+    () =>
+      coverImage
+        ? getImageUrl(coverImage) || "/fallback-placeholder.png"
+        : "/fallback-placeholder.png",
     [coverImage, getImageUrl]
   );
+
   const teacherImageUrl = useMemo(
-    () => (teacherCover ? getImageUrl(teacherCover) : ""),
+    () =>
+      teacherCover
+        ? getImageUrl(teacherCover) || "/fallback-placeholder.png"
+        : "/fallback-placeholder.png",
     [teacherCover, getImageUrl]
   );
 
@@ -139,7 +135,8 @@ export default function CourseDetailPage() {
     }
   };
 
-  if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
+  if (loading || !ready)
+    return <p className="text-center mt-10">در حال بارگذاری...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!courseData)
     return <p className="text-center mt-10">داده‌ای برای نمایش وجود ندارد</p>;
@@ -218,7 +215,7 @@ export default function CourseDetailPage() {
               loading="lazy"
               src={play}
               className="cursor-pointer rounded-2xl"
-              alt=""
+              alt="play"
             />
           </div>
           <p className="b3 ml:b2 text-justify leading-10 h-[400px] overflow-y-scroll">

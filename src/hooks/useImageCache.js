@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import { ImageCasheContext } from "../context/ImageCasheContext";
+import { ImageCacheContext } from "../context/ImageCasheContext";
 
 export const useImageCache = () => {
-  const ctx = useContext(ImageCasheContext);
-  if (!ctx) {
+  const context = useContext(ImageCacheContext);
+
+  if (!context) {
     throw new Error("useImageCache must be used within ImageCacheProvider");
   }
-  return ctx;
+
+  const { getImageUrl, ready } = context;
+  return { getImageUrl, ready };
 };

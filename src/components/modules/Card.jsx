@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 //icons
 import teacherIcon from "/src/assets/icons/teacher-icon.svg";
 import durationIcon from "/src/assets/icons/duration-icon.svg";
@@ -16,47 +16,58 @@ import { useImageCache } from "../../hooks/useImageCache";
 export default function Card({ courseData }) {
   const [teacher, setTeacher] = useState({});
   const [getCat, setGetCat] = useState({});
+  const [error, setError] = useState("");
 
-  const slugify = (text) => {
-    return text
+  const navigate = useNavigate();
+  const { getImageUrl, ready } = useImageCache();
+
+  const slugify = (text) =>
+    text
       ?.toString()
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w\\-]+/g, "")
-      .replace(/\\-\\-+/g, "-");
-  };
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
 
   useEffect(() => {
-    const getTeacherData = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await api.get(
-          `/api/Teacher/GetById?Id=${courseData.teacherId}`
-        );
-        setTeacher(data);
-      } catch (error) {
-        console.error(error.message);
+        const [teacherRes, catRes] = await Promise.all([
+          api.get(`/api/Teacher/GetById?Id=${courseData.teacherId}`),
+          api.get(`/api/Category/GetById?Id=${courseData.categoryId}`),
+        ]);
+        setTeacher(teacherRes.data);
+        setGetCat(catRes.data);
+      } catch (err) {
+        console.error("خطا در دریافت اطلاعات کارت:", err.message);
+        setError("خطا در بارگذاری اطلاعات کارت");
       }
     };
-
-    const getCatData = async () => {
-      try {
-        const { data } = await api.get(
-          `/api/Category/GetById?Id=${courseData.categoryId}`
-        );
-        setGetCat(data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    getTeacherData();
-    getCatData();
+    fetchData();
   }, [courseData.teacherId, courseData.categoryId]);
 
-  const navigate = useNavigate();
-  const { getImageUrl } = useImageCache();
-  const imageUrl = courseData?.coverImage && getImageUrl(courseData.coverImage);
+  const imageUrl = useMemo(
+    () =>
+      courseData?.coverImage
+        ? getImageUrl(courseData.coverImage) || "/fallback-placeholder.png"
+        : "/fallback-placeholder.png",
+    [courseData?.coverImage, getImageUrl]
+  );
+
+  if (!ready) {
+    return (
+      <div className="w-full h-[400px] bg-basic-200 animate-pulse rounded-2xl" />
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full p-4 border border-red-500 rounded-2xl text-red-600">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]">
@@ -78,7 +89,7 @@ export default function Card({ courseData }) {
           <img src={teacherIcon} loading="lazy" alt="" /> هم‌یار
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
-          {teacher.fullName}
+          {teacher.fullName || "نامشخص"}
         </p>
       </div>
 
@@ -87,7 +98,7 @@ export default function Card({ courseData }) {
           <img src={durationIcon} loading="lazy" alt="" /> مدت زمان
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
-          {courseData.durationInHours.toLocaleString("fa-IR")} ساعت
+          {courseData.durationInHours?.toLocaleString("fa-IR") || 0} ساعت
         </p>
       </div>
 
@@ -114,7 +125,7 @@ export default function Card({ courseData }) {
           <img src={moneyIcon} loading="lazy" alt="" /> مبلغ
         </p>
         <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">
-          {courseData.priceInTomans.toLocaleString("fa-IR")} تومان
+          {courseData.priceInTomans?.toLocaleString("fa-IR") || 0} تومان
         </p>
       </div>
 

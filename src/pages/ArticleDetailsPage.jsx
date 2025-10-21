@@ -32,8 +32,8 @@ export default function ArticleDetailsPage() {
     articles?.find((item) => item.id === id) ??
     articles?.find((item) => slugify(item.name) === name);
 
-  const { getImageUrl } = useImageCache();
-  const imageUrl = article?.image && getImageUrl(article.image);
+  const { getImageUrl, ready } = useImageCache();
+  const imageUrl = article?.image ? getImageUrl(article.image) : null;
 
   const contentRef = useRef(null);
 
@@ -155,12 +155,18 @@ export default function ArticleDetailsPage() {
     <div className="w-full">
       <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
         <h3 className="text-primary-900 text-center">{article?.name}</h3>
-        <img
-          src={imageUrl}
-          alt={article?.name || "تصویر مقاله"}
-          className="rounded-2xl w-full max-w-[650px]"
-          loading="lazy"
-        />
+
+        {!ready ? (
+          <div className="w-full max-w-[650px] h-[300px] bg-basic-200 rounded-2xl animate-pulse" />
+        ) : (
+          <img
+            src={imageUrl || "/fallback-placeholder.png"}
+            alt={article?.name || "تصویر مقاله"}
+            className="rounded-2xl w-full max-w-[650px]"
+            loading="lazy"
+          />
+        )}
+
         <div
           key={article?.id || id}
           ref={contentRef}
@@ -170,6 +176,7 @@ export default function ArticleDetailsPage() {
             __html: DOMPurify.sanitize(article?.body || ""),
           }}
         />
+
         <div className="pt-3">
           <p className="flex items-center justify-center gap-2 b3 text-text-500">
             <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
