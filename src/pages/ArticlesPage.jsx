@@ -1,27 +1,40 @@
-//context
+// hooks
 import { useArticles } from "../hooks/useArticles.js";
-//c-hooks
+// c-hooks
 import useTitle from "../hooks/useTitle.js";
-//r-r-d
+// r-r-d
 import { Link } from "react-router-dom";
-//temps
+// temps
 import ArticleCard from "../components/templates/ArticleCard.jsx";
-//icons
-import article from "../assets/icons/article.png";
+// icons
+import articleIcon from "../assets/icons/article.png";
 
 export default function ArticlesPage() {
-  const articles = useArticles();
+  const { data: articles = [], isLoading, isError, error } = useArticles();
 
   useTitle("مقالات");
+
+  if (isLoading) {
+    return <p className="text-center mt-10">در حال بارگذاری...</p>;
+  }
+
+  if (isError) {
+    return (
+      <p className="text-center mt-10 text-red-500">
+        خطا در دریافت مقالات: {error.message}
+      </p>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-primary-500 flex items-center gap-2">
-        <img src={article} loading="lazy" alt="" />
+        <img src={articleIcon} loading="lazy" alt="" />
         مقالات
       </h2>
+
       <div>
-        {articles?.length === 0 ? (
+        {articles.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-8 ml:max-lg:max-w-[600px] mx-auto">
             <h2 className="text-center">در حال حاضر هیچ مقاله‌ای وجود ندارد</h2>
             <Link
@@ -33,7 +46,7 @@ export default function ArticlesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
-            {articles?.map((article) => (
+            {articles.map((article) => (
               <ArticleCard data={article} key={article.id} id={article.id} />
             ))}
           </div>

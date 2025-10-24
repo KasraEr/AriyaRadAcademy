@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 // C-hooks
 import useTitle from "../hooks/useTitle.js";
@@ -9,24 +9,21 @@ import tosIcon from "/src/assets/icons/tos-icon.svg";
 import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/images/play.svg";
-// context
+// hooks
 import { useImageCache } from "../hooks/useImageCache.js";
 // utils
 import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";
 import { getToken } from "../utils/tokenService.js";
+// react-query
+import { useQuery } from "@tanstack/react-query";
 
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
   const navigate = useNavigate();
   const token = getToken();
 
-  const [teacher, setTeacher] = useState(null);
-  const [courseData, setCourseData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const { getImageUrl, ready } = useImageCache();
+  useTitle("مشخصات دوره");
 
   const slugify = (text) =>
     text
@@ -37,51 +34,30 @@ export default function CourseDetailPage() {
       .replace(/[^\u0600-\u06FF\w-]+/g, "")
       .replace(/--+/g, "-");
 
-  useEffect(() => {
-    let active = true;
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  // 🚀 گرفتن دیتا با React Query
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["courseDetail", categorySlug, courseSlug],
+    queryFn: async () => {
+      const { data: categories } = await api.get("/api/Category/GetSelectList");
+      const category = categories.find((c) => slugify(c.name) === categorySlug);
+      if (!category) throw new Error("دسته‌بندی پیدا نشد");
 
-        const { data: categories } = await api.get(
-          "/api/Category/GetSelectList"
-        );
-        const category = categories.find(
-          (c) => slugify(c.name) === categorySlug
-        );
-        if (!category) throw new Error("دسته‌بندی پیدا نشد");
+      const { data: courses } = await api.get(
+        `/api/Course/GetSelectList?CategoryId=${category.id}`
+      );
+      const course = courses.find((c) => slugify(c.title) === courseSlug);
+      if (!course) throw new Error("دوره پیدا نشد");
 
-        const { data: courses } = await api.get(
-          `/api/Course/GetSelectList?CategoryId=${category.id}`
-        );
-        const course = courses.find((c) => slugify(c.title) === courseSlug);
-        if (!course) throw new Error("دوره پیدا نشد");
+      const { data: teacherData } = await api.get(
+        `/api/Teacher/GetById?Id=${course.teacherId}`
+      );
 
-        if (!active) return;
-        setCourseData(course);
+      return { course, teacher: teacherData };
+    },
+  });
 
-        const { data: teacherData } = await api.get(
-          `/api/Teacher/GetById?Id=${course.teacherId}`
-        );
-        if (!active) return;
-        setTeacher(teacherData);
-      } catch (err) {
-        if (!active) return;
-        console.error(err);
-        setError(err.message || "خطا در بارگذاری اطلاعات");
-      } finally {
-        if (active) setLoading(false);
-      }
-    };
-
-    fetchData();
-    return () => {
-      active = false;
-    };
-  }, [categorySlug, courseSlug]);
-
-  useTitle("مشخصات دوره");
+  const courseData = data?.course;
+  const teacher = data?.teacher;
 
   const {
     title,
@@ -100,21 +76,9 @@ export default function CourseDetailPage() {
   const teacherBio = teacher?.descirption || teacher?.description || "";
   const teacherCover = teacher?.coverImage;
 
-  const courseImageUrl = useMemo(
-    () =>
-      coverImage
-        ? getImageUrl(coverImage) || "/fallback-placeholder.png"
-        : "/fallback-placeholder.png",
-    [coverImage, getImageUrl]
-  );
-
-  const teacherImageUrl = useMemo(
-    () =>
-      teacherCover
-        ? getImageUrl(teacherCover) || "/fallback-placeholder.png"
-        : "/fallback-placeholder.png",
-    [teacherCover, getImageUrl]
-  );
+  // 🚀 گرفتن URL تصاویر با useImageCache
+  const { data: courseImageUrl } = useImageCache(coverImage);
+  const { data: teacherImageUrl } = useImageCache(teacherCover);
 
   const syllabusItems = useMemo(
     () =>
@@ -135,9 +99,13 @@ export default function CourseDetailPage() {
     }
   };
 
-  if (loading || !ready)
-    return <p className="text-center mt-10">در حال بارگذاری...</p>;
-  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
+  if (isLoading) return <p className="text-center mt-10">در حال بارگذاری...</p>;
+  if (isError)
+    return (
+      <p className="text-center mt-10 text-red-500">
+        {error.message || "خطا در بارگذاری اطلاعات"}
+      </p>
+    );
   if (!courseData)
     return <p className="text-center mt-10">داده‌ای برای نمایش وجود ندارد</p>;
 

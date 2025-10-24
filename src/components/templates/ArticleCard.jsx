@@ -1,15 +1,15 @@
-//router
+// router
 import { useNavigate } from "react-router-dom";
-//icons
+// icons
 import artAuthor from "../../assets/icons/articleAuthor.svg";
-//context
+// hooks
 import { useImageCache } from "../../hooks/useImageCache";
 
 export default function ArticleCard({ data, id }) {
   const navigate = useNavigate();
 
-  const { getImageUrl, ready } = useImageCache();
-  const imageUrl = data?.image ? getImageUrl(data.image) : null;
+  // 🚀 گرفتن تصویر با React Query
+  const { data: imageUrl, isLoading } = useImageCache(data?.image);
 
   const slugify = (text) =>
     text
@@ -17,15 +17,15 @@ export default function ArticleCard({ data, id }) {
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w\\-]+/g, "")
-      .replace(/\\-\\-+/g, "-");
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
 
   return (
     <div
       key={id}
       className="flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-3 ml:my-5 ml:min-h-[calc(470px+8%)]"
     >
-      {!ready ? (
+      {isLoading ? (
         <div className="w-full h-[200px] bg-basic-200 rounded-3xl animate-pulse" />
       ) : (
         <img

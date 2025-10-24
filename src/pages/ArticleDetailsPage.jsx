@@ -1,6 +1,6 @@
 // react
 import { useEffect, useRef } from "react";
-// context
+// hooks
 import { useArticles } from "../hooks/useArticles.js";
 import { useImageCache } from "../hooks/useImageCache.js";
 // r-r-d
@@ -17,7 +17,12 @@ export default function ArticleDetailsPage() {
   const { name } = useParams();
   const id = location.state?.id;
 
-  const articles = useArticles();
+  const {
+    data: articles = [],
+    isLoading: articlesLoading,
+    isError: articlesError,
+    error: articlesErrorObj,
+  } = useArticles();
 
   const slugify = (text) =>
     text
@@ -32,8 +37,9 @@ export default function ArticleDetailsPage() {
     articles?.find((item) => item.id === id) ??
     articles?.find((item) => slugify(item.name) === name);
 
-  const { getImageUrl, ready } = useImageCache();
-  const imageUrl = article?.image ? getImageUrl(article.image) : null;
+  const { data: imageUrl, isLoading: imageLoading } = useImageCache(
+    article?.image
+  );
 
   const contentRef = useRef(null);
 
@@ -135,9 +141,9 @@ export default function ArticleDetailsPage() {
     };
   }, [article?.body]);
 
-  useTitle(article?.name);
+  useTitle(article?.name || "جزئیات مقاله");
 
-  if (!article) {
+  if (articlesLoading) {
     return (
       <div className="w-full p-6 animate-pulse">
         <div className="h-6 w-1/3 bg-gray-300 rounded mx-auto mb-6"></div>
@@ -151,12 +157,28 @@ export default function ArticleDetailsPage() {
     );
   }
 
+  if (articlesError) {
+    return (
+      <p className="text-center mt-10 text-red-500">
+        خطا در دریافت مقالات: {articlesErrorObj?.message || "نامشخص"}
+      </p>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="w-full p-6">
+        <p className="text-center">مقاله‌ای با این مشخصات یافت نشد.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
         <h3 className="text-primary-900 text-center">{article?.name}</h3>
 
-        {!ready ? (
+        {imageLoading ? (
           <div className="w-full max-w-[650px] h-[300px] bg-basic-200 rounded-2xl animate-pulse" />
         ) : (
           <img
