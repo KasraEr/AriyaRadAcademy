@@ -2,6 +2,8 @@ import { useState } from "react";
 //c-hooks
 import useTitle from "../hooks/useTitle";
 import api from "../utils/config";
+//r-r-d
+import { useLocation, useNavigate } from "react-router-dom";
 //taostify
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,6 +14,9 @@ export default function SignUpPage() {
     emailAddress: "",
     phoneNumber: "",
   });
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useTitle("عضویت");
 
@@ -29,46 +34,21 @@ export default function SignUpPage() {
           bodyClassName: "b1",
           position: "bottom-right",
           autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
+
+        const { redirectTo, courseId } = location.state || {};
+
         setTimeout(() => {
-          window.location.href = "/auth";
+          navigate("/auth", {
+            state: { redirectTo, courseId },
+          });
         }, 1600);
       }
     } catch (error) {
       if (error.response?.status === 400) {
-        console.warn("⚠️ ثبت‌نام ناموفق: دسترسی غیرمجاز");
-        toast.error("اطلاعات وارد شده معتبر نیست", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error("اطلاعات وارد شده معتبر نیست", { className: "b1" });
       } else {
-        console.error("❌ خطای ناشناخته:", error.message);
-        toast.error("خطایی رخ داده است", {
-          className: "b1",
-          bodyClassName: "b1",
-          position: "bottom-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error("خطایی رخ داده است", { className: "b1" });
       }
     }
   };

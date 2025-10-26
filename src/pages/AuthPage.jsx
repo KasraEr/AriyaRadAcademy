@@ -61,13 +61,11 @@ export default function AuthPage() {
         placeholder="09000000000"
         className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-2xs text-left appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       />
-      <div className="bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 overflow-hidden rounded-[6px] p-1 w-2xs flex items-center justify-center">
-        <button
-          type="button"
-          onClick={clickHandler}
-          ref={btn}
-          disabled={shown ? true : false}
-        >
+      <div
+        onClick={clickHandler}
+        className="bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 overflow-hidden rounded-[6px] p-1 w-2xs flex items-center justify-center"
+      >
+        <button type="button" ref={btn} disabled={shown ? true : false}>
           بررسی و ادامه
         </button>
         <svg

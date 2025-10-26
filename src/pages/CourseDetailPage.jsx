@@ -34,7 +34,6 @@ export default function CourseDetailPage() {
       .replace(/[^\u0600-\u06FF\w-]+/g, "")
       .replace(/--+/g, "-");
 
-  // 🚀 گرفتن دیتا با React Query
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["courseDetail", categorySlug, courseSlug],
     queryFn: async () => {
@@ -60,6 +59,7 @@ export default function CourseDetailPage() {
   const teacher = data?.teacher;
 
   const {
+    id,
     title,
     durationInHours,
     timeOfHolding,
@@ -76,7 +76,6 @@ export default function CourseDetailPage() {
   const teacherBio = teacher?.descirption || teacher?.description || "";
   const teacherCover = teacher?.coverImage;
 
-  // 🚀 گرفتن URL تصاویر با useImageCache
   const { data: courseImageUrl } = useImageCache(coverImage);
   const { data: teacherImageUrl } = useImageCache(teacherCover);
 
@@ -91,11 +90,22 @@ export default function CourseDetailPage() {
     [headings]
   );
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     if (token) {
-      console.log(token);
+      try {
+        const payload = { courseId: Number(id) };
+        await api.post("/api/Cart/CreateCartItem", payload);
+        navigate("/dashboard/cart");
+      } catch (err) {
+        console.error(
+          "خطا در افزودن به سبد:",
+          err.response?.data || err.message
+        );
+      }
     } else {
-      navigate("/auth");
+      navigate("/auth", {
+        state: { redirectTo: "/dashboard/cart", courseId: id },
+      });
     }
   };
 
@@ -159,7 +169,7 @@ export default function CourseDetailPage() {
             </div>
 
             <div className="flex items-center justify-between w-full border-t border-text-500">
-              <p className="b3 text-primary-500 flex items_center gap-1 pt-4">
+              <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
                 <img loading="lazy" src={moneyIcon} alt="" /> مبلغ
               </p>
               <p className="subtitle2 text-primary-900 flex items-center gap-1 pt-4">

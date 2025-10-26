@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
 //icons
-import edit from "../../assets/icons/Edit.svg";
-import tick from "../../assets/icons/Tick.svg";
+// import edit from "../../assets/icons/Edit.svg";
+// import tick from "../../assets/icons/Tick.svg";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});
@@ -78,96 +78,90 @@ export default function Profile() {
     }
   };
 
+  // فقط بخش return تغییر کرده
   return (
-    <>
-      <div className="grid grid-cols-1 grid-rows-[auto] gap-3">
-        <h2 className="text-primary-900 text-center">مشخصات کاربری</h2>
-        <form
-          className="flex flex-col items-center justify-center gap-4 my-5"
-          onSubmit={submitHandler}
-        >
-          <label
-            className="text-primary-900/80 b1 leading-11 text-center"
-            htmlFor="firstName"
+    <div className="w-full max-w-3xl mx-auto mt-10 p-4 border border-text-500 rounded-4xl bg-bgc-paper">
+      <h2 className="text-primary-900 text-center mb-6">مشخصات کاربری</h2>
+      <form
+        className="flex flex-col items-center justify-center gap-4"
+        onSubmit={submitHandler}
+      >
+        {/* نام */}
+        <label className="b1 text-primary-900/80" htmlFor="firstName">
+          نام
+        </label>
+        <input
+          className="b2 border border-text-500 bg-basic-100 rounded-[10px] p-2 w-[305px] text-right"
+          disabled
+          type="text"
+          id="firstName"
+          value={oldData.firstName || ""}
+          readOnly
+        />
+
+        {/* نام خانوادگی */}
+        <label className="b1 text-primary-900/80" htmlFor="lastName">
+          نام خانوادگی
+        </label>
+        <input
+          className="b2 border border-text-500 bg-basic-100 rounded-[10px] p-2 w-[305px] text-right"
+          disabled
+          type="text"
+          id="lastName"
+          value={oldData.lastName || ""}
+          readOnly
+        />
+
+        {/* ایمیل */}
+        <label className="b1 text-primary-900/80" htmlFor="emailAddress">
+          ایمیل
+        </label>
+        <input
+          dir="ltr"
+          className="b2 border border-text-500 bg-basic-100 rounded-[10px] p-2 w-[305px]"
+          disabled={!isEditable}
+          type="text"
+          name="emailAddress"
+          id="emailAddress"
+          value={form.emailAddress}
+          onChange={changeHandler}
+        />
+
+        {/* شماره تماس */}
+        <label className="b1 text-primary-900/80" htmlFor="phoneNumber">
+          شماره تماس
+        </label>
+        <input
+          dir="ltr"
+          className="b2 border border-text-500 bg-basic-100 rounded-[10px] p-2 w-[305px]"
+          disabled={!isEditable}
+          type="tel"
+          name="phoneNumber"
+          id="phoneNumber"
+          value={form.phoneNumber}
+          onChange={changeHandler}
+        />
+
+        {/* دکمه‌ها */}
+        <div className="flex flex-col items-center justify-center gap-3 ml:flex-row ml:gap-2 ml:mt-6">
+          <button
+            className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-warning-500 text-basic-100"
+            type="button"
+            onClick={clickHandler}
           >
-            نام
-          </label>
-          <input
-            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px] text-right"
-            disabled
-            type="text"
-            id="firstName"
-            value={oldData.firstName || ""}
-            readOnly
-          />
-          <label
-            className="text-primary-900/80 b1 leading-11 text-center"
-            htmlFor="lastName"
-          >
-            نام خانوادگی
-          </label>
-          <input
-            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px] text-right"
-            disabled
-            type="text"
-            id="lastName"
-            value={oldData.lastName || ""}
-            readOnly
-          />
-          <label
-            className="text-primary-900/80 b1 leading-11 text-center"
-            htmlFor="emailAddress"
-          >
-            ایمیل
-          </label>
-          <input
-            dir="ltr"
-            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px]"
+            ویرایش اطلاعات
+          </button>
+          <button
+            className={`flex items-center justify-center gap-1 rounded-[6px] p-2 ${
+              isEditable ? "bg-success-500" : "bg-gray-400 cursor-not-allowed"
+            } text-basic-100`}
+            type="submit"
             disabled={!isEditable}
-            type="text"
-            name="emailAddress"
-            id="emailAddress"
-            value={form.emailAddress}
-            onChange={changeHandler}
-          />
-          <label
-            className="text-primary-900/80 b1 leading-11 text-center"
-            htmlFor="phoneNumber"
           >
-            شماره تماس
-          </label>
-          <input
-            dir="ltr"
-            className="b2 border border-text-500 bg-basic-100 outline-0 overflow-hidden rounded-[10px] p-2 w-[305px]"
-            disabled={!isEditable}
-            type="tel"
-            name="phoneNumber"
-            id="phoneNumber"
-            value={form.phoneNumber}
-            onChange={changeHandler}
-          />
-          <div className="flex flex-col items-center justify-center gap-3 ml:flex-row ml:gap-2 ml:mt-6">
-            <button
-              className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-warning-500 text-basic-100"
-              type="button"
-              onClick={clickHandler}
-            >
-              <img loading="lazy" src={edit} alt="" />
-              ویرایش اطلاعات
-            </button>
-            <button
-              className={`flex items-center justify-center gap-1 rounded-[6px] p-2 ${
-                isEditable ? "bg-success-500" : "bg-gray-400 cursor-not-allowed"
-              } text-basic-100`}
-              type="submit"
-              disabled={!isEditable}
-            >
-              <img loading="lazy" src={tick} alt="" />
-              ثبت تغییرات
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
+            ثبت تغییرات
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

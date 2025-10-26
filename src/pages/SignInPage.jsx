@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 //C-hooks
 import useTitle from "../hooks/useTitle.js";
 //r-r-d
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
 import { setToken } from "../utils/tokenService.js";
@@ -18,6 +18,7 @@ export default function SignInPage() {
   const btn = useRef(null);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const phoneNumber = location.state?.phoneNumber;
 
@@ -32,22 +33,38 @@ export default function SignInPage() {
     if (shown) return;
     setShown(true);
     btn.current.innerText = "لطفا منتظر بمانید";
+
     try {
       const response = await api.post("/api/Auth/Login", {
         phoneNumber,
         otpCode: input.current.value,
         rememberMe: false,
       });
+
       if (response?.status === 201) {
         const token = response.data.token;
         setToken(token);
         const role = jwtDecode(token);
+        const { redirectTo, courseId } = location.state || {};
+
+        if (courseId) {
+          try {
+            await api.post("/api/Cart/CreateCartItem", {
+              courseId: Number(courseId),
+            });
+          } catch (err) {
+            console.error(
+              "خطا در افزودن به سبد بعد از ورود:",
+              err.response?.data || err.message
+            );
+          }
+        }
         if (role.role === "Administrator") {
           window.location.href = "/admin";
         } else {
           showToast("ورود قهرمانانه شمارو تبریک میگیم");
           setTimeout(() => {
-            window.location.href = "/dashboard";
+            navigate(redirectTo || "/dashboard");
           }, 1600);
         }
       }
