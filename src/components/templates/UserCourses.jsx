@@ -15,7 +15,7 @@ export default function UserCourses() {
     }
 
     const user = jwtDecode(token);
-    const userId = user?.sub; // sub همان UserId است
+    const userId = user?.sub;
 
     if (!userId) {
       setLoading(false);
