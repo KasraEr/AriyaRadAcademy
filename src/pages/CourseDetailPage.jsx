@@ -1,15 +1,7 @@
 import { useMemo } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-// C-hooks
-import useTitle from "../hooks/useTitle.js";
-// icons
-import teacherIcon from "/src/assets/icons/teacher-icon.svg";
-import durationIcon from "/src/assets/icons/duration-icon.svg";
-import tosIcon from "/src/assets/icons/tos-icon.svg";
-import signUpIcon from "/src/assets/icons/signUp-icon.svg";
-import moneyIcon from "/src/assets/icons/money-icon.svg";
-import play from "/images/play.svg";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 // hooks
+import useTitle from "../hooks/useTitle.js";
 import { useImageCache } from "../hooks/useImageCache.js";
 // utils
 import { formatJalali } from "../utils/formatJalali.js";
@@ -17,45 +9,67 @@ import api from "../utils/config";
 import { getToken } from "../utils/tokenService.js";
 // react-query
 import { useQuery } from "@tanstack/react-query";
+// icons
+import teacherIcon from "/src/assets/icons/teacher-icon.svg";
+import durationIcon from "/src/assets/icons/duration-icon.svg";
+import tosIcon from "/src/assets/icons/tos-icon.svg";
+import signUpIcon from "/src/assets/icons/signUp-icon.svg";
+import moneyIcon from "/src/assets/icons/money-icon.svg";
+import play from "/images/play.svg";
 
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const token = getToken();
 
   useTitle("مشخصات دوره");
 
-  const slugify = (text) =>
-    text
-      .toString()
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w-]+/g, "")
-      .replace(/--+/g, "-");
+  // گرفتن id از state
+  const courseIdFromState = location.state?.courseId;
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["courseDetail", categorySlug, courseSlug],
+  // اگر state نبود، باید با slug دوباره courseId رو پیدا کنیم
+  const { data: fallbackCourseIdData } = useQuery({
+    queryKey: ["courseIdBySlug", categorySlug, courseSlug],
     queryFn: async () => {
+      // اول دسته‌بندی رو پیدا کن
       const { data: categories } = await api.get("/api/Category/GetSelectList");
-      const category = categories.find((c) => slugify(c.name) === categorySlug);
+      const category = categories.find(
+        (c) => c.name.toLowerCase().replace(/\s+/g, "-") === categorySlug
+      );
       if (!category) throw new Error("دسته‌بندی پیدا نشد");
 
+      // بعد لیست دوره‌های اون دسته رو بگیر
       const { data: courses } = await api.get(
         `/api/Course/GetSelectList?CategoryId=${category.id}`
       );
-      const course = courses.find((c) => slugify(c.title) === courseSlug);
+      const course = courses.find(
+        (c) =>
+          c.title
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^\u0600-\u06FF\w-]+/g, "") === courseSlug
+      );
       if (!course) throw new Error("دوره پیدا نشد");
 
-      const { data: teacherData } = await api.get(
-        `/api/Teacher/GetById?Id=${course.teacherId}`
-      );
-
-      return { course, teacher: teacherData };
+      return course.id;
     },
+    enabled: !courseIdFromState, // فقط وقتی state خالیه
   });
 
-  const courseData = data?.course;
+  const courseId = courseIdFromState || fallbackCourseIdData;
+
+  // گرفتن جزئیات دوره با id
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["courseDetail", courseId],
+    queryFn: async () => {
+      const { data } = await api.get(`/api/Course/GetById?Id=${courseId}`);
+      return data;
+    },
+    enabled: !!courseId,
+  });
+
+  const courseData = data;
   const teacher = data?.teacher;
 
   const {
@@ -90,6 +104,15 @@ export default function CourseDetailPage() {
     [headings]
   );
 
+  const slugify = (text) =>
+    text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
+
   const clickHandler = async () => {
     if (token) {
       try {
@@ -113,7 +136,7 @@ export default function CourseDetailPage() {
   if (isError)
     return (
       <p className="text-center mt-10 text-red-500">
-        {error.message || "خطا در بارگذاری اطلاعات"}
+        {error?.message || "خطا در بارگذاری اطلاعات"}
       </p>
     );
   if (!courseData)
@@ -124,10 +147,11 @@ export default function CourseDetailPage() {
       <div className="border border-text-500 rounded-4xl grid grid-cols-1 gap-6 p-4">
         <h2 className="text-primary-900 mx-auto">{title}</h2>
 
+        {/* بخش تصویر و مشخصات کلی */}
         <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4">
           <img
             loading="lazy"
-            src={courseImageUrl}
+            src={courseImageUrl || "/fallback-placeholder.png"}
             className="w-full max-ml:mb-4 ml:order-last rounded-2xl"
             alt={title}
           />
@@ -186,6 +210,7 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
+        {/* توضیحات و ویدیو */}
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
         <div className="w-full ml:grid ml:grid-cols-2 gap-3 ml:gap-4 mb-4">
           <div className="w-full flex h-[400px] items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/images/images.png)]">

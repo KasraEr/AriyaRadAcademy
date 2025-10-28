@@ -20,6 +20,12 @@ function CategoryCard({ cat }) {
     );
   }
 
+  // تابع slugify برای ساخت URL تمیز
+  const slugify = (text) =>
+    text
+      ? text.toString().trim().toLowerCase().replace(/\s+/g, "-")
+      : "unknown";
+
   return (
     <img
       className="cursor-pointer rounded shadow-md hover:scale-105 transition-transform"
@@ -27,7 +33,9 @@ function CategoryCard({ cat }) {
       alt={cat.name}
       loading="lazy"
       onClick={() =>
-        navigate(`/categories/${cat.name.toLowerCase().replace(/\s+/g, "-")}`)
+        navigate(`/categories/${slugify(cat.name)}`, {
+          state: { categoryId: cat.id }, // 👈 پاس دادن id در state
+        })
       }
     />
   );
