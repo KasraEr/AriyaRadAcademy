@@ -20,7 +20,6 @@ function CategoryCard({ cat }) {
     );
   }
 
-  // تابع slugify برای ساخت URL تمیز
   const slugify = (text) =>
     text
       ? text.toString().trim().toLowerCase().replace(/\s+/g, "-")
@@ -34,7 +33,7 @@ function CategoryCard({ cat }) {
       loading="lazy"
       onClick={() =>
         navigate(`/categories/${slugify(cat.name)}`, {
-          state: { categoryId: cat.id }, // 👈 پاس دادن id در state
+          state: { categoryId: cat.id },
         })
       }
     />
