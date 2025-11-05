@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 //utils
 import api from "../../utils/config";
 import { showToast } from "../../utils/toast";
-//icons
-// import edit from "../../assets/icons/Edit.svg";
-// import tick from "../../assets/icons/Tick.svg";
 
 export default function Profile() {
   const [oldData, setOldData] = useState({});

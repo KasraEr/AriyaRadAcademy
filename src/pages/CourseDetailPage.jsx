@@ -7,7 +7,7 @@ import { useImageCache } from "../hooks/useImageCache.js";
 import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";
 // react-query
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 // icons
 import teacherIcon from "/src/assets/icons/teacher-icon.svg";
 import durationIcon from "/src/assets/icons/duration-icon.svg";
@@ -17,30 +17,28 @@ import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/images/play.svg";
 
 import { useAuth } from "../context/AuthContext.jsx";
+import { jwtDecode } from "jwt-decode";
 
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { token } = useAuth();
+  const queryClient = useQueryClient();
 
   useTitle("مشخصات دوره");
 
-  // گرفتن id از state
   const courseIdFromState = location.state?.courseId;
 
-  // اگر state نبود، باید با slug دوباره courseId رو پیدا کنیم
   const { data: fallbackCourseIdData } = useQuery({
     queryKey: ["courseIdBySlug", categorySlug, courseSlug],
     queryFn: async () => {
-      // اول دسته‌بندی رو پیدا کن
       const { data: categories } = await api.get("/api/Category/GetSelectList");
       const category = categories.find(
         (c) => c.name.toLowerCase().replace(/\s+/g, "-") === categorySlug
       );
       if (!category) throw new Error("دسته‌بندی پیدا نشد");
 
-      // بعد لیست دوره‌های اون دسته رو بگیر
       const { data: courses } = await api.get(
         `/api/Course/GetSelectList?CategoryId=${category.id}`
       );
@@ -55,12 +53,11 @@ export default function CourseDetailPage() {
 
       return course.id;
     },
-    enabled: !courseIdFromState, // فقط وقتی state خالیه
+    enabled: !courseIdFromState,
   });
 
   const courseId = courseIdFromState || fallbackCourseIdData;
 
-  // گرفتن جزئیات دوره با id
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["courseDetail", courseId],
     queryFn: async () => {
@@ -119,12 +116,19 @@ export default function CourseDetailPage() {
       try {
         const payload = { courseId: Number(id) };
         await api.post("/api/Cart/CreateCartItem", payload);
+
+        const userId = jwtDecode(token)?.sub;
+        if (userId) {
+          queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+        }
+
         navigate("/dashboard/cart");
       } catch (err) {
         console.error(
           "خطا در افزودن به سبد:",
           err.response?.data || err.message
         );
+        alert("خطا در افزودن به سبد خرید");
       }
     } else {
       navigate("/auth", {
@@ -148,7 +152,6 @@ export default function CourseDetailPage() {
       <div className="border border-text-500 rounded-4xl grid grid-cols-1 gap-6 p-4">
         <h2 className="text-primary-900 mx-auto">{title}</h2>
 
-        {/* بخش تصویر و مشخصات کلی */}
         <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4">
           <img
             loading="lazy"
@@ -211,7 +214,6 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
-        {/* توضیحات و ویدیو */}
         <h3 className="text-primary-500 my-3">قراره چی یاد بگیری؟</h3>
         <div className="w-full ml:grid ml:grid-cols-2 gap-3 ml:gap-4 mb-4">
           <div className="w-full flex h-[400px] items-center justify-center rounded-4xl bg-contain p-3 bg-repeat-round ml:order-last bg-[url(/images/images.png)]">
