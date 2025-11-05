@@ -1,10 +1,10 @@
-import { Suspense, lazy, useState, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layout/Layout.jsx";
-import { getToken } from "./utils/tokenService";
 import AdminRoutes from "./admin/AdminRoutes";
 import BackToTop from "./components/templates/BackToTop";
 import GlobalToast from "./components/modules/GlobalToast";
+import { useAuth } from "./context/AuthContext.jsx";
 
 // Lazy imports
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -26,13 +26,7 @@ const UserCourses = lazy(() => import("./components/templates/UserCourses"));
 const Exit = lazy(() => import("./components/templates/Exit"));
 
 export default function App() {
-  const [token, setToken] = useState(getToken());
-
-  useEffect(() => {
-    const handleStorageChange = () => setToken(getToken());
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  const { token } = useAuth();
 
   return (
     <>

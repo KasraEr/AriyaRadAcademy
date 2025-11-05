@@ -131,9 +131,6 @@ canvas {
   .zarinpal-container img {
     @apply w-20;
   }
-  .trust-logo img {
-    @apply w-20;
-  }
 }
 
 @utility subtitle1 {

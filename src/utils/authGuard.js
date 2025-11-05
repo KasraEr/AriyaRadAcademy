@@ -1,15 +1,13 @@
+import { useAuth } from "../context/AuthContext.jsx";
 import { jwtDecode } from "jwt-decode";
-import { getToken } from "./tokenService";
 
-export const isAdmin = () => {
-  const token = getToken();
+export function useIsAdmin() {
+  const { token } = useAuth();
   if (!token) return false;
-
   try {
     const decoded = jwtDecode(token);
     return decoded.role === "Administrator";
-  } catch (err) {
-    console.error("توکن نامعتبره:", err);
+  } catch {
     return false;
   }
-};
+}

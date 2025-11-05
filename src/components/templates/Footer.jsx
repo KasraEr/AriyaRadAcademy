@@ -163,7 +163,7 @@ export default function Footer() {
                 referrerPolicy="origin"
                 src="https://trustseal.enamad.ir/logo.aspx?id=645205&Code=d43UVOtzYNEEvKWmhNTXBVJwKQFnm6ZM"
                 alt=""
-                className="cursor-pointer"
+                className="cursor-pointer w-20"
                 code="d43UVOtzYNEEvKWmhNTXBVJwKQFnm6ZM"
               />
             </a>

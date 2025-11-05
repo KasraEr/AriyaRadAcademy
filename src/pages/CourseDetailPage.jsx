@@ -6,7 +6,6 @@ import { useImageCache } from "../hooks/useImageCache.js";
 // utils
 import { formatJalali } from "../utils/formatJalali.js";
 import api from "../utils/config";
-import { getToken } from "../utils/tokenService.js";
 // react-query
 import { useQuery } from "@tanstack/react-query";
 // icons
@@ -17,11 +16,13 @@ import signUpIcon from "/src/assets/icons/signUp-icon.svg";
 import moneyIcon from "/src/assets/icons/money-icon.svg";
 import play from "/images/play.svg";
 
+import { useAuth } from "../context/AuthContext.jsx";
+
 export default function CourseDetailPage() {
   const { categorySlug, courseSlug } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const token = getToken();
+  const { token } = useAuth();
 
   useTitle("مشخصات دوره");
 

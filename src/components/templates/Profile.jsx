@@ -78,7 +78,6 @@ export default function Profile() {
     }
   };
 
-  // فقط بخش return تغییر کرده
   return (
     <div className="w-full max-w-3xl mx-auto mt-10 p-4 border border-text-500 rounded-4xl bg-bgc-paper">
       <h2 className="text-primary-900 text-center mb-6">مشخصات کاربری</h2>
@@ -86,7 +85,6 @@ export default function Profile() {
         className="flex flex-col items-center justify-center gap-4"
         onSubmit={submitHandler}
       >
-        {/* نام */}
         <label className="b1 text-primary-900/80" htmlFor="firstName">
           نام
         </label>
@@ -99,7 +97,6 @@ export default function Profile() {
           readOnly
         />
 
-        {/* نام خانوادگی */}
         <label className="b1 text-primary-900/80" htmlFor="lastName">
           نام خانوادگی
         </label>
@@ -112,7 +109,6 @@ export default function Profile() {
           readOnly
         />
 
-        {/* ایمیل */}
         <label className="b1 text-primary-900/80" htmlFor="emailAddress">
           ایمیل
         </label>
@@ -127,7 +123,6 @@ export default function Profile() {
           onChange={changeHandler}
         />
 
-        {/* شماره تماس */}
         <label className="b1 text-primary-900/80" htmlFor="phoneNumber">
           شماره تماس
         </label>
@@ -142,7 +137,6 @@ export default function Profile() {
           onChange={changeHandler}
         />
 
-        {/* دکمه‌ها */}
         <div className="flex flex-col items-center justify-center gap-3 ml:flex-row ml:gap-2 ml:mt-6">
           <button
             className="flex items-center justify-center gap-1 rounded-[6px] p-2 bg-warning-500 text-basic-100"

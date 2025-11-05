@@ -9,15 +9,17 @@ import Categoires from "./pages/Categoires";
 import Teachers from "./pages/Teachers";
 import Email from "./pages/Email";
 //utils
-import { isAdmin } from "../utils/authGuard";
+import { useIsAdmin } from "../utils/authGuard";
 
 export default function AdminRoutes() {
-  if (!isAdmin()) return <Navigate to="/auth" replace />;
+  const admin = useIsAdmin();
+
+  if (!admin) return <Navigate to="/auth" replace />;
 
   return (
     <Routes>
       <Route element={<AdminLayout />}>
-        <Route path="/" element={<Navigate to="Dashboard" />} />
+        <Route path="/" element={<Navigate to="dashboard" />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="users" element={<Users />} />
         <Route path="courses" element={<Courses />} />
