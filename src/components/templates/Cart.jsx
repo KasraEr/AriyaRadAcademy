@@ -53,13 +53,20 @@ export default function Cart() {
 
   const handlePayment = async () => {
     try {
-      const res = await api.post("/api/Cart/CreatePaymentGateway");
-      if (res.data?.url) {
-        window.location.href = res.data.url;
+      // ارسال body خالی برای جلوگیری از خطای 415
+      const res = await api.post("/api/Cart/CreatePaymentGateway", {});
+      const paymentUrl = res.data;
+
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
       } else {
         alert("لینک پرداخت دریافت نشد");
       }
-    } catch {
+    } catch (err) {
+      console.error(
+        "❌ خطا در ایجاد پرداخت:",
+        err.response?.data || err.message
+      );
       alert("خطا در ایجاد پرداخت");
     }
   };

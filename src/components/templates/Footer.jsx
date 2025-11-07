@@ -79,7 +79,7 @@ export default function Footer() {
 
         <div className="w-full flex flex-col items-center justify-evenly gap-4">
           <p className="b4 ml:b3 2md:b2 lg:b1 text-basic-100 text-center 2xl:leading-10">
-            کرج، گلشهر، خیابان درختی (ایثار)، جنب مارال چرم، یاز سنتر، طبقه ۷،
+            کرج، خیابان درختی (ایثار)، جنب مارال چرم، برج یاز، طبقه ۷،
             واحد ۱۱
           </p>
           <h3 className="text-basic-100">۴۸۱۹ ۴۰۱ ۰۲۶۳</h3>

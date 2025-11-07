@@ -28,7 +28,7 @@ function CategoryCard({ cat }) {
   return (
     <img
       className="cursor-pointer rounded shadow-md hover:scale-105 transition-transform"
-      src={imageUrl || "/fallback-placeholder.png"}
+      src={imageUrl}
       alt={cat.name}
       loading="lazy"
       onClick={() =>

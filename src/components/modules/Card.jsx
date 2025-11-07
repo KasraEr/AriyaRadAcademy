@@ -41,7 +41,6 @@ export default function Card({ courseData }) {
     enabled: !!courseData.teacherId,
   });
 
-  // 🚀 گرفتن اطلاعات دسته‌بندی
   const {
     data: category,
     isLoading: catLoading,
@@ -57,7 +56,6 @@ export default function Card({ courseData }) {
     enabled: !!courseData.categoryId,
   });
 
-  // 🚀 گرفتن تصویر کاور
   const { data: imageUrl, isLoading: imageLoading } = useImageCache(
     courseData?.coverImage
   );
@@ -81,7 +79,7 @@ export default function Card({ courseData }) {
       <img
         src={imageUrl || "/fallback-placeholder.png"}
         alt={courseData.title}
-        className="w-full rounded-[8px]"
+        className="w-full rounded-[8px] h-[205px]"
         loading="lazy"
       />
 
