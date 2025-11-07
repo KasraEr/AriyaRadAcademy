@@ -53,10 +53,9 @@ export default function Cart() {
 
   const handlePayment = async () => {
     try {
-      // ارسال body خالی برای جلوگیری از خطای 415
       const res = await api.post("/api/Cart/CreatePaymentGateway", {});
       const paymentUrl = res.data;
-
+      
       if (paymentUrl) {
         window.location.href = paymentUrl;
       } else {

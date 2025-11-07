@@ -20,6 +20,7 @@ const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const ArticleDetailsPage = lazy(() => import("./pages/ArticleDetailsPage.jsx"));
+const VerifyPage = lazy(() => import("./pages/VerifyPage.jsx"));
 const Profile = lazy(() => import("./components/templates/Profile"));
 const Cart = lazy(() => import("./components/templates/Cart"));
 const UserCourses = lazy(() => import("./components/templates/UserCourses"));
@@ -64,6 +65,7 @@ export default function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/auth/sign-up" element={<SignUpPage />} />
             <Route path="/auth/sign-in" element={<SignInPage />} />
+            <Route path="/verify" element={<VerifyPage />} />
             <Route
               path="/dashboard"
               element={
