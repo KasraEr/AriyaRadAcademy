@@ -64,7 +64,7 @@ export default function DashboardPage() {
           </ul>
         </div>
 
-        <div className="w-full grid grid-cols-1 grid-rows-1 place-items-center ml:self-stretch">
+        <div className="w-full grid grid-cols-1 grid-rows-1 ml:self-stretch">
           <Outlet />
         </div>
       </div>

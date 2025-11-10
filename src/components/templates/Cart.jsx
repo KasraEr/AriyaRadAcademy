@@ -55,7 +55,7 @@ export default function Cart() {
     try {
       const res = await api.post("/api/Cart/CreatePaymentGateway", {});
       const paymentUrl = res.data;
-      
+
       if (paymentUrl) {
         window.location.href = paymentUrl;
       } else {
@@ -86,7 +86,7 @@ export default function Cart() {
 
   if (isError) {
     return (
-      <p className="text-center mt-10 text-red-500">
+      <p className="text-center mt-10 b2 text-red-500">
         {error?.message || "خطا در بارگذاری سبد خرید"}
       </p>
     );
@@ -101,37 +101,61 @@ export default function Cart() {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto mt-10 p-4 border border-text-500 rounded-4xl bg-bgc-paper">
+    <div className="w-full max-w-4xl mx-auto p-4">
       <h2 className="text-primary-900 text-center mb-6">سبد خرید شما</h2>
-      <ul className="flex flex-col gap-4">
-        {cart.items.map((item) => {
-          const course = item.course;
-          const localDate = new Date(course.timeOfHolding).toLocaleDateString(
-            "fa-IR",
-            { timeZone: "Asia/Tehran" }
-          );
-          return (
-            <li
-              key={item.id}
-              className="flex items-center justify-between border-b border-text-100 pb-3"
-            >
-              <div>
-                <h3 className="b1 text-primary-700">{course.title}</h3>
-                <p className="b3 text-text-500">زمان برگزاری: {localDate}</p>
-                <p className="b1 text-primary-900 font-bold">
-                  {course.priceInTomans?.toLocaleString("fa-IR")} تومان
-                </p>
-              </div>
-              <button
-                onClick={() => handleDelete(cart.id, item.id)}
-                className="b2 bg-error-500 text-basic-100 rounded-lg px-3 py-1 hover:bg-error-900"
-              >
-                حذف
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-500">
+          <thead className="bg-primary-100">
+            <tr>
+              <th className="p-3 text-center text-primary-900 font-semibold border-b border-text-900 b2">
+                عنوان دوره
+              </th>
+              <th className="p-3 text-center text-primary-900 font-semibold border-b border-text-900 b2">
+                زمان برگزاری
+              </th>
+              <th className="p-3 text-center text-primary-900 font-semibold border-b border-text-900 b2">
+                قیمت
+              </th>
+              <th className="p-3 text-center text-primary-900 font-semibold border-b border-text-900 b2">
+                عملیات
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart.items.map((item) => {
+              const course = item.course;
+              const localDate = new Date(
+                course.timeOfHolding
+              ).toLocaleDateString("fa-IR", { timeZone: "Asia/Tehran" });
+              return (
+                <tr
+                  key={item.id}
+                  className="hover:bg-primary-50 transition-colors"
+                >
+                  <td className="text-center p-3 border-b border-text-100 text-text-900 b2">
+                    {course.title}
+                  </td>
+                  <td className="text-center p-3 border-b border-text-100 text-text-900 b2">
+                    {localDate}
+                  </td>
+                  <td className="text-center p-3 border-b border-text-100 text-primary-900 font-bold b2">
+                    {course.priceInTomans?.toLocaleString("fa-IR")} تومان
+                  </td>
+                  <td className="p-3 border-b border-text-100 text-center b2">
+                    <button
+                      onClick={() => handleDelete(cart.id, item.id)}
+                      className="b2 bg-error-500 text-basic-100 rounded-lg px-3 py-1 hover:bg-error-900"
+                    >
+                      حذف
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <div className="flex justify-center mt-6">
         <button
