@@ -97,7 +97,7 @@ export default function Categories() {
           : "http://localhost"
       );
       s = u.pathname || s;
-    } catch {}
+    } catch { /* empty */ }
     s = s.replace(/^\/+/, "");
     s = s
       .replace(/^api\/File\/(image|video)\//, "")

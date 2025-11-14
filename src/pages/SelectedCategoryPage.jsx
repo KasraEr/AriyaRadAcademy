@@ -51,6 +51,7 @@ export default function SelectedCategoryPage() {
     if (slug) getFilteredCategory();
 
     return () => mediaQuery.removeEventListener("change", handleChange);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
   if (loading) return <p className="text-center mt-10">در حال بارگذاری...</p>;

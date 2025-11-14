@@ -16,7 +16,7 @@ function CategoryCard({ cat }) {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[200px] bg-basic-200 rounded animate-pulse" />
+      <div className="w-full h-[200px] rounded animate-pulse" />
     );
   }
 
