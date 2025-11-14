@@ -17,7 +17,6 @@ import { useQuery } from "@tanstack/react-query";
 export default function Card({ courseData }) {
   const navigate = useNavigate();
 
-  // اگر دوره غیرفعال باشه، کارت نمایش داده نشه
   if (courseData?.inActive) {
     return null;
   }
