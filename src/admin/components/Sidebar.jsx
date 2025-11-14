@@ -17,6 +17,14 @@ export default function Sidebar() {
             </li>
             <li className="b1 text-primary-900">
               <NavLink
+                to="/admin/today-registrations"
+                className="transition hover:text-secondary-900"
+              >
+                ثبت نام های امروز
+              </NavLink>
+            </li>
+            <li className="b1 text-primary-900">
+              <NavLink
                 to="/admin/users"
                 className="transition hover:text-secondary-900"
               >

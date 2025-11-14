@@ -1,26 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import api from "../../utils/config";
-import { Bar } from "react-chartjs-2";
 import { toPersianDigits } from "../../utils/toPersianDigits";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Legend,
-} from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
-
-ChartJS.register(
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Legend,
-  ChartDataLabels
-);
+import { showToast } from "../../utils/toast";
 
 const Dashboard = () => {
-  const chartRef = useRef(null);
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalRegisterToday: 0,
@@ -30,124 +13,98 @@ const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [prevRegisterCount, setPrevRegisterCount] = useState(0);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const fetchData = async () => {
       try {
         const res = await api.get("/api/User/GetDashboardData");
-        if (res?.data) {
-          setStats(res.data);
+        const data = res.data;
+
+        // اگر تعداد ثبت‌نام امروز بیشتر شد → نوتیفیکیشن + بج
+        if (data.totalRegisterToday > prevRegisterCount) {
+          showToast("✅ کاربر جدید ثبت‌نام کرد!", "success");
         }
+
+        setPrevRegisterCount(data.totalRegisterToday);
+        setStats(data);
       } catch (err) {
         console.error("خطا در گرفتن داده داشبورد:", err);
         setError("دریافت اطلاعات با مشکل مواجه شد");
+        showToast("❌ دریافت اطلاعات با مشکل مواجه شد", "error");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchDashboardData();
-  }, []);
+    fetchData();
 
-  const getGradient = (ctx, color1, color2) => {
-    const chart = ctx.chart;
-    const { ctx: canvasCtx, chartArea } = chart;
-    if (!chartArea) return;
-    const gradient = canvasCtx.createLinearGradient(
-      0,
-      chartArea.bottom,
-      0,
-      chartArea.top
-    );
-    gradient.addColorStop(0, color1);
-    gradient.addColorStop(1, color2);
-    return gradient;
-  };
-
-  const chartData = {
-    labels: [
-      "تعداد کل دانشجوها",
-      "ثبت‌نام‌های امروز",
-      "کل دوره‌های فروخته شده",
-      "دوره‌های فروخته شده امروز",
-      "تعداد کل دوره‌ها",
-    ],
-    datasets: [
-      {
-        label: "آمار کلی",
-        data: [
-          stats.totalUsers ?? 0,
-          stats.totalRegisterToday ?? 0,
-          stats.totalCoursesSold ?? 0,
-          stats.totalCoursesSoldToday ?? 0,
-          stats.totalCourses ?? 0,
-        ],
-        backgroundColor: (ctx) => {
-          const colors = [
-            ["#1e3c72", "#2a5298"], // آبی تیره به آبی روشن
-            ["#ff7e5f", "#feb47b"], // نارنجی گرم
-            ["#43cea2", "#185a9d"], // سبز فیروزه‌ای به آبی
-            ["#ff512f", "#dd2476"], // قرمز به صورتی
-            ["#4568dc", "#b06ab3"], // آبی بنفش
-          ];
-          const { dataIndex } = ctx;
-          return getGradient(ctx, colors[dataIndex][0], colors[dataIndex][1]);
-        },
-        borderRadius: 8,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      datalabels: {
-        anchor: "end",
-        align: "start",
-        formatter: (value) => toPersianDigits(value),
-        font: { size: 14, weight: "bold", family: "ariyarad-medium" },
-        color: "#444",
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          font: { family: "ariyarad-medium", size: 15 },
-          color: "#272222",
-        },
-      },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: (value) => toPersianDigits(value),
-          font: { family: "ariyarad-light", size: 13, weight: "bold" },
-          color: "#a0a0a0",
-        },
-      },
-    },
-    animation: {
-      duration: 1200,
-      easing: "easeOutBounce",
-    },
-  };
+    // هر ۳۰ ثانیه یکبار دوباره چک کن
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
+  }, [prevRegisterCount]);
 
   return (
-    <>
-      <div className="my-2">
-        <h3>داشبورد مدیریت</h3>
-      </div>
-      <div className="bg-white p-4 rounded shadow h-[870px] w-full flex items-center justify-center">
-        {loading ? (
-          <p>در حال بارگذاری...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : (
-          <Bar ref={chartRef} data={chartData} options={chartOptions} />
-        )}
-      </div>
-    </>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold text-center mb-6">📊 داشبورد مدیریت</h2>
+
+      {loading ? (
+        <p>در حال بارگذاری...</p>
+      ) : error ? (
+        <div className="bg-red-100 text-red-600 p-4 rounded-lg text-center">
+          {error}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {/* کل دانشجوها */}
+          <div className="bg-blue-100 p-4 rounded-lg shadow text-center relative">
+            <h3 className="text-lg font-semibold">👨‍🎓 کل دانشجوها</h3>
+            <p className="text-2xl font-bold text-blue-700">
+              {toPersianDigits(stats.totalUsers)}
+            </p>
+          </div>
+
+          {/* ثبت‌نام امروز + بج */}
+          <div className="bg-green-100 p-4 rounded-lg shadow text-center relative">
+            <h3 className="text-lg font-semibold flex justify-center items-center gap-2">
+              📅 ثبت‌نام امروز
+              {stats.totalRegisterToday > prevRegisterCount && (
+                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-bounce">
+                  جدید
+                </span>
+              )}
+            </h3>
+            <p className="text-2xl font-bold text-green-700">
+              {toPersianDigits(stats.totalRegisterToday)}
+            </p>
+          </div>
+
+          {/* کل دوره‌ها */}
+          <div className="bg-purple-100 p-4 rounded-lg shadow text-center">
+            <h3 className="text-lg font-semibold">📚 کل دوره‌ها</h3>
+            <p className="text-2xl font-bold text-purple-700">
+              {toPersianDigits(stats.totalCourses)}
+            </p>
+          </div>
+
+          {/* فروش امروز */}
+          <div className="bg-orange-100 p-4 rounded-lg shadow text-center">
+            <h3 className="text-lg font-semibold">🔥 فروش امروز</h3>
+            <p className="text-2xl font-bold text-orange-700">
+              {toPersianDigits(stats.totalCoursesSoldToday)}
+            </p>
+          </div>
+
+          {/* کل فروش دوره‌ها */}
+          <div className="bg-pink-100 p-4 rounded-lg shadow text-center">
+            <h3 className="text-lg font-semibold">💰 کل فروش دوره‌ها</h3>
+            <p className="text-2xl font-bold text-pink-700">
+              {toPersianDigits(stats.totalCoursesSold)}
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

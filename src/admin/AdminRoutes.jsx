@@ -8,6 +8,7 @@ import Media from "./pages/Media";
 import Categoires from "./pages/Categoires";
 import Teachers from "./pages/Teachers";
 import Email from "./pages/Email";
+import TodayRegistrations from "./pages/TodayRegistrations";
 import { useIsAdmin } from "../utils/authGuard";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -43,6 +44,7 @@ export default function AdminRoutes() {
         <Route path="categories" element={<Categoires />} />
         <Route path="teachers" element={<Teachers />} />
         <Route path="emails" element={<Email />} />
+        <Route path="today-registrations" element={<TodayRegistrations />} />
       </Route>
     </Routes>
   );

@@ -79,8 +79,7 @@ export default function Footer() {
 
         <div className="w-full flex flex-col items-center justify-evenly gap-4">
           <p className="b4 ml:b3 2md:b2 lg:b1 text-basic-100 text-center 2xl:leading-10">
-            کرج، خیابان درختی (ایثار)، جنب مارال چرم، برج یاز، طبقه ۷،
-            واحد ۱۱
+            کرج، خیابان درختی (ایثار)، جنب مارال چرم، برج یاز، طبقه ۷، واحد ۱۱
           </p>
           <h3 className="text-basic-100">۴۸۱۹ ۴۰۱ ۰۲۶۳</h3>
         </div>
@@ -99,7 +98,11 @@ export default function Footer() {
               ></path>
             </svg>
           </a>
-          <a href="#" target="_blank" rel="noreferrer">
+          <a
+            href="https://linkedin.com/company/ariyarad-academy"
+            target="_blank"
+            rel="noreferrer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="55px"

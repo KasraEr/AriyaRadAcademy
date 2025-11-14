@@ -85,7 +85,7 @@ export default function ContactUsPage() {
             </g>
           </svg>
         </a>
-        <a target="_blank" href="https://t.me/#">
+        <a target="_blank" href="https://linkedin.com/company/ariyarad-academy">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="80px"
