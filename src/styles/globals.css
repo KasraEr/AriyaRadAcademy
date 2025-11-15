@@ -16,8 +16,8 @@ body {
 }
 
 input[type="number"] {
-  appearance: none;
-  -moz-appearance: textfield;
+  appearance: none !important;
+  -moz-appearance: textfield !important;
 }
 
 code,

@@ -31,42 +31,39 @@ const weekdaysFull = [
 const toPersianDigits = (str) =>
   str.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
-// نگاشت dayjs (Sunday=0) به ایندکس شنبه‌محور (Saturday=0)
 const mapToSatStart = (d) => (d + 1) % 7;
 
-export default function PersianDatePicker({ value, onChange, label }) {
+export default function PersianDatePicker({ value, onChange, label, onClear }) {
   const [selectedDate, setSelectedDate] = useState(() => {
     const date = dayjs(value);
-    return date.isValid() ? date : dayjs();
+    return date.isValid() ? date : null;
   });
 
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef(null);
 
-  // sync با prop value
   useEffect(() => {
-    if (value !== undefined) {
+    if (value === null) {
+      setSelectedDate(null);
+    } else if (value !== undefined) {
       const d = dayjs(value);
       if (d.isValid()) setSelectedDate(d);
     }
   }, [value]);
 
-  // تاریخ انتخاب‌شده به جلالی
-  const selectedJalaali = toJalaali(
-    selectedDate.year(),
-    selectedDate.month() + 1,
-    selectedDate.date()
-  );
+  const selectedJalaali = selectedDate
+    ? toJalaali(
+        selectedDate.year(),
+        selectedDate.month() + 1,
+        selectedDate.date()
+      )
+    : null;
 
-  const currentYear = selectedJalaali.jy;
-  const currentMonth = selectedJalaali.jm;
-
-  // امروز (برای هایلایت)
   const today = dayjs();
   const todayJalaali = toJalaali(today.year(), today.month() + 1, today.date());
 
-  // نام روز هفته با نگاشت درست
-  const weekday = weekdaysFull[mapToSatStart(selectedDate.day())];
+  const currentYear = selectedJalaali?.jy ?? todayJalaali.jy;
+  const currentMonth = selectedJalaali?.jm ?? todayJalaali.jm;
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -83,18 +80,11 @@ export default function PersianDatePicker({ value, onChange, label }) {
     const firstDayOfMonth = dayjs(
       jalaaliToDateObject(currentYear, currentMonth, 1)
     );
-    // آفست شروع ماه با شنبه‌محوری
     const startDay = mapToSatStart(firstDayOfMonth.day());
 
     const days = [];
-    // روزهای خالی قبل از شروع ماه
-    for (let i = 0; i < startDay; i++) {
-      days.push(null);
-    }
-    // روزهای ماه
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
+    for (let i = 0; i < startDay; i++) days.push(null);
+    for (let i = 1; i <= daysInMonth; i++) days.push(i);
     return days;
   };
 
@@ -106,11 +96,10 @@ export default function PersianDatePicker({ value, onChange, label }) {
 
   const clampJDay = (jy, jm, jd) => Math.min(jd, jalaaliMonthLength(jy, jm));
 
-  // ناوبری واقعی جلالی (نه add میلادی)
   const changeMonth = (offset) => {
     let jy = currentYear;
     let jm = currentMonth + offset;
-    let jd = selectedJalaali.jd;
+    let jd = selectedJalaali?.jd ?? 1;
 
     while (jm < 1) {
       jm += 12;
@@ -128,7 +117,7 @@ export default function PersianDatePicker({ value, onChange, label }) {
   const changeYear = (offset) => {
     let jy = currentYear + offset;
     let jm = currentMonth;
-    let jd = clampJDay(jy, jm, selectedJalaali.jd);
+    let jd = clampJDay(jy, jm, selectedJalaali?.jd ?? 1);
     setByJalali(jy, jm, jd);
   };
 
@@ -139,18 +128,32 @@ export default function PersianDatePicker({ value, onChange, label }) {
     setShowPicker(false);
   };
 
+  const handleClear = () => {
+    setSelectedDate(null);
+    onClear?.();
+    setShowPicker(false);
+  };
+
+  const inputText = selectedDate
+    ? `${weekdaysFull[mapToSatStart(selectedDate.day())]} ${toPersianDigits(
+        selectedJalaali.jd
+      )} ${months[selectedJalaali.jm - 1]} ${toPersianDigits(
+        selectedJalaali.jy
+      )}`
+    : "همه تاریخ‌ها";
+
   return (
     <div className="relative w-full max-w-xs" dir="rtl">
       {label && (
-        <label className="block subtitle2 mb-2 text-sm font-medium">{label}</label>
+        <label className="block subtitle2 mb-2 text-sm font-medium">
+          {label}
+        </label>
       )}
 
       <input
         type="text"
         readOnly
-        value={`${weekday} ${toPersianDigits(selectedJalaali.jd)} ${
-          months[selectedJalaali.jm - 1]
-        } ${toPersianDigits(selectedJalaali.jy)}`}
+        value={inputText}
         onClick={() => setShowPicker(true)}
         className="w-full p-2 b4 text-sm border rounded-lg cursor-pointer"
       />
@@ -160,7 +163,6 @@ export default function PersianDatePicker({ value, onChange, label }) {
           ref={pickerRef}
           className="absolute z-10 mt-1 w-[355px] bg-white border rounded-lg shadow-lg p-3"
         >
-          {/* هدر تقویم */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex space-x-1 rtl:space-x-reverse">
               <button
@@ -176,11 +178,9 @@ export default function PersianDatePicker({ value, onChange, label }) {
                 سال بعد
               </button>
             </div>
-
             <div className="b2">
               {months[currentMonth - 1]} {toPersianDigits(currentYear)}
             </div>
-
             <div className="flex space-x-1 rtl:space-x-reverse">
               <button
                 onClick={() => changeMonth(-1)}
@@ -197,7 +197,17 @@ export default function PersianDatePicker({ value, onChange, label }) {
             </div>
           </div>
 
-          {/* روزهای هفته */}
+          {onClear && (
+            <div className="mb-3 text-center">
+              <button
+                onClick={handleClear}
+                className="b4 text-sm text-blue-600 hover:underline"
+              >
+                همه تاریخ‌ها
+              </button>
+            </div>
+          )}
+
           <div className="grid grid-cols-7 gap-1 mb-1">
             {weekdaysShort.map((day) => (
               <div key={day} className="text-center text-sm font-bold">
@@ -206,7 +216,6 @@ export default function PersianDatePicker({ value, onChange, label }) {
             ))}
           </div>
 
-          {/* روزهای ماه */}
           <div className="grid grid-cols-7 gap-1">
             {getMonthDays().map((day, idx) => {
               const isToday =
@@ -217,9 +226,9 @@ export default function PersianDatePicker({ value, onChange, label }) {
 
               const isSelected =
                 day &&
-                selectedJalaali.jd === day &&
-                selectedJalaali.jm === currentMonth &&
-                selectedJalaali.jy === currentYear;
+                selectedJalaali?.jd === day &&
+                selectedJalaali?.jm === currentMonth &&
+                selectedJalaali?.jy === currentYear;
 
               return (
                 <button

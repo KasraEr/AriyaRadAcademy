@@ -1,23 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../utils/config";
 
-const fetchOrders = async () => {
+const fetchOrders = async ({ page, pageSize, userId, isOrderPaid }) => {
   const res = await api.get("/api/Order/GetPagedFilter", {
     params: {
-      PageNumber: 1,
-      PageSize: 100,
+      PageNumber: page,
+      PageSize: pageSize,
+      UserId: userId || undefined,
+      IsOrderPaid: isOrderPaid ?? undefined,
       SortBy: "createdDateTime",
       SortAscending: false,
-      NeedTotalCount: false,
+      NeedTotalCount: true,
     },
   });
-  return res?.data?.queryResult ?? [];
+  return res?.data ?? { queryResult: [], totalCount: 0 };
 };
 
-export const useOrders = () => {
+export const useOrders = (filters) => {
   return useQuery({
-    queryKey: ["orders", { page: 1 }],
-    queryFn: fetchOrders,
-    staleTime: 60_000,
+    queryKey: ["orders", filters],
+    queryFn: () => fetchOrders(filters),
+    keepPreviousData: true,
   });
 };
