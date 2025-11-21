@@ -149,17 +149,17 @@ export default function CourseDetailPage() {
 
   return (
     <div className="w-full">
-      <div className="border border-text-500 rounded-4xl grid grid-cols-1 gap-6 p-4">
+      <div className="border border-text-500 rounded-(--card-radius) grid grid-cols-1 gap-6 p-(--card-padding) [--card-radius:var(--radius-4xl)] [--card-padding:--spacing(4)]">
         <h2 className="text-primary-900 mx-auto">{title}</h2>
 
         <div className="w-full ml:grid ml:grid-cols-2 ml:gap-4">
           <img
             loading="lazy"
             src={courseImageUrl || "/fallback-placeholder.png"}
-            className="w-full max-ml:mb-4 ml:order-last rounded-2xl"
+            className="w-full max-ml:mb-4 ml:order-last rounded-[calc(var(--card-radius)-var(--card-padding))]"
             alt={title}
           />
-          <div className="flex flex-col items-center justify-evenly gap-6 overflow-hidden border border-text-500 rounded-4xl p-4">
+          <div className="flex flex-col items-center justify-evenly gap-6 overflow-hidden border border-text-500 rounded-[calc(var(--card-radius)-var(--card-padding))] p-4">
             <div className="flex items-center justify-between w-full">
               <p className="b3 text-primary-500 flex items-center gap-1 pt-4">
                 <img loading="lazy" src={teacherIcon} alt="" /> هم‌یار
@@ -207,7 +207,7 @@ export default function CourseDetailPage() {
 
             <button
               onClick={clickHandler}
-              className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-2xl p-3"
+              className="w-full bg-primary-500 text-basic-100 hover:bg-primary-100 hover:text-primary-900 active:bg-primary-900 active:text-basic-100 transition outline-0 rounded-[calc(var(--card-radius)-var(--card-padding))] p-3"
             >
               شرکت در دوره
             </button>

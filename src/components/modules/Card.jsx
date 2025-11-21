@@ -17,18 +17,9 @@ import { useQuery } from "@tanstack/react-query";
 export default function Card({ courseData }) {
   const navigate = useNavigate();
 
-  if (courseData?.inActive) {
-    return null;
-  }
-
-  const slugify = (text) =>
-    text
-      ?.toString()
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\u0600-\u06FF\w-]+/g, "")
-      .replace(/--+/g, "-");
+  const { data: imageUrl, isLoading: imageLoading } = useImageCache(
+    courseData?.coverImage
+  );
 
   const {
     data: teacher,
@@ -60,9 +51,18 @@ export default function Card({ courseData }) {
     enabled: !!courseData.categoryId,
   });
 
-  const { data: imageUrl, isLoading: imageLoading } = useImageCache(
-    courseData?.coverImage
-  );
+  if (courseData?.inActive) {
+    return null;
+  }
+
+  const slugify = (text) =>
+    text
+      ?.toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\u0600-\u06FF\w-]+/g, "")
+      .replace(/--+/g, "-");
 
   if (teacherLoading || catLoading || imageLoading) {
     return (
@@ -79,16 +79,16 @@ export default function Card({ courseData }) {
   }
 
   return (
-    <div className="relative flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-4xl w-full p-5 ml:my-5 ml:min-h-[calc(600px+8%)]">
+    <div className="relative flex flex-col items-center gap-6 overflow-hidden border border-text-500 rounded-(--card-radius) w-full p-(--card-padding) ml:my-5 ml:min-h-[calc(600px+8%)] [--card-radius:var(--radius-3xl)] [--card-padding:--spacing(4)]">
       <img
         src={imageUrl || "/fallback-placeholder.png"}
         alt={courseData.title}
-        className="w-full rounded-[8px] h-[205px]"
+        className="w-full rounded-[calc(var(--card-radius)-var(--card-padding))] h-[205px]"
         loading="lazy"
       />
 
       {courseData?.type === "online" && (
-        <span className="b4 bg-error-500 text-basic-100 rounded-[8px] absolute top-2 right-2 flex items-center justify-center p-1">
+        <span className="b4 bg-error-500 text-basic-100 rounded-[calc(var(--card-radius)-var(--card-padding))] absolute top-2 right-2 flex items-center justify-center p-1">
           آنلاین
         </span>
       )}
@@ -149,7 +149,7 @@ export default function Card({ courseData }) {
             }
           );
         }}
-        className="bg-primary-500 text-basic-100 w-full rounded-full hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
+        className="bg-primary-500 text-basic-100 w-full rounded-[calc(var(--card-radius)-var(--card-padding))] hover:bg-primary-100 hover:text-primary-500 active:bg-primary-900 active:text-text-100 transition"
       >
         مشاهده اطلاعات
       </button>
