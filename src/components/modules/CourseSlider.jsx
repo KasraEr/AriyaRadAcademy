@@ -22,7 +22,7 @@ export default function CourseSlider({ courseData }) {
         "(min-width:1400px)": {
           slides: {
             perView: 4,
-            spacing: 12,
+            spacing: 30,
           },
         },
       },
