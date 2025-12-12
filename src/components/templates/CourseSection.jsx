@@ -31,8 +31,8 @@ export default function CourseSection({
     return () => mediaQuery.removeEventListener("change", handleResize);
   }, [breakpoint]);
 
-  if (isLoading) return <p>در حال بارگذاری...</p>;
-  if (isError) return <p>خطا در دریافت داده‌ها</p>;
+  if (isLoading) return <p className="b1">در حال بارگذاری...</p>;
+  if (isError) return <p className="b1">خطا در دریافت داده‌ها</p>;
   if (!filteredCourses.length) return null;
 
   const shouldShowCards =
