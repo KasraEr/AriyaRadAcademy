@@ -1,6 +1,6 @@
 //utils
 import { toPersianDigits } from "../../utils/toPersianDigits.js";
-import { getPersianDate } from "../../utils/getPersianDate";
+import { getPersianDate } from "../../utils/GetPersianDate.js";
 //r-r-d
 import { useNavigate } from "react-router-dom";
 
