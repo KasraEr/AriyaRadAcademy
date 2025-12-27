@@ -6,18 +6,15 @@ import call from "/src/assets/icons/calling.svg";
 import attachment from "/src/assets/icons/attachment.svg";
 //r-h-a
 import { Helmet } from "react-helmet-async";
-//C-hooks
-import useTitle from "../hooks/useTitle.js";
 
 export default function ContactUsPage() {
-  useTitle("تماس با ما");
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | تماس با ما</title>
+        <title>آکادمی آریاراد | تماس با ما</title>
         <meta
           name="description"
-          content="صفحه مربوط به اطلاعات تماس با آموزشگاه"
+          content="صفحه مربوط به اطلاعات تماس با آکادمی آریاراد"
         />
       </Helmet>
 

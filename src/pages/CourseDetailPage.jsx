@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 //r-r-d
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
-// hooks
-import useTitle from "../hooks/useTitle.js";
 // c-hooks
 import { useImageCache } from "../hooks/useImageCache.js";
 // utils
@@ -30,8 +28,6 @@ export default function CourseDetailPage() {
   const navigate = useNavigate();
   const { token } = useAuth();
   const queryClient = useQueryClient();
-
-  useTitle("مشخصات دوره");
 
   const courseIdFromState = location.state?.courseId;
 
@@ -155,7 +151,7 @@ export default function CourseDetailPage() {
   return (
     <>
       <Helmet>
-        <title>{title} | آکادمی آریا راد</title>
+        <title>آکادمی آریاراد | {title}</title>
         <meta
           name="description"
           content={description.substring(0, 150) + "..."}

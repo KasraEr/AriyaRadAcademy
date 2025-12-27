@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | صفحه اصلی</title>
+        <title>آکادمی آریاراد | صفحه اصلی</title>
         <meta name="description" content="the landing page of the website" />
       </Helmet>
 

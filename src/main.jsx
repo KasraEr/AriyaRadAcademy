@@ -9,6 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 import "keen-slider/keen-slider.min.css";
 import "leaflet/dist/leaflet.css";
 import "prosemirror-view/style/prosemirror.css";
+import "./styles/globals.css";
 
 const queryClient = new QueryClient();
 

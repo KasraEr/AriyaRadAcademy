@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 // utils
 import api from "../utils/config.js";
 // hooks
-import useTitle from "../hooks/useTitle.js";
 import { useImageCache } from "../hooks/useImageCache.js";
 // react-query
 import { useQuery } from "@tanstack/react-query";
@@ -41,8 +40,6 @@ function CategoryCard({ cat }) {
 }
 
 export default function CategoriesPage() {
-  useTitle("دسته بندی دوره ها");
-
   const {
     data: categories = [],
     isLoading,
@@ -73,7 +70,7 @@ export default function CategoriesPage() {
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | دسته بندی دوره ها</title>
+        <title>آکادمی آریاراد | دسته بندی دوره ها</title>
         <meta
           name="description"
           content="صفحه مربوط به تمامی دوره ها به همراه دسته بندی های مربوط آن"

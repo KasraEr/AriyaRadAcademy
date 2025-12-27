@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function SignInPage() {
-  useTitle("ورود");
+  useTitle("آکادمی آریاراد | ورود");
 
   const [shown, setShown] = useState(false);
   const btn = useRef(null);

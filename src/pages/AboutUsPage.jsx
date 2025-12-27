@@ -1,16 +1,13 @@
 //temps
 import Slider from "/src/components/modules/Slider";
-//C-hooks
-import useTitle from "../hooks/useTitle.js";
 //react-helmet-async
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 export default function AboutUsPage() {
-  useTitle("درباره ما");
   return (
     <>
-    <Helmet>
-        <title>آکادمی آریا راد | درباره ما</title>
+      <Helmet>
+        <title>آکادمی آریاراد | درباره ما</title>
         <meta name="description" content="صفحه مربوط به معرفی آکادمی آریاراد" />
       </Helmet>
 

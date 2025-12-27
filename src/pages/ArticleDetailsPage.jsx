@@ -9,10 +9,8 @@ import { useLocation, useParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 // icons
 import artAuthor from "../assets/icons/articleAuthor.svg";
-// C-hooks
-import useTitle from "../hooks/useTitle.js";
 //r-h-a
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 export default function ArticleDetailsPage() {
   const location = useLocation();
@@ -143,8 +141,6 @@ export default function ArticleDetailsPage() {
     };
   }, [article?.body]);
 
-  useTitle(article?.name || "جزئیات مقاله");
-
   if (articlesLoading) {
     return (
       <div className="w-full p-6 animate-pulse">
@@ -178,13 +174,11 @@ export default function ArticleDetailsPage() {
   return (
     <>
       <Helmet>
-        <title>{article?.name} | آکادمی آریا راد</title>
-
+        <title>آکادمی آریاراد | {article?.name}</title>
         <meta
           name="description"
-          content={article?.description.substring(0, 150) + "..."}
+          content={article?.body.substring(0, 150) + "..."}
         />
-
         <meta property="og:title" content={article?.title} />
         <meta
           property="og:description"

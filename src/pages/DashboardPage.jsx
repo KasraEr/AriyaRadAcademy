@@ -3,8 +3,6 @@ import { useEffect, useMemo } from "react";
 import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 // jwt-decode
 import { jwtDecode } from "jwt-decode";
-// c-hooks
-import useTitle from "../hooks/useTitle";
 // auth
 import { useAuth } from "../context/AuthContext.jsx";
 //r-h-a
@@ -16,7 +14,6 @@ export default function DashboardPage() {
   const location = useLocation();
 
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
-  useTitle(isDashboardRoute ? "داشبورد" : "");
 
   const name = useMemo(() => {
     if (!token) return "";
@@ -37,7 +34,7 @@ export default function DashboardPage() {
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | پنل کاربری</title>
+        <title>آکادمی آریاراد | {isDashboardRoute ? "داشبورد" : ""}</title>
         <meta
           name="description"
           content="پنل کاربر که حاوی اطلاعات شخصی و دوره هایی که شرکت کرده است، می باشد"

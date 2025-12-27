@@ -6,7 +6,7 @@ import notFound from "/images/404.png";
 import useTitle from "../hooks/useTitle.js";
 
 export default function NotFoundPage() {
-  useTitle("صفحه مورد نظر یافت نشد");
+  useTitle("آکادمی آریاراد | صفحه مورد نظر یافت نشد");
   return (
     <div className="flex ml:max-lg:max-w-[600px] mx-auto flex-col items-center justify-center gap-10 w-full">
       <img src={notFound} className="rounded-2xl xl:w-4xl" alt="" />

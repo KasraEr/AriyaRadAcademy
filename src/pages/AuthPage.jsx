@@ -4,14 +4,10 @@ import api from "../utils/config.js";
 import { useRef, useEffect, useState } from "react";
 //r-r-d
 import { useNavigate } from "react-router-dom";
-//C-hooks
-import useTitle from "../hooks/useTitle.js";
 //r-h-a
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
 export default function AuthPage() {
-  useTitle("ورود یا عضویت");
-
   const [shown, setShown] = useState(false);
 
   const btn = useRef(null);
@@ -54,7 +50,7 @@ export default function AuthPage() {
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | ورود یا عضویت</title>
+        <title>آکادمی آریاراد | ورود یا عضویت</title>
         <meta
           name="description"
           content="صفحه مربوط به ورود یا ثبت نام کاربر"

@@ -18,7 +18,7 @@ export default function SignUpPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useTitle("عضویت");
+  useTitle("آکادمی آریاراد | عضویت");
 
   const changeHandler = (e) => {
     setForm((form) => ({ ...form, [e.target.name]: e.target.value }));

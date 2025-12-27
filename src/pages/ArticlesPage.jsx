@@ -1,7 +1,5 @@
 // hooks
 import { useArticles } from "../hooks/useArticles.js";
-// c-hooks
-import useTitle from "../hooks/useTitle.js";
 // r-r-d
 import { Link } from "react-router-dom";
 // temps
@@ -13,8 +11,6 @@ import { Helmet } from "react-helmet-async";
 
 export default function ArticlesPage() {
   const { data: articles = [], isLoading, isError, error } = useArticles();
-
-  useTitle("مقالات");
 
   if (isLoading) {
     return <p className="text-center mt-10">در حال بارگذاری...</p>;
@@ -31,7 +27,7 @@ export default function ArticlesPage() {
   return (
     <>
       <Helmet>
-        <title>آکادمی آریا راد | مقالات </title>
+        <title>آکادمی آریاراد | مقالات </title>
         <meta name="description" content="صفحه مربوط به تمامی مقالات موجود" />
       </Helmet>
 
