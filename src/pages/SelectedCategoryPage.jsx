@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 //modules
 import Card from "/src/components/modules/Card";
-//C-hooks
-import useTitle from "../hooks/useTitle.js";
 //r-r-d
 import { useParams } from "react-router-dom";
 //utils
 import api from "../utils/config.js";
+//r-h-a
+import { Helmet } from "react-helmet-async";
 
 export default function SelectedCategoryPage() {
   const { slug } = useParams();
@@ -15,8 +15,6 @@ export default function SelectedCategoryPage() {
   const [filteredCategory, setFilteredCategory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useTitle("آکادمی آریاراد | دوره ها");
 
   const getFilteredCategory = async () => {
     try {
@@ -60,16 +58,23 @@ export default function SelectedCategoryPage() {
     return <p className="b2 text-center mt-10">هیچ دوره‌ای یافت نشد</p>;
 
   return (
-    <div
-      className={
-        isSmallScreen
-          ? "flex flex-col items-center gap-4 my-5 ml:max-lg:max-w-[600px] mx-auto"
-          : "ml:max-lg:max-w-[650px] mx-auto grid grid-cols-2 lg:max-xmd:grid-cols-3 xmd:grid-cols-4 gap-3"
-      }
-    >
-      {filteredCategory?.map((course) => (
-        <Card key={course.id} courseData={course} />
-      ))}
-    </div>
+    <>
+      <Helmet>
+        <title>آکادمی آریاراد | دوره ها</title>
+        <meta name="description" content="صفحه مربوط به دوره ها" />
+      </Helmet>
+
+      <div
+        className={
+          isSmallScreen
+            ? "flex flex-col items-center gap-4 my-5 ml:max-lg:max-w-[600px] mx-auto"
+            : "ml:max-lg:max-w-[650px] mx-auto grid grid-cols-2 lg:max-xmd:grid-cols-3 xmd:grid-cols-4 gap-3"
+        }
+      >
+        {filteredCategory?.map((course) => (
+          <Card key={course.id} courseData={course} />
+        ))}
+      </div>
+    </>
   );
 }
