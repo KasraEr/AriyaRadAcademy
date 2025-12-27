@@ -5,6 +5,7 @@ import ScrollToTop from "./utils/ScrollToTop.js";
 import PersianWrapper from "./components/templates/PersianWrapper.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 import "keen-slider/keen-slider.min.css";
 import "leaflet/dist/leaflet.css";
 import "prosemirror-view/style/prosemirror.css";
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")).render(
     <PersianWrapper>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </AuthProvider>
       </QueryClientProvider>
     </PersianWrapper>

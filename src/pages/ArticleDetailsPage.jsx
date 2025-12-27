@@ -11,6 +11,8 @@ import DOMPurify from "dompurify";
 import artAuthor from "../assets/icons/articleAuthor.svg";
 // C-hooks
 import useTitle from "../hooks/useTitle.js";
+//r-h-a
+import { Helmet } from 'react-helmet-async';
 
 export default function ArticleDetailsPage() {
   const location = useLocation();
@@ -174,41 +176,60 @@ export default function ArticleDetailsPage() {
   }
 
   return (
-    <div className="w-full">
-      <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
-        <h3 className="text-primary-900 text-center">{article?.name}</h3>
+    <>
+      <Helmet>
+        <title>{article?.name} | آکادمی آریا راد</title>
 
-        {imageLoading ? (
-          <div className="w-full max-w-[650px] h-[300px] bg-basic-200 rounded-2xl animate-pulse" />
-        ) : (
-          <img
-            src={imageUrl || "/fallback-placeholder.png"}
-            alt={article?.name || "تصویر مقاله"}
-            className="rounded-2xl w-full max-w-[650px]"
-            loading="lazy"
-          />
-        )}
-
-        <div
-          key={article?.id || id}
-          ref={contentRef}
-          className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
-          dir="rtl"
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(article?.body || ""),
-          }}
+        <meta
+          name="description"
+          content={article?.description.substring(0, 150) + "..."}
         />
 
-        <div className="pt-3">
-          <p className="flex items-center justify-center gap-2 b3 text-text-500">
-            <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
-              <img src={artAuthor} alt="" loading="lazy" />
-              نویسنده :
-            </span>
-            {article?.author}
-          </p>
+        <meta property="og:title" content={article?.title} />
+        <meta
+          property="og:description"
+          content={article?.body.substring(0, 100)}
+        />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
+      <div className="w-full">
+        <div className="mx-auto grid grid-cols-1 place-items-center gap-8 p-3 border border-text-500 rounded-3xl max-w-[800px]">
+          <h3 className="text-primary-900 text-center">{article?.name}</h3>
+
+          {imageLoading ? (
+            <div className="w-full max-w-[650px] h-[300px] bg-basic-200 rounded-2xl animate-pulse" />
+          ) : (
+            <img
+              src={imageUrl || "/fallback-placeholder.png"}
+              alt={article?.name || "تصویر مقاله"}
+              className="rounded-2xl w-full max-w-[650px]"
+              loading="lazy"
+            />
+          )}
+
+          <div
+            key={article?.id || id}
+            ref={contentRef}
+            className="w-full max-w-[650px] text-justify prose prose-lg font-[ariyarad-medium]"
+            dir="rtl"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(article?.body || ""),
+            }}
+          />
+
+          <div className="pt-3">
+            <p className="flex items-center justify-center gap-2 b3 text-text-500">
+              <span className="flex items-center justify-center gap-2 subtitle2 text-text-500">
+                <img src={artAuthor} alt="" loading="lazy" />
+                نویسنده :
+              </span>
+              {article?.author}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -88,9 +88,15 @@ export default function PersianDatePicker({ value, onChange, label, onClear }) {
     return days;
   };
 
+  // const setByJalali = (jy, jm, jd) => {
+  //   const jsDate = jalaaliToDateObject(jy, jm, jd);
+  //   const d = dayjs(jsDate);
+  //   setSelectedDate(d);
+  // };
+
   const setByJalali = (jy, jm, jd) => {
     const jsDate = jalaaliToDateObject(jy, jm, jd);
-    const d = dayjs(jsDate);
+    const d = dayjs(jsDate).hour(12).minute(0).second(0);
     setSelectedDate(d);
   };
 
@@ -121,8 +127,19 @@ export default function PersianDatePicker({ value, onChange, label, onClear }) {
     setByJalali(jy, jm, jd);
   };
 
+  // const handleSelectDay = (day) => {
+  //   const newDate = dayjs(jalaaliToDateObject(currentYear, currentMonth, day));
+  //   setSelectedDate(newDate);
+  //   onChange?.(newDate);
+  //   setShowPicker(false);
+  // };
+
   const handleSelectDay = (day) => {
-    const newDate = dayjs(jalaaliToDateObject(currentYear, currentMonth, day));
+    const newDate = dayjs(jalaaliToDateObject(currentYear, currentMonth, day))
+      .hour(12)
+      .minute(0)
+      .second(0);
+
     setSelectedDate(newDate);
     onChange?.(newDate);
     setShowPicker(false);

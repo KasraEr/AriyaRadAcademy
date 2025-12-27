@@ -9,15 +9,15 @@ import { useImageCache } from "../hooks/useImageCache.js";
 import { useQuery } from "@tanstack/react-query";
 // icons
 import categoryIcon from "../assets/icons/category.png";
+//r-h-a
+import { Helmet } from "react-helmet-async";
 
 function CategoryCard({ cat }) {
   const navigate = useNavigate();
   const { data: imageUrl, isLoading } = useImageCache(cat.coverImage);
 
   if (isLoading) {
-    return (
-      <div className="w-full h-[200px] rounded animate-pulse" />
-    );
+    return <div className="w-full h-[200px] rounded animate-pulse" />;
   }
 
   const slugify = (text) =>
@@ -71,21 +71,31 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <h2 className="text-primary-500 flex items-center gap-2">
-        <img src={categoryIcon} alt="" loading="lazy" />
-        دسته بندی دوره ها
-      </h2>
+    <>
+      <Helmet>
+        <title>آکادمی آریا راد | دسته بندی دوره ها</title>
+        <meta
+          name="description"
+          content="صفحه مربوط به تمامی دوره ها به همراه دسته بندی های مربوط آن"
+        />
+      </Helmet>
 
-      <div className="w-full grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
-        {categories?.length > 0 ? (
-          categories
-            .filter((item) => item.inActive === false)
-            .map((cat) => <CategoryCard key={cat.id} cat={cat} />)
-        ) : (
-          <p className="b1">هیچ دسته‌بندی‌ای یافت نشد</p>
-        )}
+      <div className="flex flex-col gap-6">
+        <h2 className="text-primary-500 flex items-center gap-2">
+          <img src={categoryIcon} alt="" loading="lazy" />
+          دسته بندی دوره ها
+        </h2>
+
+        <div className="w-full grid grid-cols-1 place-items-center gap-6 ml:max-lg:grid-cols-2 lg:max-xl:mt-9 lg:max-xl:grid-cols-3 xl:grid-cols-4">
+          {categories?.length > 0 ? (
+            categories
+              .filter((item) => item.inActive === false)
+              .map((cat) => <CategoryCard key={cat.id} cat={cat} />)
+          ) : (
+            <p className="b1">هیچ دسته‌بندی‌ای یافت نشد</p>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
